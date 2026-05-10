@@ -45,11 +45,11 @@ All three configurations use a **Dell Precision T5810** as the host — a single
 2. **EPS power adapter** — workstation PSUs usually output PCIe-style power for GPUs. The P40 requires EPS 8-pin.
 
 ### Price Anchor: P40 with Fan & Power Adapter
-**Recommended listing:** eBay item `376635025151` — *"Nvidia Tesla P40 24Gb with 8-pin GPU power adapter, shroud & fan"* (US seller, pre-owned). Bundles the card + cooling mod + power adapter in one shipment. Typically **~$280–$330**.
+**Recommended listing:** [eBay item `376635025151`](https://www.ebay.com/itm/376635025151) — *"Nvidia Tesla P40 24Gb with 8-pin GPU power adapter, shroud & fan"* (US seller, pre-owned). Bundles the card + cooling mod + power adapter in one shipment. Typically **~$280–$330**.
 
-**Alternative (lowest cost):** eBay item `198009478303` — *"NVIDIA Tesla P40 24GB DDR5 GPU Accelerator Card With cooling turbine fan"* (China seller, open-box). Listed at **$215.16 + ~$15 shipping = ~$230**. Condition is "excellent, new condition with no wear."
+**Alternative (lowest cost):** [eBay item `198009478303`](https://www.ebay.com/itm/198009478303) — *"NVIDIA Tesla P40 24GB DDR5 GPU Accelerator Card With cooling turbine fan"* (China seller, open-box). Listed at **$215.16 + ~$15 shipping = ~$230**. Condition is "excellent, new condition with no wear."
 
-**Another alternative:** eBay item `315168134779` — *"Nvidia Tesla P40 24GB GPU GDDR5 PCIE Graphics Accelerator Card with Cooling Fan"* (xdcomputers, China). **$315.00 or Best Offer**, free SpeedPAK shipping, 10 sold.
+**Another alternative:** [eBay item `315168134779`](https://www.ebay.com/itm/315168134779) — *"Nvidia Tesla P40 24GB GPU GDDR5 PCIE Graphics Accelerator Card with Cooling Fan"* (xdcomputers, China). **$315.00 or Best Offer**, free SpeedPAK shipping, 10 sold.
 
 **For this report, we budget `$260` for a P40 with cooling fan included.**
 
@@ -80,15 +80,15 @@ The T5810 shipped with **425W**, **685W**, or **825W** PSUs. The 425W unit is in
 
 **Barebones (no CPU/RAM/HDD/GPU):**
 - eBay item / shop listing — *"NO GPU/RAM/HDD/SSD - 425W"* — **$69.99 + $23.05 shipping** (~$93). ⚠️ 425W PSU; not suitable for P40 without PSU swap.
-- eBay item — *"Dell Precision 5810 Workstation LGA 2011-V3 Barebones PC (No HDD, CPU, RAM)"* — **$91.82** (gtatechsource, Canada).
+- eBay item — *"Dell Precision 5810 Workstation LGA 2011-V3 Barebones PC (No HDD, CPU, RAM)"* — **$91.82** ([gtatechsource](https://www.ebay.com/usr/gtatechsource), Canada).
 
 **With CPU + minimal RAM (best value):**
-- eBay item `358165683242` — *"Dell Precision T5810 Xeon E5 1620 v4 3.0GHz 8GB RAM No Drive No OS No GPU"* — **sold for $104.99** (AZ Warehouse, Feb 2026).
-- eBay search / shop — *"Dell Precision T5810 | Xeon E5-1603 v3 | 8GB DDR4 | NO GPU | NO HDD"* — **$86.72** (calgarycomputerwholesale, Canada).
+- [eBay item `358165683242`](https://www.ebay.com/itm/358165683242) — *"Dell Precision T5810 Xeon E5 1620 v4 3.0GHz 8GB RAM No Drive No OS No GPU"* — **sold for $104.99** (AZ Warehouse, Feb 2026).
+- eBay search / shop — *"Dell Precision T5810 | Xeon E5-1603 v3 | 8GB DDR4 | NO GPU | NO HDD"* — **$86.72** ([calgarycomputerwholesale](https://www.ebay.com/usr/calgarycomputerwholesale), Canada).
 
 **With CPU + 32GB RAM (plug-and-play for Config 1):**
-- eBay item / shop — *"Dell Precision T5810 12-Core 2.50GHz E5-2680 v3 32GB RAM No GPU/ HDD/ OS"* — **$174.94 or Best Offer** (digitalmind2000, 201 sold, eBay Refurbished).
-- eBay item / shop — *"Dell Precision T5810 E5-2660 v3 10C 20T 32GB RAM No HD"* — **$135.00 Buy It Now** (funtechtoy, US seller).
+- eBay item / shop — *"Dell Precision T5810 12-Core 2.50GHz E5-2680 v3 32GB RAM No GPU/ HDD/ OS"* — **$174.94 or Best Offer** ([digitalmind2000](https://www.ebay.com/usr/digitalmind2000), 201 sold, eBay Refurbished).
+- eBay item / shop — *"Dell Precision T5810 E5-2660 v3 10C 20T 32GB RAM No HD"* — **$135.00 Buy It Now** ([funtechtoy](https://www.ebay.com/usr/funtechtoy), US seller).
 
 ---
 
@@ -101,13 +101,13 @@ The sweet spot for value is **used server pulls** from decommissioned datacenter
 ### RAM Price Anchors
 | Capacity | Config | Price | Anchor |
 |----------|--------|-------|--------|
-| 32GB | 2×16GB RDIMM | ~$45 | eBay server pull lots |
-| 32GB | 1×32GB RDIMM | ~$55 | atechcomponents (eBay shop, 131K feedback) |
+| 32GB | 2×16GB RDIMM | ~$45 | [eBay server pull lots](https://www.ebay.com/sch/i.html?_nkw=32gb+ddr4+ecc+rdimm) |
+| 32GB | 1×32GB RDIMM | ~$55 | [atechcomponents](https://www.ebay.com/usr/atechcomponents) (eBay shop, 131K feedback) |
 | 64GB | 2×32GB RDIMM | ~$110 | 2 × $55 server pulls |
 | 128GB | 4×32GB RDIMM | ~$220 | 4 × $55 server pulls |
 
 **Specific anchors:**
-- eBay item `364858630914` — *"Hynix HMA84GR7DJR4N-XN 32GB DDR4-3200 ECC REG DIMM"* — **~$55** (TM Space, US seller).
+- [eBay item `364858630914`](https://www.ebay.com/itm/364858630914) — *"Hynix HMA84GR7DJR4N-XN 32GB DDR4-3200 ECC REG DIMM"* — **~$55** (TM Space, US seller).
 - eBay shop — atechcomponents *"32GB DDR4 ECC RDIMM"* listings — **$55–$60 per stick**, thousands sold.
 - eBay item / shop — *"128GB DDR4-2400 ECC RDIMM Micron MTA18ASF2G72PDZ 8×16GB"* — **$329** (if you prefer 16GB sticks).
 
@@ -122,9 +122,9 @@ If you buy a bare P40 without a fan, you need:
 2. A **high-static-pressure blower fan** (e.g., Delta BFB1012VH, 97mm, ~22+ CFM).
 
 ### Cooling Price Anchors
-- eBay item `226829835848` — *"New Cooling Turbine Fan Kit for NVIDIA Tesla P40 P100 M40 K80 Graphics Card"* — **$19.99 + shipping** (China seller).
-- eBay item `153175788721` — *"NVIDIA Tesla P40 K80 P100 V100 FHHL M40 cooling fan shroud duct"* — **~$25** (Australia seller, 127 sold).
-- eBay item `155462951531` — *"Nvidia Tesla Cooling FAN AND SHROUD for M40,P40,P100,V100 - USA"* — **$49.99** (US seller, 50 sold).
+- [eBay item `226829835848`](https://www.ebay.com/itm/226829835848) — *"New Cooling Turbine Fan Kit for NVIDIA Tesla P40 P100 M40 K80 Graphics Card"* — **$19.99 + shipping** (China seller).
+- [eBay item `153175788721`](https://www.ebay.com/itm/153175788721) — *"NVIDIA Tesla P40 K80 P100 V100 FHHL M40 cooling fan shroud duct"* — **~$25** (Australia seller, 127 sold).
+- [eBay item `155462951531`](https://www.ebay.com/itm/155462951531) — *"Nvidia Tesla Cooling FAN AND SHROUD for M40,P40,P100,V100 - USA"* — **$49.99** (US seller, 50 sold).
 
 Because our GPU budget assumes a P40 **with fan included**, we do not add a separate cooling line item. If you buy a bare card, add **$20–$50**.
 
@@ -134,12 +134,12 @@ Because our GPU budget assumes a P40 **with fan included**, we do not add a sepa
 
 The P40 requires **8-pin EPS** power. Workstation GPU power cables are usually wired for **PCIe 6+2 pin**, which has a different pinout. **Do not force a standard GPU cable into the P40.**
 
-For the Dell T5810, the motherboard has an 8-pin GPU power header that feeds the PCIe riser. You need a cable that goes from the Dell motherboard 8-pin (or riser) to the P40's EPS 8-pin. Pre-made adapters are sold on eBay and AliExpress for Tesla cards.
+For the Dell T5810, the motherboard has an 8-pin GPU power header that feeds the PCIe riser. You need a cable that goes from the Dell motherboard 8-pin (or riser) to the P40's EPS 8-pin. Pre-made adapters are sold on eBay and [AliExpress](https://www.aliexpress.com) for Tesla cards.
 
 ### Power Adapter Price Anchors
 - eBay item `376635025151` — P40 bundled **with 8-pin GPU power adapter** (included in ~$280–$330).
-- eBay item `397278799706` — *"4PCS Server GPU Power Cable For Dell R720 R730 to Tesla P40 P100 EPS 12V Adapter"* — sold for **$75.99** (4-pack = **~$19 each**).
-- eBay item `185007673667` — *"10pin to 8pin EPS CPUs Cable for HP DL380 G8 G9 and Nvidia K80/M40/M60/P40/P100"* — **£12.99 (~$17)**.
+- [eBay item `397278799706`](https://www.ebay.com/itm/397278799706) — *"4PCS Server GPU Power Cable For Dell R720 R730 to Tesla P40 P100 EPS 12V Adapter"* — sold for **$75.99** (4-pack = **~$19 each**).
+- [eBay item `185007673667`](https://www.ebay.com/itm/185007673667) — *"10pin to 8pin EPS CPUs Cable for HP DL380 G8 G9 and Nvidia K80/M40/M60/P40/P100"* — **£12.99 (~$17)**.
 - AliExpress — *"PCI-E GPU Adapter Cable 2x8Pin Female to 8-Pin Male for Nvidia Tesla P40"* — **~$8–$15** shipped.
 
 For this report, we budget **$15** for a power adapter.
@@ -154,8 +154,8 @@ For this report, we budget **$15** for a power adapter.
 | Component | Spec | Price | eBay Anchor |
 |-----------|------|-------|-------------|
 | **Host** | Dell T5810, E5-2680 v3, 32GB RAM, no GPU/HDD/OS | **$174.94** | digitalmind2000 — [T5810 12C 32GB](https://www.ebay.com/sch/i.html?_nkw=dell+precision+t5810) (201 sold) |
-| **GPU** | Tesla P40 24GB + cooling fan | **$260.00** | Item `198009478303` (~$230) or bundled item `376635025151` (~$300) |
-| **Power adapter** | EPS adapter for P40 | **$15.00** | Item `397278799706` (~$19/ea) or AliExpress |
+| **GPU** | Tesla P40 24GB + cooling fan | **$260.00** | [Item `198009478303`](https://www.ebay.com/itm/198009478303) (~$230) or bundled item `376635025151` (~$300) |
+| **Power adapter** | EPS adapter for P40 | **$15.00** | [Item `397278799706`](https://www.ebay.com/itm/397278799706) (~$19/ea) or AliExpress |
 | **Boot SSD** | 128–256GB SATA SSD (new or used) | **$15.00** | Any eBay SSD lot |
 | **TOTAL** | | **~$465** | |
 
@@ -177,12 +177,12 @@ For this report, we budget **$15** for a power adapter.
 ### Bill of Materials
 | Component | Spec | Price | eBay Anchor |
 |-----------|------|-------|-------------|
-| **Host** | Dell T5810 barebones (no CPU/RAM/HDD) | **$92.00** | eBay listing ~$69.99 + $23 ship (685W+ PSU) |
-| **CPU** | Xeon E5-1620 v3 or E5-2680 v3 | **$20.00** | eBay CPU lots (~$15–$30) |
+| **Host** | Dell T5810 barebones (no CPU/RAM/HDD) | **$92.00** | [eBay listing ~$69.99 + $23 ship](https://www.ebay.com/sch/i.html?_nkw=dell+precision+t5810+no+ram+no+hdd) (685W+ PSU) |
+| **CPU** | Xeon E5-1620 v3 or E5-2680 v3 | **$20.00** | [eBay CPU lots](https://www.ebay.com/sch/i.html?_nkw=xeon+e5-1620+v3) (~$15–$30) |
 | **RAM** | 64GB (2×32GB) DDR4 ECC RDIMM | **$110.00** | atechcomponents / server pulls (~$55/stick) |
 | **GPU** | Tesla P40 24GB + cooling fan | **$260.00** | Item `198009478303` or `315168134779` |
 | **Power adapter** | EPS adapter for P40 | **$15.00** | Item `397278799706` or AliExpress |
-| **Boot SSD** | 256GB SATA SSD | **$20.00** | eBay used SSD |
+| **Boot SSD** | 256GB SATA SSD | **$20.00** | [eBay used SSD](https://www.ebay.com/sch/i.html?_nkw=256gb+sata+ssd) |
 | **TOTAL** | | **~$517** | |
 
 ### Alternative (Simpler)
@@ -201,9 +201,9 @@ Instead of building from barebones, buy the **$174.94 T5810 with 32GB** (Config 
 ### Bill of Materials
 | Component | Spec | Price | eBay Anchor |
 |-----------|------|-------|-------------|
-| **Host** | Dell T5810 barebones (no CPU/RAM/HDD) | **$92.00** | eBay ~$69.99 + $23 ship |
+| **Host** | Dell T5810 barebones (no CPU/RAM/HDD) | **$92.00** | [eBay ~$69.99 + $23 ship](https://www.ebay.com/sch/i.html?_nkw=dell+precision+t5810+no+ram+no+hdd) |
 | **CPU** | Xeon E5-2680 v3 (12C/24T) | **$40.00** | eBay CPU lots |
-| **RAM** | 128GB (4×32GB) DDR4 ECC RDIMM | **$220.00** | Server pulls (~$55/stick) |
+| **RAM** | 128GB (4×32GB) DDR4 ECC RDIMM | **$220.00** | [Server pulls](https://www.ebay.com/sch/i.html?_nkw=32gb+ddr4+ecc+rdimm) (~$55/stick) |
 | **GPU** | Tesla P40 24GB + cooling fan | **$260.00** | Item `198009478303` or bundled `376635025151` |
 | **Power adapter** | EPS adapter for P40 | **$15.00** | Item `397278799706` or AliExpress |
 | **Boot SSD** | 256GB SATA SSD | **$20.00** | eBay used SSD |
@@ -212,7 +212,7 @@ Instead of building from barebones, buy the **$174.94 T5810 with 32GB** (Config 
 
 ### Alternative Host
 There is a rare listing for a T5810 with 128GB pre-installed:
-- eBay item / shop — *"Dell Precision T5810 E5-2660 v3 10C 20T 128GB RAM No HD"* — **$200.00** (funtechtoy, US seller, 22 watchers). If available, this drops the total to **~$485** — an exceptional value. Availability fluctuates.
+- **[Dell Precision T5810 E5-2660 v3 10C 20T 128GB RAM No HD — $200.00](https://www.ebay.com/sch/i.html?_nkw=Dell+Precision+T5810+E5-2660+v3+128GB+RAM+No+HD&fashion=1&_fsrp=0&_sop=12)** ([funtechtoy](https://www.ebay.com/usr/funtechtoy), US seller, 22 watchers). If available, this drops the total to **~$485** — an exceptional value. Availability fluctuates.
 
 ### Notes
 - 128GB system RAM + 24GB VRAM = **152GB total memory**. DeepSeek-V3 671B at Q4_K_M needs roughly **~400GB** total, so you still need quantization or partial offload. At Q2_K or with aggressive offload, it becomes feasible.
@@ -287,7 +287,7 @@ If Dell T5810 stock is thin, the **HP Z440** is a drop-in alternative with nearl
 - 8 DDR4 DIMM slots, up to 128GB–256GB depending on BIOS and DIMM density.
 - Xeon E5-1600/2600 v3 or v4.
 - 700W PSU option (required for P40).
-- eBay anchor: **$114.99** — *"HP Z440 Gaming PC PC 6-Core 3.60GHz E5-1650 v4 - No RAM HDD GPU or OS"* (global_data_center_supply, **101 sold**).
+- eBay anchor: **$114.99** — *"HP Z440 Gaming PC PC 6-Core 3.60GHz E5-1650 v4 - No RAM HDD GPU or OS"* ([global_data_center_supply](https://www.ebay.com/usr/global_data_center_supply), **101 sold**).
 
 The HP Z440 uses **proprietary PCIe power cables** from the motherboard. You will need an HP-specific adapter (or the bundled P40 + adapter listing) to convert to EPS. The T5810 is slightly preferred because its GPU power ecosystem is better documented in the homelab community.
 
