@@ -194,6 +194,8 @@ The 64GB unified memory pool is not just about fitting bigger models. It is abou
 
 **The envelope:** We treat ~58GB as the practical limit, reserving ~6GB for macOS and background buffers. Anything above 58GB risks memory pressure and swap thrashing.
 
+> **Context sizes are continuous, not locked to powers of 2.** The report uses 256K, 512K, and 1M as clean reference points, but llama.cpp's `--ctx-size` accepts any integer (e.g., `--ctx-size 400000`). Flash Attention may round up slightly to the nearest block boundary (typically 128 or 256 tokens), but you are free to set 300K, 400K, or any value in between. If a model fits at 512K but you only need 400K, setting exactly 400K saves ~20% of KV cache memory.
+
 ### KV Cache Quantization Toolkit
 
 llama.cpp offers three levers to shrink the KV cache:
