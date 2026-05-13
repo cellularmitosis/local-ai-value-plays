@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# " lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="description" content="A practical guide to building an AI inference server from retired enterprise GPUs. Four Tesla P40s, 96GB of VRAM, $2,500 all-in, and the benchmarks to prove it was worth it.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repurposing Enterprise GPUs: The Tesla P40 Home Lab Story | TinyComputers.io</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../rss.xml">
+<link rel="alternate" type="application/atom+xml" title="Atom" hreflang="en" href="../feed.atom">
+<link rel="canonical" href="https://tinycomputers.io/posts/repurposing-enterprise-gpus-the-tesla-p40-home-lab-story.html">
+<link rel="icon" href="../images/favicon.png" sizes="128x128">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><script src="https://code.jquery.com/jquery-3.6.4.min.js"></script><script src="https://code.highcharts.com/highcharts.js"></script><script src="https://code.highcharts.com/highcharts-more.js"></script><script src="https://code.highcharts.com/modules/exporting.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script><script src="https://code.highcharts.com/modules/export-data.js"></script><script src="https://code.highcharts.com/modules/accessibility.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.9.0/suncalc.min.js"></script><link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script><script type="text/javascript">
+    ;window.NREUM||(NREUM={});NREUM.init={distributed_tracing:{enabled:true,cors_use_newrelic_header:false,cors_use_tracecontext_headers:false},privacy:{cookies_enabled:true},ajax:{deny_list:["bam.nr-data.net"]}};
+
+    ;NREUM.loader_config={accountID:"3917031",trustKey:"3917031",agentID:"1386072083",licenseKey:"NRJS-d783344742072b79ade",applicationID:"1386072083"};
+    ;NREUM.info={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",licenseKey:"NRJS-d783344742072b79ade",applicationID:"1386072083",sa:1};
+    ;(()=>{var e,t,r={9071:(e,t,r)=>{"use strict";r.d(t,{I:()=>n});var n=0,i=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);i&&(n=+i[1])},8768:(e,t,r)=>{"use strict";r.d(t,{T:()=>n,p:()=>i});const n=/(iPad|iPhone|iPod)/g.test(navigator.userAgent),i=n&&Boolean("undefined"==typeof SharedWorker)},27:(e,t,r)=>{"use strict";r.d(t,{P_:()=>g,Mt:()=>v,C5:()=>d,DL:()=>y,OP:()=>N,lF:()=>k,Yu:()=>x,Dg:()=>p,CX:()=>f,GE:()=>w,sU:()=>C});var n={};r.r(n),r.d(n,{agent:()=>A,match:()=>D,version:()=>E});var i=r(6797),o=r(909),a=r(8610);class s{constructor(e,t){try{if(!e||"object"!=typeof e)return(0,a.Z)("New setting a Configurable requires an object as input");if(!t||"object"!=typeof t)return(0,a.Z)("Setting a Configurable requires a model to set its initial properties");Object.assign(this,t),Object.entries(e).forEach((e=>{let[t,r]=e;const n=(0,o.q)(t);n.length&&r&&"object"==typeof r&&n.forEach((e=>{e in r&&((0,a.Z)('"'.concat(e,'" is a protected attribute and can not be changed in feature ').concat(t,".  It will have no effect.")),delete r[e])})),this[t]=r}))}catch(e){(0,a.Z)("An error occured while setting a Configurable",e)}}}const c={beacon:i.ce.beacon,errorBeacon:i.ce.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0},u={};function d(e){if(!e)throw new Error("All info objects require an agent identifier!");if(!u[e])throw new Error("Info for ".concat(e," was never set"));return u[e]}function f(e,t){if(!e)throw new Error("All info objects require an agent identifier!");u[e]=new s(t,c),(0,i.Qy)(e,u[e],"info")}const l={allow_bfcache:!0,privacy:{cookies_enabled:!0},ajax:{deny_list:void 0,enabled:!0,harvestTimeSeconds:10},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},ssl:void 0,obfuscate:void 0,jserrors:{enabled:!0,harvestTimeSeconds:10},metrics:{enabled:!0},page_action:{enabled:!0,harvestTimeSeconds:30},page_view_event:{enabled:!0},page_view_timing:{enabled:!0,harvestTimeSeconds:30,long_task:!1},session_trace:{enabled:!0,harvestTimeSeconds:10},spa:{enabled:!0,harvestTimeSeconds:10}},h={};function g(e){if(!e)throw new Error("All configuration objects require an agent identifier!");if(!h[e])throw new Error("Configuration for ".concat(e," was never set"));return h[e]}function p(e,t){if(!e)throw new Error("All configuration objects require an agent identifier!");h[e]=new s(t,l),(0,i.Qy)(e,h[e],"config")}function v(e,t){if(!e)throw new Error("All configuration objects require an agent identifier!");var r=g(e);if(r){for(var n=t.split("."),i=0;i<n.length-1;i++)if("object"!=typeof(r=r[n[i]]))return;r=r[n[n.length-1]]}return r}const m={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0},b={};function y(e){if(!e)throw new Error("All loader-config objects require an agent identifier!");if(!b[e])throw new Error("LoaderConfig for ".concat(e," was never set"));return b[e]}function w(e,t){if(!e)throw new Error("All loader-config objects require an agent identifier!");b[e]=new s(t,m),(0,i.Qy)(e,b[e],"loader_config")}const x=(0,i.mF)().o;var A=null,E=null;const _=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var T=navigator.userAgent,S=T.match(_);S&&-1===T.indexOf("Chrome")&&-1===T.indexOf("Chromium")&&(A="Safari",E=S[1])}function D(e,t){if(!A)return!1;if(e!==A)return!1;if(!t)return!0;if(!E)return!1;for(var r=E.split("."),n=t.split("."),i=0;i<n.length;i++)if(n[i]!==r[i])return!1;return!0}var j=r(2400),O=r(2374),R=r(1651);const P=e=>({buildEnv:R.Re,bytesSent:{},customTransaction:void 0,disabled:!1,distMethod:R.gF,isolatedBacklog:!1,loaderType:void 0,maxBytes:3e4,offset:Math.floor(O._A?.performance?.timeOrigin||O._A?.performance?.timing?.navigationStart||Date.now()),onerror:void 0,origin:""+O._A.location,ptid:void 0,releaseIds:{},sessionId:1==v(e,"privacy.cookies_enabled")?(0,j.Bj)():null,xhrWrappable:"function"==typeof O._A.XMLHttpRequest?.prototype?.addEventListener,userAgent:n,version:R.q4}),I={};function N(e){if(!e)throw new Error("All runtime objects require an agent identifier!");if(!I[e])throw new Error("Runtime for ".concat(e," was never set"));return I[e]}function C(e,t){if(!e)throw new Error("All runtime objects require an agent identifier!");I[e]=new s(t,P(e)),(0,i.Qy)(e,I[e],"runtime")}function k(e){return function(e){try{const t=d(e);return!!t.licenseKey&&!!t.errorBeacon&&!!t.applicationID}catch(e){return!1}}(e)}},1651:(e,t,r)=>{"use strict";r.d(t,{Re:()=>i,gF:()=>o,q4:()=>n});const n="1.231.0",i="PROD",o="CDN"},9557:(e,t,r)=>{"use strict";r.d(t,{w:()=>o});var n=r(8610);const i={agentIdentifier:""};class o{constructor(e){try{if("object"!=typeof e)return(0,n.Z)("shared context requires an object as input");this.sharedContext={},Object.assign(this.sharedContext,i),Object.entries(e).forEach((e=>{let[t,r]=e;Object.keys(i).includes(t)&&(this.sharedContext[t]=r)}))}catch(e){(0,n.Z)("An error occured while setting SharedContext",e)}}}},4329:(e,t,r)=>{"use strict";r.d(t,{L:()=>d,R:()=>c});var n=r(3752),i=r(7022),o=r(4045),a=r(2325);const s={};function c(e,t){const r={staged:!1,priority:a.p[t]||0};u(e),s[e].get(t)||s[e].set(t,r)}function u(e){e&&(s[e]||(s[e]=new Map))}function d(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"feature";if(u(e),!e||!s[e].get(t))return a(t);s[e].get(t).staged=!0;const r=Array.from(s[e]);function a(t){const r=e?n.ee.get(e):n.ee,a=o.X.handlers;if(r.backlog&&a){var s=r.backlog[t],c=a[t];if(c){for(var u=0;s&&u<s.length;++u)f(s[u],c);(0,i.D)(c,(function(e,t){(0,i.D)(t,(function(t,r){r[0].on(e,r[1])}))}))}delete a[t],r.backlog[t]=null,r.emit("drain-"+t,[])}}r.every((e=>{let[t,r]=e;return r.staged}))&&(r.sort(((e,t)=>e[1].priority-t[1].priority)),r.forEach((e=>{let[t]=e;a(t)})))}function f(e,t){var r=e[1];(0,i.D)(t[r],(function(t,r){var n=e[0];if(r[0]===n){var i=r[1],o=e[3],a=e[2];i.apply(o,a)}}))}},3752:(e,t,r)=>{"use strict";r.d(t,{ee:()=>u});var n=r(6797),i=r(3916),o=r(7022),a=r(27),s="nr@context";let c=(0,n.fP)();var u;function d(){}function f(){return new d}function l(){u.aborted=!0,u.backlog={}}c.ee?u=c.ee:(u=function e(t,r){var n={},c={},h={},g=!1;try{g=16===r.length&&(0,a.OP)(r).isolatedBacklog}catch(e){}var p={on:b,addEventListener:b,removeEventListener:y,emit:m,get:x,listeners:w,context:v,buffer:A,abort:l,aborted:!1,isBuffering:E,debugId:r,backlog:g?{}:t&&"object"==typeof t.backlog?t.backlog:{}};return p;function v(e){return e&&e instanceof d?e:e?(0,i.X)(e,s,f):f()}function m(e,r,n,i,o){if(!1!==o&&(o=!0),!u.aborted||i){t&&o&&t.emit(e,r,n);for(var a=v(n),s=w(e),d=s.length,f=0;f<d;f++)s[f].apply(a,r);var l=_()[c[e]];return l&&l.push([p,e,r,a]),a}}function b(e,t){n[e]=w(e).concat(t)}function y(e,t){var r=n[e];if(r)for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)}function w(e){return n[e]||[]}function x(t){return h[t]=h[t]||e(p,t)}function A(e,t){var r=_();p.aborted||(0,o.D)(e,(function(e,n){t=t||"feature",c[n]=t,t in r||(r[t]=[])}))}function E(e){return!!_()[c[e]]}function _(){return p.backlog}}(void 0,"globalEE"),c.ee=u)},9252:(e,t,r)=>{"use strict";r.d(t,{E:()=>n,p:()=>i});var n=r(3752).ee.get("handle");function i(e,t,r,i,o){o?(o.buffer([e],i),o.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}},4045:(e,t,r)=>{"use strict";r.d(t,{X:()=>o});var n=r(9252);o.on=a;var i=o.handlers={};function o(e,t,r,o){a(o||n.E,i,e,t,r)}function a(e,t,r,i,o){o||(o="feature"),e||(e=n.E);var a=t[o]=t[o]||{};(a[r]=a[r]||[]).push([e,i])}},8544:(e,t,r)=>{"use strict";r.d(t,{bP:()=>s,iz:()=>c,m$:()=>a});var n=r(2374);let i=!1,o=!1;try{const e={get passive(){return i=!0,!1},get signal(){return o=!0,!1}};n._A.addEventListener("test",null,e),n._A.removeEventListener("test",null,e)}catch(e){}function a(e,t){return i||o?{capture:!!e,passive:i,signal:t}:!!e}function s(e,t){let r=arguments.length>2&&void 0!==arguments[2]&&arguments[2];window.addEventListener(e,t,a(r))}function c(e,t){let r=arguments.length>2&&void 0!==arguments[2]&&arguments[2];document.addEventListener(e,t,a(r))}},5526:(e,t,r)=>{"use strict";r.d(t,{Ht:()=>u,M:()=>c,Rl:()=>a,ky:()=>s});var n=r(2374);const i="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";function o(e,t){return e?15&e[t]:16*Math.random()|0}function a(){const e=n._A?.crypto||n._A?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(31))),i.split("").map((e=>"x"===e?o(t,++r).toString(16):"y"===e?(3&o()|8).toString(16):e)).join("")}function s(e){const t=n._A?.crypto||n._A?.msCrypto;let r,i=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(31)));const a=[];for(var s=0;s<e;s++)a.push(o(r,++i).toString(16));return a.join("")}function c(){return s(16)}function u(){return s(32)}},2053:(e,t,r)=>{"use strict";function n(){return Math.round(performance.now())}r.d(t,{z:()=>n})},6368:(e,t,r)=>{"use strict";r.d(t,{e:()=>o});var n=r(2374),i={};function o(e){if(e in i)return i[e];if(0===(e||"").indexOf("data:"))return{protocol:"data"};let t;var r=n._A?.location,o={};if(n.il)t=document.createElement("a"),t.href=e;else try{t=new URL(e,r.href)}catch(e){return o}o.port=t.port;var a=t.href.split("://");!o.port&&a[1]&&(o.port=a[1].split("/")[0].split("@").pop().split(":")[1]),o.port&&"0"!==o.port||(o.port="https"===a[0]?"443":"80"),o.hostname=t.hostname||r.hostname,o.pathname=t.pathname,o.protocol=a[0],"/"!==o.pathname.charAt(0)&&(o.pathname="/"+o.pathname);var s=!t.protocol||":"===t.protocol||t.protocol===r.protocol,c=t.hostname===r.hostname&&t.port===r.port;return o.sameOrigin=s&&(!t.hostname||c),"/"===o.pathname&&(i[e]=o),o}},8610:(e,t,r)=>{"use strict";function n(e,t){"function"==typeof console.warn&&(console.warn("New Relic: ".concat(e)),t&&console.warn(t))}r.d(t,{Z:()=>n})},3916:(e,t,r)=>{"use strict";r.d(t,{X:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},2374:(e,t,r)=>{"use strict";r.d(t,{_A:()=>o,il:()=>n,v6:()=>i});const n=Boolean("undefined"!=typeof window&&window.document),i=Boolean("undefined"!=typeof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator);let o=(()=>{if(n)return window;if(i){if("undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope)return globalThis;if(self instanceof WorkerGlobalScope)return self}throw new Error('New Relic browser agent shutting down due to error: Unable to locate global scope. This is possibly due to code redefining browser global variables like "self" and "window".')})()},7022:(e,t,r)=>{"use strict";r.d(t,{D:()=>n});const n=(e,t)=>Object.entries(e||{}).map((e=>{let[r,n]=e;return t(r,n)}))},2438:(e,t,r)=>{"use strict";r.d(t,{P:()=>o});var n=r(3752);const i=()=>{const e=new WeakSet;return(t,r)=>{if("object"==typeof r&&null!==r){if(e.has(r))return;e.add(r)}return r}};function o(e){try{return JSON.stringify(e,i())}catch(e){try{n.ee.emit("internal-error",[e])}catch(e){}}}},2650:(e,t,r)=>{"use strict";r.d(t,{K:()=>a,b:()=>o});var n=r(8544);function i(){return"undefined"==typeof document||"complete"===document.readyState}function o(e,t){if(i())return e();(0,n.bP)("load",e,t)}function a(e){if(i())return e();(0,n.iz)("DOMContentLoaded",e)}},6797:(e,t,r)=>{"use strict";r.d(t,{EZ:()=>u,Qy:()=>c,ce:()=>o,fP:()=>a,gG:()=>d,mF:()=>s});var n=r(2053),i=r(2374);const o={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function a(){return i._A.NREUM||(i._A.NREUM={}),void 0===i._A.newrelic&&(i._A.newrelic=i._A.NREUM),i._A.NREUM}function s(){let e=a();return e.o||(e.o={ST:i._A.setTimeout,SI:i._A.setImmediate,CT:i._A.clearTimeout,XHR:i._A.XMLHttpRequest,REQ:i._A.Request,EV:i._A.Event,PR:i._A.Promise,MO:i._A.MutationObserver,FETCH:i._A.fetch}),e}function c(e,t,r){let i=a();const o=i.initializedAgents||{},s=o[e]||{};return Object.keys(s).length||(s.initializedAt={ms:(0,n.z)(),date:new Date}),i.initializedAgents={...o,[e]:{...s,[r]:t}},i}function u(e,t){a()[e]=t}function d(){return function(){let e=a();const t=e.info||{};e.info={beacon:o.beacon,errorBeacon:o.errorBeacon,...t}}(),function(){let e=a();const t=e.init||{};e.init={...t}}(),s(),function(){let e=a();const t=e.loader_config||{};e.loader_config={...t}}(),a()}},6998:(e,t,r)=>{"use strict";r.d(t,{N:()=>i});var n=r(8544);function i(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];return void(0,n.iz)("visibilitychange",(function(){if(t)return void("hidden"==document.visibilityState&&e());e(document.visibilityState)}))}},2400:(e,t,r)=>{"use strict";r.d(t,{Bj:()=>c,GD:()=>s,J8:()=>u,ju:()=>o});var n=r(5526);const i="NRBA/";function o(e,t){let r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"";try{return window.sessionStorage.setItem(i+r+e,t),!0}catch(e){return!1}}function a(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"";return window.sessionStorage.getItem(i+t+e)}function s(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"";try{window.sessionStorage.removeItem(i+t+e)}catch(e){}}function c(){try{let e;return null===(e=a("SESSION_ID"))&&(e=(0,n.ky)(16),o("SESSION_ID",e)),e}catch(e){return null}}function u(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"";const t=i+e,r={};try{for(let n=0;n<window.sessionStorage.length;n++){let i=window.sessionStorage.key(n);i.startsWith(t)&&(i=i.slice(t.length),r[i]=a(i,e))}}catch(e){}return r}},6408:(e,t,r)=>{"use strict";r.d(t,{W:()=>i});var n=r(2374);function i(){return"function"==typeof n._A?.PerformanceObserver}},8675:(e,t,r)=>{"use strict";r.d(t,{t:()=>n});const n=r(2325).D.ajax},8322:(e,t,r)=>{"use strict";r.d(t,{A:()=>i,t:()=>n});const n=r(2325).D.jserrors,i="nr@seenError"},6034:(e,t,r)=>{"use strict";r.d(t,{gF:()=>o,mY:()=>i,t9:()=>n,vz:()=>s,xS:()=>a});const n=r(2325).D.metrics,i="sm",o="cm",a="storeSupportabilityMetrics",s="storeEventMetrics"},6486:(e,t,r)=>{"use strict";r.d(t,{t:()=>n});const n=r(2325).D.pageAction},2484:(e,t,r)=>{"use strict";r.d(t,{Dz:()=>i,OJ:()=>a,qw:()=>o,t9:()=>n});const n=r(2325).D.pageViewEvent,i="firstbyte",o="domcontent",a="windowload"},6382:(e,t,r)=>{"use strict";r.d(t,{t:()=>n});const n=r(2325).D.pageViewTiming},2628:(e,t,r)=>{"use strict";r.r(t),r.d(t,{ADD_EVENT_LISTENER:()=>p,BST_RESOURCE:()=>a,BST_TIMER:()=>l,END:()=>u,FEATURE_NAME:()=>i,FN_END:()=>f,FN_START:()=>d,ORIG_EVENT:()=>g,PUSH_STATE:()=>h,RESOURCE:()=>s,RESOURCE_TIMING_BUFFER_FULL:()=>o,START:()=>c});var n=r(27);const i=r(2325).D.sessionTrace,o="resourcetimingbufferfull",a="bstResource",s="resource",c="-start",u="-end",d="fn"+c,f="fn"+u,l="bstTimer",h="pushState",g=n.Yu.EV,p="addEventListener"},1509:(e,t,r)=>{"use strict";r.d(t,{W:()=>s});var n=r(27),i=r(3752),o=r(2384),a=r(6797);class s{constructor(e,t,r){this.agentIdentifier=e,this.aggregator=t,this.ee=i.ee.get(e,(0,n.OP)(this.agentIdentifier).isolatedBacklog),this.featureName=r,this.blocked=!1,this.checkConfiguration()}checkConfiguration(){if(!(0,n.lF)(this.agentIdentifier)){let e={...(0,a.gG)().info?.jsAttributes};try{e={...e,...(0,n.C5)(this.agentIdentifier)?.jsAttributes}}catch(e){}(0,o.j)(this.agentIdentifier,{...(0,a.gG)(),info:{...(0,a.gG)().info,jsAttributes:e}})}}}},2384:(e,t,r)=>{"use strict";r.d(t,{j:()=>w});var n=r(2325),i=r(27),o=r(9252),a=r(3752),s=r(2053),c=r(4329),u=r(2650),d=r(2374),f=r(8610),l=r(6034),h=r(6797),g=r(2400);const p="CUSTOM/";function v(){const e=(0,h.gG)();["setErrorHandler","finished","addToTrace","inlineHit","addRelease","addPageAction","setCurrentRouteName","setPageViewName","setCustomAttribute","interaction","noticeError","setUserId"].forEach((t=>{e[t]=function(){for(var r=arguments.length,n=new Array(r),i=0;i<r;i++)n[i]=arguments[i];return function(t){for(var r=arguments.length,n=new Array(r>1?r-1:0),i=1;i<r;i++)n[i-1]=arguments[i];let o=[];return Object.values(e.initializedAgents).forEach((e=>{e.exposed&&e.api[t]&&o.push(e.api[t](...n))})),o.length>1?o:o[0]}(t,...n)}}))}var m=r(7022);const b={stn:[n.D.sessionTrace],err:[n.D.jserrors,n.D.metrics],ins:[n.D.pageAction],spa:[n.D.spa]};const y={};function w(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},w=arguments.length>2?arguments[2]:void 0,x=arguments.length>3?arguments[3]:void 0,{init:A,info:E,loader_config:_,runtime:T={loaderType:w},exposed:S=!0}=t;const D=(0,h.gG)();if(E||(A=D.init,E=D.info,_=D.loader_config),E.jsAttributes??={},d.v6&&(E.jsAttributes.isWorker=!0),d.il){let e=(0,g.J8)(p);Object.assign(E.jsAttributes,e)}(0,i.CX)(e,E),(0,i.Dg)(e,A||{}),(0,i.GE)(e,_||{}),(0,i.sU)(e,T),v();const j=function(e,t){t||(0,c.R)(e,"api");const h={};var v=a.ee.get(e),m=v.get("tracer"),b="api-",y=b+"ixn-";function w(t,r,n,o){const a=(0,i.C5)(e);return null===r?(delete a.jsAttributes[t],d.il&&(0,g.GD)(t,p)):((0,i.CX)(e,{...a,jsAttributes:{...a.jsAttributes,[t]:r}}),d.il&&o&&(0,g.ju)(t,r,p)),E(b,n,!0)()}function x(){}["setErrorHandler","finished","addToTrace","inlineHit","addRelease"].forEach((e=>h[e]=E(b,e,!0,"api"))),h.addPageAction=E(b,"addPageAction",!0,n.D.pageAction),h.setCurrentRouteName=E(b,"routeName",!0,n.D.spa),h.setPageViewName=function(t,r){if("string"==typeof t)return"/"!==t.charAt(0)&&(t="/"+t),(0,i.OP)(e).customTransaction=(r||"http://custom.transaction")+t,E(b,"setPageViewName",!0)()},h.setCustomAttribute=function(e,t){let r=arguments.length>2&&void 0!==arguments[2]&&arguments[2];if("string"==typeof e){if(["string","number"].includes(typeof t)||null===t)return w(e,t,"setCustomAttribute",r);(0,f.Z)("Failed to execute setCustomAttribute.\nNon-null value must be a string or number type, but a type of <".concat(typeof t,"> was provided."))}else(0,f.Z)("Failed to execute setCustomAttribute.\nName must be a string type, but a type of <".concat(typeof e,"> was provided."))},h.setUserId=function(e){if("string"==typeof e||null===e)return w("enduser.id",e,"setUserId",!0);(0,f.Z)("Failed to execute setUserId.\nNon-null value must be a string type, but a type of <".concat(typeof e,"> was provided."))},h.interaction=function(){return(new x).get()};var A=x.prototype={createTracer:function(e,t){var r={},i=this,a="function"==typeof t;return(0,o.p)(y+"tracer",[(0,s.z)(),e,r],i,n.D.spa,v),function(){if(m.emit((a?"":"no-")+"fn-start",[(0,s.z)(),i,a],r),a)try{return t.apply(this,arguments)}catch(e){throw m.emit("fn-err",[arguments,this,"string"==typeof e?new Error(e):e],r),e}finally{m.emit("fn-end",[(0,s.z)()],r)}}}};function E(e,t,r,i){return function(){return(0,o.p)(l.xS,["API/"+t+"/called"],void 0,n.D.metrics,v),i&&(0,o.p)(e+t,[(0,s.z)(),...arguments],r?null:this,i,v),r?void 0:this}}function _(){r.e(439).then(r.bind(r,5692)).then((t=>{let{setAPI:r}=t;r(e),(0,c.L)(e,"api")})).catch((()=>(0,f.Z)("Downloading runtime APIs failed...")))}return["actionText","setName","setAttribute","save","ignore","onEnd","getContext","end","get"].forEach((e=>{A[e]=E(y,e,void 0,n.D.spa)})),h.noticeError=function(e,t){"string"==typeof e&&(e=new Error(e)),(0,o.p)(l.xS,["API/noticeError/called"],void 0,n.D.metrics,v),(0,o.p)("err",[e,(0,s.z)(),!1,t],void 0,n.D.jserrors,v)},d.v6?_():(0,u.b)((()=>_()),!0),h}(e,x);return(0,h.Qy)(e,j,"api"),(0,h.Qy)(e,S,"exposed"),(0,h.EZ)("activatedFeatures",y),(0,h.EZ)("setToken",(t=>function(e,t){var r=a.ee.get(t);e&&"object"==typeof e&&((0,m.D)(e,(function(e,t){if(!t)return(b[e]||[]).forEach((t=>{(0,o.p)("block-"+e,[],void 0,t,r)}));y[e]||((0,o.p)("feat-"+e,[],void 0,b[e],r),y[e]=!0)})),(0,c.L)(t,n.D.pageViewEvent))}(t,e))),j}},909:(e,t,r)=>{"use strict";r.d(t,{Z:()=>i,q:()=>o});var n=r(2325);function i(e){switch(e){case n.D.ajax:return[n.D.jserrors];case n.D.sessionTrace:return[n.D.ajax,n.D.pageViewEvent];case n.D.pageViewTiming:return[n.D.pageViewEvent];default:return[]}}function o(e){return e===n.D.jserrors?[]:["auto"]}},2325:(e,t,r)=>{"use strict";r.d(t,{D:()=>n,p:()=>i});const n={ajax:"ajax",jserrors:"jserrors",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionTrace:"session_trace",spa:"spa"},i={[n.pageViewEvent]:1,[n.pageViewTiming]:2,[n.metrics]:3,[n.jserrors]:4,[n.ajax]:5,[n.sessionTrace]:6,[n.pageAction]:7,[n.spa]:8}},8683:e=>{e.exports=function(e,t,r){t||(t=0),void 0===r&&(r=e?e.length:0);for(var n=-1,i=r-t||0,o=Array(i<0?0:i);++n<i;)o[n]=e[t+n];return o}}},n={};function i(e){var t=n[e];if(void 0!==t)return t.exports;var o=n[e]={exports:{}};return r[e](o,o.exports,i),o.exports}i.m=r,i.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return i.d(t,{a:t}),t},i.d=(e,t)=>{for(var r in t)i.o(t,r)&&!i.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},i.f={},i.e=e=>Promise.all(Object.keys(i.f).reduce(((t,r)=>(i.f[r](e,t),t)),[])),i.u=e=>(({78:"page_action-aggregate",147:"metrics-aggregate",193:"session_trace-aggregate",317:"jserrors-aggregate",348:"page_view_timing-aggregate",439:"async-api",729:"lazy-loader",786:"page_view_event-aggregate",873:"spa-aggregate",898:"ajax-aggregate"}[e]||e)+"."+{78:"42c392aa",147:"78efb4d5",193:"0938abd3",317:"0b4d6623",348:"a30a53ff",439:"8f89c105",729:"67423d16",786:"8cf0450e",862:"04af29e3",873:"19ebdf8d",898:"b0da4738"}[e]+"-1.231.0.min.js"),i.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),e={},t="NRBA:",i.l=(r,n,o,a)=>{if(e[r])e[r].push(n);else{var s,c;if(void 0!==o)for(var u=document.getElementsByTagName("script"),d=0;d<u.length;d++){var f=u[d];if(f.getAttribute("src")==r||f.getAttribute("data-webpack")==t+o){s=f;break}}s||(c=!0,(s=document.createElement("script")).charset="utf-8",s.timeout=120,i.nc&&s.setAttribute("nonce",i.nc),s.setAttribute("data-webpack",t+o),s.src=r),e[r]=[n];var l=(t,n)=>{s.onerror=s.onload=null,clearTimeout(h);var i=e[r];if(delete e[r],s.parentNode&&s.parentNode.removeChild(s),i&&i.forEach((e=>e(n))),t)return t(n)},h=setTimeout(l.bind(null,void 0,{type:"timeout",target:s}),12e4);s.onerror=l.bind(null,s.onerror),s.onload=l.bind(null,s.onload),c&&document.head.appendChild(s)}},i.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.p="https://js-agent.newrelic.com/",(()=>{var e={175:0,168:0};i.f.j=(t,r)=>{var n=i.o(e,t)?e[t]:void 0;if(0!==n)if(n)r.push(n[2]);else{var o=new Promise(((r,i)=>n=e[t]=[r,i]));r.push(n[2]=o);var a=i.p+i.u(t),s=new Error;i.l(a,(r=>{if(i.o(e,t)&&(0!==(n=e[t])&&(e[t]=void 0),n)){var o=r&&("load"===r.type?"missing":r.type),a=r&&r.target&&r.target.src;s.message="Loading chunk "+t+" failed.\n("+o+": "+a+")",s.name="ChunkLoadError",s.type=o,s.request=a,n[1](s)}}),"chunk-"+t,t)}};var t=(t,r)=>{var n,o,[a,s,c]=r,u=0;if(a.some((t=>0!==e[t]))){for(n in s)i.o(s,n)&&(i.m[n]=s[n]);if(c)c(i)}for(t&&t(r);u<a.length;u++)o=a[u],i.o(e,o)&&e[o]&&e[o][0](),e[o]=0},r=window.webpackChunkNRBA=window.webpackChunkNRBA||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})();var o={};(()=>{"use strict";i.r(o);var e=i(2325),t=i(27);const r=Object.values(e.D);function n(e){const n={};return r.forEach((r=>{n[r]=function(e,r){return!1!==(0,t.Mt)(r,"".concat(e,".enabled"))}(r,e)})),n}var a=i(2384),s=i(909),c=i(9252),u=i(8768),d=i(4329),f=i(1509),l=i(2650),h=i(2374),g=i(8610);class p extends f.W{constructor(e,t,r){let n=!(arguments.length>3&&void 0!==arguments[3])||arguments[3];super(e,t,r),this.hasAggregator=!1,this.auto=n,this.abortHandler,n&&(0,d.R)(e,r)}importAggregator(){if(this.hasAggregator||!this.auto)return;this.hasAggregator=!0;const e=async()=>{try{const{lazyLoader:e}=await i.e(729).then(i.bind(i,8110)),{Aggregate:t}=await e(this.featureName,"aggregate");new t(this.agentIdentifier,this.aggregator)}catch(e){(0,g.Z)("Downloading ".concat(this.featureName," failed...")),this.abortHandler?.()}};h.v6?e():(0,l.b)((()=>e()),!0)}}var v=i(2484),m=i(2053);class b extends p{static featureName=v.t9;constructor(r,n){let i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];if(super(r,n,v.t9,i),("undefined"==typeof PerformanceNavigationTiming||u.T)&&"undefined"!=typeof PerformanceTiming){const n=(0,t.OP)(r);n[v.Dz]=Math.max(Date.now()-n.offset,0),(0,l.K)((()=>n[v.qw]=Math.max((0,m.z)()-n[v.Dz],0))),(0,l.b)((()=>{const t=(0,m.z)();n[v.OJ]=Math.max(t-n[v.Dz],0),(0,c.p)("timing",["load",t],void 0,e.D.pageViewTiming,this.ee)}))}this.importAggregator()}}var y=i(9557),w=i(7022);class x extends y.w{constructor(e){super(e),this.aggregatedData={}}store(e,t,r,n,i){var o=this.getBucket(e,t,r,i);return o.metrics=function(e,t){t||(t={count:0});return t.count+=1,(0,w.D)(e,(function(e,r){t[e]=A(r,t[e])})),t}(n,o.metrics),o}merge(e,t,r,n,i){var o=this.getBucket(e,t,n,i);if(o.metrics){var a=o.metrics;a.count+=r.count,(0,w.D)(r,(function(e,t){if("count"!==e){var n=a[e],i=r[e];i&&!i.c?a[e]=A(i.t,n):a[e]=function(e,t){if(!t)return e;t.c||(t=E(t.t));return t.min=Math.min(e.min,t.min),t.max=Math.max(e.max,t.max),t.t+=e.t,t.sos+=e.sos,t.c+=e.c,t}(i,a[e])}}))}else o.metrics=r}storeMetric(e,t,r,n){var i=this.getBucket(e,t,r);return i.stats=A(n,i.stats),i}getBucket(e,t,r,n){this.aggregatedData[e]||(this.aggregatedData[e]={});var i=this.aggregatedData[e][t];return i||(i=this.aggregatedData[e][t]={params:r||{}},n&&(i.custom=n)),i}get(e,t){return t?this.aggregatedData[e]&&this.aggregatedData[e][t]:this.aggregatedData[e]}take(e){for(var t={},r="",n=!1,i=0;i<e.length;i++)t[r=e[i]]=_(this.aggregatedData[r]),t[r].length&&(n=!0),delete this.aggregatedData[r];return n?t:null}}function A(e,t){return null==e?function(e){e?e.c++:e={c:1};return e}(t):t?(t.c||(t=E(t.t)),t.c+=1,t.t+=e,t.sos+=e*e,e>t.max&&(t.max=e),e<t.min&&(t.min=e),t):{t:e}}function E(e){return{t:e,min:e,max:e,sos:e*e,c:1}}function _(e){return"object"!=typeof e?[]:(0,w.D)(e,T)}function T(e,t){return t}var S=i(6797),D=i(5526),j=i(2438);var O=i(6998),R=i(8544),P=i(6382);class I extends p{static featureName=P.t;constructor(e,r){let n=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(e,r,P.t,n),h.il&&((0,t.OP)(e).initHidden=Boolean("hidden"===document.visibilityState),(0,O.N)((()=>(0,c.p)("docHidden",[(0,m.z)()],void 0,P.t,this.ee)),!0),(0,R.bP)("pagehide",(()=>(0,c.p)("winPagehide",[(0,m.z)()],void 0,P.t,this.ee))),this.importAggregator())}}const N=Boolean(h._A?.Worker),C=Boolean(h._A?.SharedWorker),k=Boolean(h._A?.navigator?.serviceWorker);let H,z,L;var M=i(6034);class B extends p{static featureName=M.t9;constructor(t,r){let n=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(t,r,M.t9,n),function(e){if(!H){if(N){H=Worker;try{h._A.Worker=r(H,"Dedicated")}catch(e){o(e,"Dedicated")}if(C){z=SharedWorker;try{h._A.SharedWorker=r(z,"Shared")}catch(e){o(e,"Shared")}}else n("Shared");if(k){L=navigator.serviceWorker.register;try{h._A.navigator.serviceWorker.register=(t=L,function(){for(var e=arguments.length,r=new Array(e),n=0;n<e;n++)r[n]=arguments[n];return i("Service",r[1]?.type),t.apply(navigator.serviceWorker,r)})}catch(e){o(e,"Service")}}else n("Service");var t;return}n("All")}function r(e,t){return"undefined"==typeof Proxy?e:new Proxy(e,{construct:(e,r)=>(i(t,r[1]?.type),new e(...r))})}function n(t){h.v6||e("Workers/".concat(t,"/Unavailable"))}function i(t,r){e("Workers/".concat(t,"module"===r?"/Module":"/Classic"))}function o(t,r){e("Workers/".concat(r,"/SM/Unsupported")),(0,g.Z)("NR Agent: Unable to capture ".concat(r," workers."),t)}}((t=>(0,c.p)(M.xS,[t],void 0,e.D.metrics,this.ee))),this.importAggregator()}}var F=i(3916),U=i(3752),q=i(8683),W=i.n(q);const G="nr@original";var V=Object.prototype.hasOwnProperty,X=!1;function Z(e,t){return e||(e=U.ee),r.inPlace=function(e,t,n,i,o){n||(n="");var a,s,c,u="-"===n.charAt(0);for(c=0;c<t.length;c++)Y(a=e[s=t[c]])||(e[s]=r(a,u?s+n:n,i,s,o))},r.flag=G,r;function r(t,r,i,o,a){return Y(t)?t:(r||(r=""),nrWrapper[G]=t,$(t,nrWrapper,e),nrWrapper);function nrWrapper(){var s,c,u,d;try{c=this,s=W()(arguments),u="function"==typeof i?i(s,c):i||{}}catch(t){Q([t,"",[s,c,o],u],e)}n(r+"start",[s,c,o],u,a);try{return d=t.apply(c,s)}catch(e){throw n(r+"err",[s,c,e],u,a),e}finally{n(r+"end",[s,c,d],u,a)}}}function n(r,n,i,o){if(!X||t){var a=X;X=!0;try{e.emit(r,n,i,t,o)}catch(t){Q([t,r,n,i],e)}X=a}}}function Q(e,t){t||(t=U.ee);try{t.emit("internal-error",e)}catch(e){}}function $(e,t,r){if(Object.defineProperty&&Object.keys)try{return Object.keys(e).forEach((function(r){Object.defineProperty(t,r,{get:function(){return e[r]},set:function(t){return e[r]=t,t}})})),t}catch(e){Q([e],r)}for(var n in e)V.call(e,n)&&(t[n]=e[n]);return t}function Y(e){return!(e&&e instanceof Function&&e.apply&&!e[G])}const K={},J=XMLHttpRequest,ee="addEventListener",te="removeEventListener";function re(e){var t=function(e){return(e||U.ee).get("events")}(e);if(K[t.debugId]++)return t;K[t.debugId]=1;var r=Z(t,!0);function n(e){r.inPlace(e,[ee,te],"-",i)}function i(e,t){return e[1]}return"getPrototypeOf"in Object&&(h.il&&ne(document,n),ne(h._A,n),ne(J.prototype,n)),t.on(ee+"-start",(function(e,t){var n=e[1];if(null!==n&&("function"==typeof n||"object"==typeof n)){var i=(0,F.X)(n,"nr@wrapped",(function(){var e={object:function(){if("function"!=typeof n.handleEvent)return;return n.handleEvent.apply(n,arguments)},function:n}[typeof n];return e?r(e,"fn-",null,e.name||"anonymous"):n}));this.wrapped=e[1]=i}})),t.on(te+"-start",(function(e){e[1]=this.wrapped||e[1]})),t}function ne(e,t){let r=e;for(;"object"==typeof r&&!Object.prototype.hasOwnProperty.call(r,ee);)r=Object.getPrototypeOf(r);for(var n=arguments.length,i=new Array(n>2?n-2:0),o=2;o<n;o++)i[o-2]=arguments[o];r&&t(r,...i)}var ie="fetch-",oe=ie+"body-",ae=["arrayBuffer","blob","json","text","formData"],se=h._A.Request,ce=h._A.Response,ue="prototype",de="nr@context";const fe={};function le(e){const t=function(e){return(e||U.ee).get("fetch")}(e);if(!(se&&ce&&h._A.fetch))return t;if(fe[t.debugId]++)return t;function r(e,r,n){var i=e[r];"function"==typeof i&&(e[r]=function(){var e,r=W()(arguments),o={};t.emit(n+"before-start",[r],o),o[de]&&o[de].dt&&(e=o[de].dt);var a=i.apply(this,r);return t.emit(n+"start",[r,e],a),a.then((function(e){return t.emit(n+"end",[null,e],a),e}),(function(e){throw t.emit(n+"end",[e],a),e}))})}return fe[t.debugId]=1,ae.forEach((e=>{r(se[ue],e,oe),r(ce[ue],e,oe)})),r(h._A,"fetch",ie),t.on(ie+"end",(function(e,r){var n=this;if(r){var i=r.headers.get("content-length");null!==i&&(n.rxSize=i),t.emit(ie+"done",[null,r],n)}else t.emit(ie+"done",[e],n)})),t}const he={},ge=["pushState","replaceState"];function pe(e){const t=function(e){return(e||U.ee).get("history")}(e);return!h.il||he[t.debugId]++||(he[t.debugId]=1,Z(t).inPlace(window.history,ge,"-")),t}const ve={};function me(e){const t=function(e){return(e||U.ee).get("raf")}(e);if(!h.il||ve[t.debugId]++)return t;ve[t.debugId]=1;var r=Z(t);return r.inPlace(window,["requestAnimationFrame"],"raf-"),t.on("raf-start",(function(e){e[0]=r(e[0],"fn-")})),t}const be={},ye="setTimeout",we="setInterval",xe="clearTimeout",Ae="-start",Ee=[ye,"setImmediate",we,xe,"clearImmediate"];function _e(e){const t=function(e){return(e||U.ee).get("timer")}(e);if(be[t.debugId]++)return t;be[t.debugId]=1;var r=Z(t);return r.inPlace(h._A,Ee.slice(0,2),ye+"-"),r.inPlace(h._A,Ee.slice(2,3),we+"-"),r.inPlace(h._A,Ee.slice(3),xe+"-"),t.on(we+Ae,(function(e,t,n){e[0]=r(e[0],"fn-",null,n)})),t.on(ye+Ae,(function(e,t,n){this.method=n,this.timerDuration=isNaN(e[1])?0:+e[1],e[0]=r(e[0],"fn-",this,n)})),t}const Te={},Se=["open","send"];function De(e){var r=e||U.ee;const n=function(e){return(e||U.ee).get("xhr")}(r);if(Te[n.debugId]++)return n;Te[n.debugId]=1,re(r);var i=Z(n),o=t.Yu.XHR,a=t.Yu.MO,s=t.Yu.PR,c=t.Yu.SI,u="readystatechange",d=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],f=[],l=h._A.XMLHttpRequest.listeners,p=h._A.XMLHttpRequest=function(e){var t=new o(e);function r(){try{n.emit("new-xhr",[t],t),t.addEventListener(u,m,(0,R.m$)(!1))}catch(e){(0,g.Z)("An error occured while intercepting XHR",e);try{n.emit("internal-error",[e])}catch(e){}}}return this.listeners=l?[...l,r]:[r],this.listeners.forEach((e=>e())),t};function v(e,t){i.inPlace(t,["onreadystatechange"],"fn-",A)}function m(){var e=this,t=n.context(e);e.readyState>3&&!t.resolved&&(t.resolved=!0,n.emit("xhr-resolved",[],e)),i.inPlace(e,d,"fn-",A)}if(function(e,t){for(var r in e)t[r]=e[r]}(o,p),p.prototype=o.prototype,i.inPlace(p.prototype,Se,"-xhr-",A),n.on("send-xhr-start",(function(e,t){v(e,t),function(e){f.push(e),a&&(b?b.then(x):c?c(x):(y=-y,w.data=y))}(t)})),n.on("open-xhr-start",v),a){var b=s&&s.resolve();if(!c&&!s){var y=1,w=document.createTextNode(y);new a(x).observe(w,{characterData:!0})}}else r.on("fn-end",(function(e){e[0]&&e[0].type===u||x()}));function x(){for(var e=0;e<f.length;e++)v(0,f[e]);f.length&&(f=[])}function A(e,t){return t}return n}var je,Oe={};try{je=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(Oe.console=!0,-1!==je.indexOf("dev")&&(Oe.dev=!0),-1!==je.indexOf("nr_dev")&&(Oe.nrDev=!0))}catch(e){}function Re(e){try{Oe.console&&Re(e)}catch(e){}}Oe.nrDev&&U.ee.on("internal-error",(function(e){Re(e.stack)})),Oe.dev&&U.ee.on("fn-err",(function(e,t,r){Re(r.stack)})),Oe.dev&&(Re("NR AGENT IN DEVELOPMENT MODE"),Re("flags: "+(0,w.D)(Oe,(function(e,t){return e})).join(", ")));var Pe=i(8322);class Ie extends p{static featureName=Pe.t;constructor(r,n){let i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(r,n,Pe.t,i),this.skipNext=0;try{this.removeOnAbort=new AbortController}catch(e){}const o=this;o.ee.on("fn-start",(function(e,t,r){o.abortHandler&&(o.skipNext+=1)})),o.ee.on("fn-err",(function(e,t,r){o.abortHandler&&!r[Pe.A]&&((0,F.X)(r,Pe.A,(function(){return!0})),this.thrown=!0,Ce(r,void 0,o.ee))})),o.ee.on("fn-end",(function(){o.abortHandler&&!this.thrown&&o.skipNext>0&&(o.skipNext-=1)})),o.ee.on("internal-error",(function(t){(0,c.p)("ierr",[t,(0,m.z)(),!0],void 0,e.D.jserrors,o.ee)})),this.origOnerror=h._A.onerror,h._A.onerror=this.onerrorHandler.bind(this),h._A.addEventListener("unhandledrejection",(t=>{const r=function(e){let t="Unhandled Promise Rejection: ";if(e instanceof Error)try{return e.message=t+e.message,e}catch(t){return e}if(void 0===e)return new Error(t);try{return new Error(t+(0,j.P)(e))}catch(e){return new Error(t)}}(t.reason);(0,c.p)("err",[r,(0,m.z)(),!1,{unhandledPromiseRejection:1}],void 0,e.D.jserrors,this.ee)}),(0,R.m$)(!1,this.removeOnAbort?.signal)),me(this.ee),_e(this.ee),re(this.ee),(0,t.OP)(r).xhrWrappable&&De(this.ee),this.abortHandler=this.#e,this.importAggregator()}#e(){this.removeOnAbort?.abort(),this.abortHandler=void 0}onerrorHandler(t,r,n,i,o){"function"==typeof this.origOnerror&&this.origOnerror(...arguments);try{this.skipNext?this.skipNext-=1:Ce(o||new Ne(t,r,n),!0,this.ee)}catch(t){try{(0,c.p)("ierr",[t,(0,m.z)(),!0],void 0,e.D.jserrors,this.ee)}catch(e){}}return!1}}function Ne(e,t,r){this.message=e||"Uncaught error with no additional information",this.sourceURL=t,this.line=r}function Ce(t,r,n){var i=r?null:(0,m.z)();(0,c.p)("err",[t,i],void 0,e.D.jserrors,n)}let ke=1;const He="nr@id";function ze(e){const t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===h._A?0:(0,F.X)(e,He,(function(){return ke++}))}var Le=i(9071);function Me(e){if("string"==typeof e&&e.length)return e.length;if("object"==typeof e){if("undefined"!=typeof ArrayBuffer&&e instanceof ArrayBuffer&&e.byteLength)return e.byteLength;if("undefined"!=typeof Blob&&e instanceof Blob&&e.size)return e.size;if(!("undefined"!=typeof FormData&&e instanceof FormData))try{return(0,j.P)(e).length}catch(e){return}}}var Be=i(6368);class Fe{constructor(e){this.agentIdentifier=e,this.generateTracePayload=this.generateTracePayload.bind(this),this.shouldGenerateTrace=this.shouldGenerateTrace.bind(this)}generateTracePayload(e){if(!this.shouldGenerateTrace(e))return null;var r=(0,t.DL)(this.agentIdentifier);if(!r)return null;var n=(r.accountID||"").toString()||null,i=(r.agentID||"").toString()||null,o=(r.trustKey||"").toString()||null;if(!n||!i)return null;var a=(0,D.M)(),s=(0,D.Ht)(),c=Date.now(),u={spanId:a,traceId:s,timestamp:c};return(e.sameOrigin||this.isAllowedOrigin(e)&&this.useTraceContextHeadersForCors())&&(u.traceContextParentHeader=this.generateTraceContextParentHeader(a,s),u.traceContextStateHeader=this.generateTraceContextStateHeader(a,c,n,i,o)),(e.sameOrigin&&!this.excludeNewrelicHeader()||!e.sameOrigin&&this.isAllowedOrigin(e)&&this.useNewrelicHeaderForCors())&&(u.newrelicHeader=this.generateTraceHeader(a,s,c,n,i,o)),u}generateTraceContextParentHeader(e,t){return"00-"+t+"-"+e+"-01"}generateTraceContextStateHeader(e,t,r,n,i){return i+"@nr=0-1-"+r+"-"+n+"-"+e+"----"+t}generateTraceHeader(e,t,r,n,i,o){if(!("function"==typeof h._A?.btoa))return null;var a={v:[0,1],d:{ty:"Browser",ac:n,ap:i,id:e,tr:t,ti:r}};return o&&n!==o&&(a.d.tk=o),btoa((0,j.P)(a))}shouldGenerateTrace(e){return this.isDtEnabled()&&this.isAllowedOrigin(e)}isAllowedOrigin(e){var r=!1,n={};if((0,t.Mt)(this.agentIdentifier,"distributed_tracing")&&(n=(0,t.P_)(this.agentIdentifier).distributed_tracing),e.sameOrigin)r=!0;else if(n.allowed_origins instanceof Array)for(var i=0;i<n.allowed_origins.length;i++){var o=(0,Be.e)(n.allowed_origins[i]);if(e.hostname===o.hostname&&e.protocol===o.protocol&&e.port===o.port){r=!0;break}}return r}isDtEnabled(){var e=(0,t.Mt)(this.agentIdentifier,"distributed_tracing");return!!e&&!!e.enabled}excludeNewrelicHeader(){var e=(0,t.Mt)(this.agentIdentifier,"distributed_tracing");return!!e&&!!e.exclude_newrelic_header}useNewrelicHeaderForCors(){var e=(0,t.Mt)(this.agentIdentifier,"distributed_tracing");return!!e&&!1!==e.cors_use_newrelic_header}useTraceContextHeadersForCors(){var e=(0,t.Mt)(this.agentIdentifier,"distributed_tracing");return!!e&&!!e.cors_use_tracecontext_headers}}var Ue=i(8675),qe=["load","error","abort","timeout"],We=qe.length,Ge=t.Yu.REQ,Ve=h._A.XMLHttpRequest;class Xe extends p{static featureName=Ue.t;constructor(r,n){let i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(r,n,Ue.t,i),(0,t.OP)(r).xhrWrappable&&(this.dt=new Fe(r),this.handler=(e,t,r,n)=>(0,c.p)(e,t,r,n,this.ee),le(this.ee),De(this.ee),function(r,n,i,o){function a(e){var t=this;t.totalCbs=0,t.called=0,t.cbTime=0,t.end=E,t.ended=!1,t.xhrGuids={},t.lastSize=null,t.loadCaptureCalled=!1,t.params=this.params||{},t.metrics=this.metrics||{},e.addEventListener("load",(function(r){T(t,e)}),(0,R.m$)(!1)),Le.I||e.addEventListener("progress",(function(e){t.lastSize=e.loaded}),(0,R.m$)(!1))}function s(e){this.params={method:e[0]},_(this,e[1]),this.metrics={}}function c(e,n){var i=(0,t.DL)(r);"xpid"in i&&this.sameOrigin&&n.setRequestHeader("X-NewRelic-ID",i.xpid);var a=o.generateTracePayload(this.parsedOrigin);if(a){var s=!1;a.newrelicHeader&&(n.setRequestHeader("newrelic",a.newrelicHeader),s=!0),a.traceContextParentHeader&&(n.setRequestHeader("traceparent",a.traceContextParentHeader),a.traceContextStateHeader&&n.setRequestHeader("tracestate",a.traceContextStateHeader),s=!0),s&&(this.dt=a)}}function u(e,t){var r=this.metrics,i=e[0],o=this;if(r&&i){var a=Me(i);a&&(r.txSize=a)}this.startTime=(0,m.z)(),this.listener=function(e){try{"abort"!==e.type||o.loadCaptureCalled||(o.params.aborted=!0),("load"!==e.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof t.onload)&&"function"==typeof o.end)&&o.end(t)}catch(e){try{n.emit("internal-error",[e])}catch(e){}}};for(var s=0;s<We;s++)t.addEventListener(qe[s],this.listener,(0,R.m$)(!1))}function d(e,t,r){this.cbTime+=e,t?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof r.onload||"function"!=typeof this.end||this.end(r)}function f(e,t){var r=""+ze(e)+!!t;this.xhrGuids&&!this.xhrGuids[r]&&(this.xhrGuids[r]=!0,this.totalCbs+=1)}function l(e,t){var r=""+ze(e)+!!t;this.xhrGuids&&this.xhrGuids[r]&&(delete this.xhrGuids[r],this.totalCbs-=1)}function g(){this.endTime=(0,m.z)()}function p(e,t){t instanceof Ve&&"load"===e[0]&&n.emit("xhr-load-added",[e[1],e[2]],t)}function v(e,t){t instanceof Ve&&"load"===e[0]&&n.emit("xhr-load-removed",[e[1],e[2]],t)}function b(e,t,r){t instanceof Ve&&("onload"===r&&(this.onload=!0),("load"===(e[0]&&e[0].type)||this.onload)&&(this.xhrCbStart=(0,m.z)()))}function y(e,t){this.xhrCbStart&&n.emit("xhr-cb-time",[(0,m.z)()-this.xhrCbStart,this.onload,t],t)}function w(e){var t,r=e[1]||{};"string"==typeof e[0]?t=e[0]:e[0]&&e[0].url?t=e[0].url:h._A?.URL&&e[0]&&e[0]instanceof URL&&(t=e[0].href),t&&(this.parsedOrigin=(0,Be.e)(t),this.sameOrigin=this.parsedOrigin.sameOrigin);var n=o.generateTracePayload(this.parsedOrigin);if(n&&(n.newrelicHeader||n.traceContextParentHeader))if("string"==typeof e[0]||h._A?.URL&&e[0]&&e[0]instanceof URL){var i={};for(var a in r)i[a]=r[a];i.headers=new Headers(r.headers||{}),s(i.headers,n)&&(this.dt=n),e.length>1?e[1]=i:e.push(i)}else e[0]&&e[0].headers&&s(e[0].headers,n)&&(this.dt=n);function s(e,t){var r=!1;return t.newrelicHeader&&(e.set("newrelic",t.newrelicHeader),r=!0),t.traceContextParentHeader&&(e.set("traceparent",t.traceContextParentHeader),t.traceContextStateHeader&&e.set("tracestate",t.traceContextStateHeader),r=!0),r}}function x(e,t){this.params={},this.metrics={},this.startTime=(0,m.z)(),this.dt=t,e.length>=1&&(this.target=e[0]),e.length>=2&&(this.opts=e[1]);var r,n=this.opts||{},i=this.target;"string"==typeof i?r=i:"object"==typeof i&&i instanceof Ge?r=i.url:h._A?.URL&&"object"==typeof i&&i instanceof URL&&(r=i.href),_(this,r);var o=(""+(i&&i instanceof Ge&&i.method||n.method||"GET")).toUpperCase();this.params.method=o,this.txSize=Me(n.body)||0}function A(t,r){var n;this.endTime=(0,m.z)(),this.params||(this.params={}),this.params.status=r?r.status:0,"string"==typeof this.rxSize&&this.rxSize.length>0&&(n=+this.rxSize);var o={txSize:this.txSize,rxSize:n,duration:(0,m.z)()-this.startTime};i("xhr",[this.params,o,this.startTime,this.endTime,"fetch"],this,e.D.ajax)}function E(t){var r=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var o=0;o<We;o++)t.removeEventListener(qe[o],this.listener,!1);r.aborted||(n.duration=(0,m.z)()-this.startTime,this.loadCaptureCalled||4!==t.readyState?null==r.status&&(r.status=0):T(this,t),n.cbTime=this.cbTime,i("xhr",[r,n,this.startTime,this.endTime,"xhr"],this,e.D.ajax))}}function _(e,t){var r=(0,Be.e)(t),n=e.params;n.hostname=r.hostname,n.port=r.port,n.protocol=r.protocol,n.host=r.hostname+":"+r.port,n.pathname=r.pathname,e.parsedOrigin=r,e.sameOrigin=r.sameOrigin}function T(e,t){e.params.status=t.status;var r=function(e,t){var r=e.responseType;return"json"===r&&null!==t?t:"arraybuffer"===r||"blob"===r||"json"===r?Me(e.response):"text"===r||""===r||void 0===r?Me(e.responseText):void 0}(t,e.lastSize);if(r&&(e.metrics.rxSize=r),e.sameOrigin){var n=t.getResponseHeader("X-NewRelic-App-Data");n&&(e.params.cat=n.split(", ").pop())}e.loadCaptureCalled=!0}n.on("new-xhr",a),n.on("open-xhr-start",s),n.on("open-xhr-end",c),n.on("send-xhr-start",u),n.on("xhr-cb-time",d),n.on("xhr-load-added",f),n.on("xhr-load-removed",l),n.on("xhr-resolved",g),n.on("addEventListener-end",p),n.on("removeEventListener-end",v),n.on("fn-end",y),n.on("fetch-before-start",w),n.on("fetch-start",x),n.on("fn-start",b),n.on("fetch-done",A)}(r,this.ee,this.handler,this.dt),this.importAggregator())}}var Ze=i(6408),Qe=i(2628);const{BST_RESOURCE:$e,BST_TIMER:Ye,END:Ke,FEATURE_NAME:Je,FN_END:et,FN_START:tt,ADD_EVENT_LISTENER:rt,PUSH_STATE:nt,RESOURCE:it,RESOURCE_TIMING_BUFFER_FULL:ot,START:at,ORIG_EVENT:st}=Qe,ct="clearResourceTimings";var ut=i(6486);class dt extends p{static featureName=ut.t;constructor(e,t){let r=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(e,t,ut.t,r),this.importAggregator()}}new class{constructor(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:(0,D.ky)(16);this.agentIdentifier=t,this.sharedAggregator=new x({agentIdentifier:this.agentIdentifier}),this.features={},this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(b),Object.assign(this,(0,a.j)(this.agentIdentifier,e,e.loaderType||"agent")),this.start()}get config(){return{info:(0,t.C5)(this.agentIdentifier),init:(0,t.P_)(this.agentIdentifier),loader_config:(0,t.DL)(this.agentIdentifier),runtime:(0,t.OP)(this.agentIdentifier)}}start(){const t="features";try{const r=n(this.agentIdentifier),i=Array.from(this.desiredFeatures);i.sort(((t,r)=>e.p[t.featureName]-e.p[r.featureName])),i.forEach((t=>{if(r[t.featureName]||t.featureName===e.D.pageViewEvent){const e=(0,s.Z)(t.featureName);e.every((e=>r[e]))||(0,g.Z)("".concat(t.featureName," is enabled but one or more dependent features has been disabled (").concat((0,j.P)(e),"). This may cause unintended consequences or missing data...")),this.features[t.featureName]=new t(this.agentIdentifier,this.sharedAggregator)}})),(0,S.Qy)(this.agentIdentifier,this.features,t)}catch(e){(0,g.Z)("Failed to initialize all enabled instrument classes (agent aborted) -",e);for(const e in this.features)this.features[e].abortHandler?.();const r=(0,S.fP)();return delete r.initializedAgents[this.agentIdentifier]?.api,delete r.initializedAgents[this.agentIdentifier]?.[t],delete this.sharedAggregator,r.ee?.abort(),delete r.ee?.get(this.agentIdentifier),!1}}}({features:[b,I,class extends p{static featureName=Je;constructor(t,r){if(super(t,r,Je,!(arguments.length>2&&void 0!==arguments[2])||arguments[2]),!h.il)return;const n=this.ee;this.timerEE=_e(n),this.rafEE=me(n),pe(n),re(n),n.on(tt,(function(e,t){e[0]instanceof st&&(this.bstStart=(0,m.z)())})),n.on(et,(function(t,r){var i=t[0];i instanceof st&&(0,c.p)("bst",[i,r,this.bstStart,(0,m.z)()],void 0,e.D.sessionTrace,n)})),this.timerEE.on(tt,(function(e,t,r){this.bstStart=(0,m.z)(),this.bstType=r})),this.timerEE.on(et,(function(t,r){(0,c.p)(Ye,[r,this.bstStart,(0,m.z)(),this.bstType],void 0,e.D.sessionTrace,n)})),this.rafEE.on(tt,(function(){this.bstStart=(0,m.z)()})),this.rafEE.on(et,(function(t,r){(0,c.p)(Ye,[r,this.bstStart,(0,m.z)(),"requestAnimationFrame"],void 0,e.D.sessionTrace,n)})),n.on(nt+at,(function(e){this.time=(0,m.z)(),this.startPath=location.pathname+location.hash})),n.on(nt+Ke,(function(t){(0,c.p)("bstHist",[location.pathname+location.hash,this.startPath,this.time],void 0,e.D.sessionTrace,n)})),(0,Ze.W)()?((0,c.p)($e,[window.performance.getEntriesByType("resource")],void 0,e.D.sessionTrace,n),function(){var t=new PerformanceObserver(((t,r)=>{var i=t.getEntries();(0,c.p)($e,[i],void 0,e.D.sessionTrace,n)}));try{t.observe({entryTypes:["resource"]})}catch(e){}}()):window.performance[ct]&&window.performance[rt]&&window.performance.addEventListener(ot,this.onResourceTimingBufferFull,(0,R.m$)(!1)),document.addEventListener("scroll",this.noOp,(0,R.m$)(!1)),document.addEventListener("keypress",this.noOp,(0,R.m$)(!1)),document.addEventListener("click",this.noOp,(0,R.m$)(!1)),this.abortHandler=this.#e,this.importAggregator()}#e(){window.performance.removeEventListener(ot,this.onResourceTimingBufferFull,!1),this.abortHandler=void 0}noOp(e){}onResourceTimingBufferFull(t){if((0,c.p)($e,[window.performance.getEntriesByType(it)],void 0,e.D.sessionTrace,this.ee),window.performance[ct])try{window.performance.removeEventListener(ot,this.onResourceTimingBufferFull,!1)}catch(e){}}},Xe,B,dt,Ie],loaderType:"pro"})})(),window.NRBA=o})();
+    </script><script src="../assets/js/moment-with-locales.min.js"></script><script src="../assets/js/fancydates.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.min.js" integrity="sha512-PbLRl9V4qEM7j3xggKupLNdcodHT0w+x77S/JoTWxrhPEVZ0NkTPp90bzUeTyFXsBzsaApVOZdCHIzL6o51KiA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\\(","\\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\\[","\\\]"] ],
+            processEscapes: true
+        },
+        displayAlign: 'center', // Change this to 'left' if you want left-aligned equations.
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}}
+        }
+    });
+    </script><!-- Google tag (gtag.js) - Consent-aware --><script>
+  // Initialize dataLayer and gtag function
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Default to denied until consent is given
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'wait_for_update': 500
+  });
+
+  // Check for existing consent
+  if (localStorage.getItem('cookie_consent') === 'accepted') {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted',
+      'ad_storage': 'granted'
+    });
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-CY7B1KETR4', { 'anonymize_ip': true });
+</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-CY7B1KETR4"></script><!-- Mermaid for diagrams --><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script><meta name="author" content="A.C. Jokela">
+<link rel="prev" href="jokelaos-bare-metal-x86-kernel.html" title="JokelaOS: Writing a Bare-Metal x86 Kernel from Scratch" type="text/html">
+<link rel="next" href="the-real-cost-of-running-qwen-tts-locally-three-machines-compared.html" title="The Real Cost of Running Qwen TTS Locally: Three Machines Compared" type="text/html">
+<meta property="og:site_name" content="TinyComputers.io">
+<meta property="og:title" content="Repurposing Enterprise GPUs: The Tesla P40 Home Lab Story">
+<meta property="og:url" content="https://tinycomputers.io/posts/repurposing-enterprise-gpus-the-tesla-p40-home-lab-story.html">
+<meta property="og:description" content="A practical guide to building an AI inference server from retired enterprise GPUs. Four Tesla P40s, 96GB of VRAM, $2,500 all-in, and the benchmarks to prove it was worth it.">
+<meta property="og:image" content="https://tinycomputers.io/images/raspberry-bot.png">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-03-11T08:00:00-06:00">
+<meta property="article:tag" content="ai">
+<meta property="article:tag" content="benchmarks">
+<meta property="article:tag" content="cuda">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="ebay">
+<meta property="article:tag" content="enterprise hardware">
+<meta property="article:tag" content="gpu">
+<meta property="article:tag" content="home lab">
+<meta property="article:tag" content="inference">
+<meta property="article:tag" content="nvidia">
+<meta property="article:tag" content="ollama">
+<meta property="article:tag" content="tesla p40">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@tinycomputersio">
+<meta name="twitter:creator" content="@alexjokela">
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Repurposing Enterprise GPUs: The Tesla P40 Home Lab Story",
+      "author": {
+        "@type": "Person",
+        "name": "A.C. Jokela"
+      },
+      "datePublished": "2026-03-11T08:00:00-06:00",
+      "description": "A practical guide to building an AI inference server from retired enterprise GPUs. Four Tesla P40s, 96GB of VRAM, $2,500 all-in, and the benchmarks to prove it was worth it.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "TinyComputers.io",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://tinycomputers.io/images/raspberry-bot.png"
+        }
+      }
+    }
+    </script><!-- Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Preconnect hints for external resources --><link rel="preconnect" href="https://marketsdata.dev" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="preconnect" href="https://code.jquery.com" crossorigin>
+<link rel="dns-prefetch" href="https://utteranc.es">
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="https://api.ballistics.7.62x51mm.sh">
+<link rel="dns-prefetch" href="https://baud.rs">
+<script defer src="../assets/js/webgl.min.js" crossorigin="anonymous"></script><script defer src="../assets/js/three.min.js" crossorigin="anonymous"></script><script defer src="../assets/js/stlloader.min.js" crossorigin="anonymous"></script><script defer src="../assets/js/orbitcontrols.min.js" crossorigin="anonymous"></script><script defer src="../assets/js/stlviewer.js" crossorigin="anonymous"></script><link rel="stylesheet" href="../assets/css/carouselTicker.css">
+<!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-pckLXzmOpvr56xAYXPObs.js"></script><script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+<script>
+(function() {
+    var theme = localStorage.getItem('theme');
+    if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+})();
+</script><!-- Reading Progress Bar --><div id="reading-progress"></div>
+
+<!-- Search Modal -->
+<div id="search-modal-overlay">
+    <div id="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+        <div id="search-modal-header">
+            <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg><input type="text" id="search-modal-input" placeholder="Search articles..." autocomplete="off" aria-label="Search articles"><button id="search-modal-close">ESC</button>
+        </div>
+        <div id="search-modal-results" aria-live="polite"></div>
+        <div id="search-modal-footer">
+            <span><kbd>↑</kbd> <kbd>↓</kbd> Navigate</span>
+            <span><kbd>Enter</kbd> Open</span>
+            <span><kbd>Esc</kbd> Close</span>
+        </div>
+    </div>
+</div>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+<!-- nav class="navbar navbar-inverse navbar-static-top" style="position: sticky;" -->
+<header class="sticky-header"><nav class="navbar navbar-inverse navbar-static-top" style="background-color: #333333; position: relative;"><div class="container">
+<!-- This keeps the margins nice -->
+            <div class="navbar-header">
+                <div></div>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://tinycomputers.io/">
+                <img src="../images/raspberry-bot.png" alt="" style="width: 40px; height: 40px; margin-right: 8px; vertical-align: middle;" width="40" height="40"><span id="blog-title">TinyComputers.io</span>
+                </a>
+            </div>
+<!-- /.navbar-header -->
+            <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+                <ul class="nav navbar-nav">
+<li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../pages/index.html">Articles</a>
+    </li>
+<li><a href="../pages/about-me.html">About Me</a></li>
+
+                    
+                    <li><a href="../pages/best-of.html" style="color: #4FC3A1; font-weight: 600; padding-right: 5px;">★ Best Of</a></li>
+                    <li><a href="../pages/projects-inflight.html" style="color: #4FC3A1; font-weight: 600; padding-left: 5px;">⚙ Projects</a></li>
+                </ul>
+<div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding-right: 10px; padding-top: 10px; margin-bottom: 10px;">
+                    <span id="weather-readout" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 8px 12px; color: #adb5bd; font-size: 13px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px; transition: opacity 0.4s ease;" title="Click to cycle cities">Loading weather...</span>
+                    <button id="search-trigger" class="search-trigger" aria-label="Search articles" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 8px 16px; color: #adb5bd; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                        Search...
+                        <kbd style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 3px; padding: 2px 6px; font-size: 11px; margin-left: 8px;">⌘K</kbd>
+                    </button>
+                    <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">
+                        <span class="toggle-icon">☀️</span>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+
+            <div>
+                <div id="ticker-container" style="height: 32px; overflow: hidden; position: relative;">
+                    <!-- Products Ticker (Amazon Prices) -->
+                    <div id="products-ticker" class="ticker-row" style="height: 32px; line-height: 32px; transition: transform 0.5s ease-in-out;">
+                        <div id="marquee-products" style="background: linear-gradient(90deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%); height: 32px; line-height: 32px; overflow: hidden; white-space: nowrap;">
+                            <div class="products-content-wrapper" style="display: inline-block; white-space: nowrap;">
+                                <span class="products-content" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; display: inline-block; white-space: nowrap; padding-right: 50px;">
+                                    <span style="color: #4FC3A1; font-weight: bold; margin-right: 10px;">🛒 SHOP:</span>
+                                    <span id="product-prices-content" style="color: rgb(255, 255, 255);">Loading prices...</span>
+                                </span><span class="products-content-clone" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; display: inline-block; white-space: nowrap; padding-right: 50px;">
+                                    <span style="color: #4FC3A1; font-weight: bold; margin-right: 10px;">🛒 SHOP:</span>
+                                    <span id="product-prices-content-clone" style="color: rgb(255, 255, 255);">Loading prices...</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stocks Ticker -->
+                    <div id="stocks-ticker" class="ticker-row" style="position: absolute; top: 32px; left: 0; right: 0; height: 32px; line-height: 32px; transition: transform 0.5s ease-in-out;">
+                        <div id="marquee-stocks" style="background: linear-gradient(90deg, #1a1a4a 0%, #2d2d6a 50%, #1a1a4a 100%); height: 32px; line-height: 32px; overflow: hidden; white-space: nowrap;">
+                            <div class="stocks-content-wrapper" style="display: inline-block; white-space: nowrap;">
+                                <span class="stocks-content" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; display: inline-block; white-space: nowrap; padding-right: 50px;">
+                                    <span style="color: #6b8afd; font-weight: bold; margin-right: 10px;">📈 STOCKS:</span>
+                                    <span id="stock-prices-content" style="color: rgb(255, 255, 255);">Loading prices...</span>
+                                </span><span class="stocks-content-clone" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; display: inline-block; white-space: nowrap; padding-right: 50px;">
+                                    <span style="color: #6b8afd; font-weight: bold; margin-right: 10px;">📈 STOCKS:</span>
+                                    <span id="stock-prices-content-clone" style="color: rgb(255, 255, 255);">Loading prices...</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Archives Ticker (From the Archives) -->
+                    <div id="archives-ticker" class="ticker-row" style="position: absolute; top: 64px; left: 0; right: 0; height: 32px; line-height: 32px; transition: transform 0.5s ease-in-out;">
+                        <div id="marquee-archives" style="background: linear-gradient(90deg, #1a3a2a 0%, #2a4a3a 50%, #1a3a2a 100%); height: 32px; line-height: 32px; overflow: hidden; white-space: nowrap;">
+                            <div class="archives-content-wrapper" style="display: inline-block; white-space: nowrap;">
+                                <span class="archives-content" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; display: inline-block; white-space: nowrap; padding-right: 50px;">
+                                    <span style="color: #4FC3A1; font-weight: bold; margin-right: 10px;">📚 FROM THE ARCHIVES:</span>
+                                    <span id="archives-content" style="color: rgb(255, 255, 255);">Loading posts...</span>
+                                </span><span class="archives-content-clone" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; display: inline-block; white-space: nowrap; padding-right: 50px;">
+                                    <span style="color: #4FC3A1; font-weight: bold; margin-right: 10px;">📚 FROM THE ARCHIVES:</span>
+                                    <span id="archives-content-clone" style="color: rgb(255, 255, 255);">Loading posts...</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Commodities Ticker -->
+                    <div id="commodities-ticker" class="ticker-row" style="position: absolute; top: 96px; left: 0; right: 0; height: 32px; line-height: 32px; transition: transform 0.5s ease-in-out;">
+                        <div id="marquee" style="height: 32px;">
+                            <div class="content" style="font-family: Monaco, Consolas, Courier, monospace; line-height: 32px; vertical-align: middle;">
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-silver-element-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://baud.rs/1ZDmUq" target="_blank">Silver</a>: <span id="silver_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-gold-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://baud.rs/oSGljf" target="_blank">Gold</a>: <span id="gold_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-copper-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://baud.rs/BtBjRg" target="_blank">Copper</a>: <span id="copper_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);">🥛 <a class="white-link" href="https://www.cmegroup.com/markets/agriculture/dairy/class-iii-milk.html" target="_blank">Milk Futures</a>: <span id="milk_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-iron-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://baud.rs/S26BP1" target="_blank">Hot-Rolled Coil Steel</a>: <span id="steel_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);">🫘 <a class="white-link" href="https://www.cmegroup.com/markets/agriculture/oilseeds/soybean.html" target="_blank">Soybeans</a>: <span id="soybeans_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-oil-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://markets.businessinsider.com/commodities/oil-price?type=wti" target="_blank">WTI Oil</a>: <span id="wti_oil_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-carbon-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://markets.businessinsider.com/commodities/coal-price" target="_blank">Coal</a>: <span id="coal_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                                <span style="color: rgb(255, 255, 255);"><img src="../images/icons8-nitrogen-64.png" width="16" height="16" alt=""> <a class="white-link" href="https://marketsdata.dev/urea-price" target="_blank">Urea</a>: <span id="urea_price" style="display: inline-block; min-width: 140px;">---</span> · </span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="ticker-pause" aria-label="Pause ticker" aria-pressed="false" style="position:absolute; right:4px; top:50%; transform:translateY(-50%); z-index:10; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.3); border-radius:4px; color:white; font-size:12px; padding:2px 6px; cursor:pointer; line-height:1;">⏸</button>
+                </div>
+            </div>
+        </div>
+<!-- /.container -->
+    </nav></header><!-- /nav --><script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script><script type="text/javascript">
+
+$(function() {
+    function formatNumberWithCommas(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function displaySecurityCommodiyData(data, securityCommodity) {
+        if(data[0].change > 0) {
+            direction = '<span style="color: #90ee90; font-size: 19pt; font-weight: bold; font-stretch: expanded;">&uarr;</span>';
+            change_color = '#90ee90';
+        } else if(data[0].change < 0) {
+            direction = '<span style="color: red; font-size: 19pt; font-weight: bold; font-stretch: expanded;">&darr;</span>';
+            change_color = '#FFCCCB';
+        } else {
+            direction = '<span style="color: white; font-size: 19pt; font-weight: bold; font-stretch: expanded;">&harr;</span>';
+            change_color = 'white';
+        }
+
+        $("#" + securityCommodity + "_price").html('<span style="font-family: Monaco, Consolas, Courier, monospace">' + '$' + formatNumberWithCommas(data[0].price.toFixed(2)) + '<span style="color: ' + change_color + '">' + " $" + data[0].change.toFixed(2) + " " + data[0].changes_percentage.toFixed(2) + "% " + direction + "</span></span>");
+
+        $("#" + securityCommodity + "_price").addClass("flashing-text");
+
+        setTimeout(function() {
+            $("#" + securityCommodity + "_price").removeClass('flashing-text');
+        }, 2000); // 2000 milliseconds = 2 seconds
+
+    }
+
+    function getCommodityData(div, symbol) {
+        $.getJSON("https://marketsdata.dev/commodity?symbol=" + symbol, function(data) {
+            displaySecurityCommodiyData(data, div);
+        });
+    }
+
+    function getCryptoData(div, symbol) {
+        $.getJSON("https://marketsdata.dev/crypto?symbol=" + symbol, function(data) {
+            displaySecurityCommodiyData(data, div);
+        });
+    }
+
+    function getMilkData(div) {
+        getCommodityData(div, "DCUSD");
+    }
+
+    function getSoybeansData(div) {
+        getCommodityData(div, "ZSUSX");
+    }
+
+    function getSteelData(div) {
+        $.getJSON("https://marketsdata.dev/steel-price", function(data) {
+            displaySecurityCommodiyData(data, div);
+        });
+    }
+
+    function getWtiOilData(div) {
+        $.getJSON("https://marketsdata.dev/wti-oil-price", function(data) {
+            displaySecurityCommodiyData(data, div);
+        });
+    }
+
+    function getCoalData(div) {
+        $.getJSON("https://marketsdata.dev/coal-price", function(data) {
+            displaySecurityCommodiyData(data, div);
+        });
+    }
+
+    function getUreaData(div) {
+        $.getJSON("https://marketsdata.dev/urea-price", function(data) {
+            displaySecurityCommodiyData(data, div);
+        });
+    }
+
+    function callGetdata() {
+        getCommodityData("gold", "GCUSD");
+        getCommodityData("silver", "SIUSD");
+        getCommodityData("copper", "HGUSD");
+        //getCryptoData("bitcoin", "BTCUSD");
+        //getCryptoData("solana", "SOLUSD");
+        //getCryptoData("ethereum", "ETHUSD");
+        getMilkData("milk");
+        getSteelData("steel");
+        getSoybeansData("soybeans");
+        getWtiOilData("wti_oil");
+        getCoalData("coal");
+        getUreaData("urea");
+    }
+
+    callGetdata();
+
+    setInterval(function() {
+        callGetdata();
+    }, 60000);
+
+    var $marquee = $('#marquee'),
+        $content = $marquee.find('.content');
+
+    var startMarquee = function() {
+        var containerWidth = $marquee.width(),
+            contentWidth = $content.width(),
+            leftMargin = parseInt($content.css('margin-left')),
+            remainingDistance = contentWidth + leftMargin;
+
+        // Animate the content to the left
+        $content.animate({
+            marginLeft: '-=' + remainingDistance
+        }, remainingDistance * 20, 'linear', function() {
+            // Reset the margin once the animation completes
+            $(this).css('margin-left', containerWidth);
+            startMarquee();
+        });
+    };
+
+    // Stop the animation on mouseover
+    $marquee.mouseenter(function() {
+        $content.stop();
+    });
+
+    // Resume the animation on mouseleave
+    $marquee.mouseleave(function() {
+        if (tickerPaused) return;
+        startMarquee();
+    });
+
+    // Set initial position of the content to the right of the container
+    $content.css('margin-left', $marquee.width());
+
+    startMarquee();
+
+    // ========== Product Price Ticker ==========
+    // Pre-shortened Amazon product URLs via baud.rs
+    var tickerAsinShortUrls = {
+        'B0CK2FCG1K': 'https://baud.rs/yciW1t',
+        'B0FHPQXWV6': 'https://baud.rs/UWdpEx',
+        'B0046AMGW0': 'https://baud.rs/CKQf4B',
+        'B08CTM3279': 'https://baud.rs/qKG0NH',
+        'B09QKZ5292': 'https://baud.rs/TphczE',
+        'B0F4W9J5CC': 'https://baud.rs/66gIWj',
+        'B09LH5SBPS': 'https://baud.rs/jx5t9y',
+        'B0DZCNFFTQ': 'https://baud.rs/bXdJtA',
+        'B0FKBJMR91': 'https://baud.rs/Az3Cg3',
+    };
+    var PRODUCTS = [
+        { asin: 'B0CK2FCG1K', name: 'Pi 5', fullName: 'Raspberry Pi 5 (8GB)' },
+        { asin: 'B0FHPQXWV6', name: 'OPi 5 Max', fullName: 'Orange Pi 5 Max' },
+        { asin: 'B0046AMGW0', name: 'Arduino Mega', fullName: 'Arduino Mega 2560' },
+        { asin: 'B08CTM3279', name: 'Teensy 4.1', fullName: 'Teensy 4.1' },
+        { asin: 'B09QKZ5292', name: 'Arduino Due', fullName: 'Arduino Due' },
+        { asin: 'B0F4W9J5CC', name: 'Pico 2 WH', fullName: 'Pi Pico 2 WH' },
+        { asin: 'B09LH5SBPS', name: 'Pi Zero 2 W', fullName: 'Raspberry Pi Zero 2 W' },
+        { asin: 'B0DZCNFFTQ', name: 'OPi RV2', fullName: 'Orange Pi RV2' },
+        { asin: 'B0FKBJMR91', name: 'RP2350B-Plus-W', fullName: 'Waveshare RP2350B-Plus-W' }
+    ];
+    var AFFILIATE_TAG = 'tinycompute05-20';
+    var API_BASE = 'https://api.ballistics.7.62x51mm.sh/v1/amazon/product';
+    var productPrices = {};
+    var showingProducts = false;
+    var tickerInterval = null;
+
+    function getTrendArrow(trend) {
+        if (trend === 'up') return '<span style="color: #ff6b6b;">↑</span>';
+        if (trend === 'down') return '<span style="color: #51cf66;">↓</span>';
+        return '<span style="color: #868e96;">→</span>';
+    }
+
+    function fetchProductPrice(product) {
+        $.getJSON(API_BASE + '?asin=' + product.asin, function(data) {
+            if (data.success && data.price) {
+                // Strip $ and commas from price string before parsing
+                var priceStr = data.price.replace(/[$,]/g, '');
+                var newPrice = parseFloat(priceStr);
+                // Skip products with non-numeric prices (e.g., "Currently unavailable")
+                if (isNaN(newPrice)) return;
+                var oldPrice = productPrices[product.asin] ? productPrices[product.asin].price : null;
+                var trend = 'stable';
+                if (oldPrice !== null) {
+                    if (newPrice > oldPrice) trend = 'up';
+                    else if (newPrice < oldPrice) trend = 'down';
+                }
+                productPrices[product.asin] = {
+                    name: product.name,
+                    fullName: product.fullName,
+                    price: newPrice,
+                    trend: trend,
+                    url: tickerAsinShortUrls[product.asin] || ('https://www.amazon.com/dp/' + product.asin + '?tag=' + AFFILIATE_TAG)
+                };
+                updateProductTicker();
+            }
+        });
+    }
+
+    function updateProductTicker() {
+        var html = '';
+        PRODUCTS.forEach(function(product, index) {
+            var data = productPrices[product.asin];
+            if (data) {
+                if (index > 0) html += ' <span style="color: #666;">&middot;</span> ';
+                html += '<a href="' + data.url + '" target="_blank" rel="noopener" style="color: #fff; text-decoration: none;">';
+                html += '<span style="color: #4FC3A1;">' + data.name + '</span>: ';
+                html += '$' + data.price.toFixed(2) + ' ' + getTrendArrow(data.trend);
+                html += '</a>';
+            }
+        });
+        if (html) {
+            $('#product-prices-content').html(html);
+            $('#product-prices-content-clone').html(html);
+        }
+    }
+
+    function fetchAllProductPrices() {
+        PRODUCTS.forEach(function(product) {
+            fetchProductPrice(product);
+        });
+    }
+
+    // ========== Stocks Ticker ==========
+    var STOCKS = ['NVDA', 'AMD', 'INTC', 'AVGO', 'TSM', 'SWKS', 'AEHR', 'QCOM', 'RPI.L'];
+    var stockPrices = {};
+
+    function getStockTrendArrow(change) {
+        if (change > 0) return '<span style="color: #51cf66;">↑</span>';
+        if (change < 0) return '<span style="color: #ff6b6b;">↓</span>';
+        return '<span style="color: #868e96;">→</span>';
+    }
+
+    function fetchStockPrice(ticker) {
+        $.getJSON('https://marketsdata.dev/stocks?ticker=' + ticker, function(data) {
+            if (data && data[0]) {
+                var stock = data[0];
+                stockPrices[ticker] = {
+                    symbol: stock.symbol,
+                    price: stock.price,
+                    change: stock.change,
+                    changePercent: stock.changes_percentage
+                };
+                updateStockTicker();
+            }
+        });
+    }
+
+    function updateStockTicker() {
+        var html = '';
+        STOCKS.forEach(function(ticker, index) {
+            var data = stockPrices[ticker];
+            if (data) {
+                if (index > 0) html += ' <span style="color: #666;">&middot;</span> ';
+                var changeColor = data.change >= 0 ? '#51cf66' : '#ff6b6b';
+                var changeSign = data.change >= 0 ? '+' : '';
+                html += '<a href="https://finance.yahoo.com/quote/' + data.symbol + '" target="_blank" rel="noopener" style="color: #6b8afd; text-decoration: none;">' + data.symbol + '</a>: ';
+                var currSymbol = data.symbol.match(/\.L$/) ? '' : '$';
+                var currSuffix = data.symbol.match(/\.L$/) ? 'p' : '';
+                html += currSymbol + data.price.toFixed(2) + currSuffix + ' ';
+                html += '<span style="color: ' + changeColor + ';">' + changeSign + data.change.toFixed(2) + ' (' + changeSign + data.changePercent.toFixed(2) + '%)</span> ';
+                html += getStockTrendArrow(data.change);
+            }
+        });
+        if (html) {
+            $('#stock-prices-content').html(html);
+            $('#stock-prices-content-clone').html(html);
+        }
+    }
+
+    function fetchAllStockPrices() {
+        STOCKS.forEach(function(ticker) {
+            fetchStockPrice(ticker);
+        });
+    }
+
+    // Initialize stock ticker
+    fetchAllStockPrices();
+
+    // Refresh stock prices every 60 seconds
+    setInterval(fetchAllStockPrices, 60000);
+    // ========== End Stocks Ticker ==========
+
+    // ========== Ticker Rotation (4 tickers) ==========
+    var currentTickerIndex = 0; // 0 = products, 1 = stocks, 2 = archives, 3 = commodities
+
+    function rotateTicker() {
+        var $tickers = $('.ticker-row');
+        currentTickerIndex = (currentTickerIndex + 1) % 4;
+        var offset = currentTickerIndex * -32;
+        $tickers.css('transform', 'translateY(' + offset + 'px)');
+    }
+
+    // Initialize product ticker
+    fetchAllProductPrices();
+
+    // Refresh product prices every 5 minutes
+    setInterval(fetchAllProductPrices, 300000);
+
+    // Products marquee scrolling (seamless wrap-around)
+    var $marqueeProducts = $('#marquee-products'),
+        $productsWrapper = $marqueeProducts.find('.products-content-wrapper'),
+        $productsContent = $marqueeProducts.find('.products-content');
+    var productsMarqueeRunning = false;
+
+    // Stocks marquee scrolling
+    var $marqueeStocks = $('#marquee-stocks'),
+        $stocksWrapper = $marqueeStocks.find('.stocks-content-wrapper'),
+        $stocksContent = $marqueeStocks.find('.stocks-content');
+    var stocksMarqueeRunning = false;
+
+    // Archives marquee scrolling
+    var $marqueeArchives = $('#marquee-archives'),
+        $archivesWrapper = $marqueeArchives.find('.archives-content-wrapper'),
+        $archivesContent = $marqueeArchives.find('.archives-content');
+    var archivesMarqueeRunning = false;
+
+    var SCROLL_SPEED = 50; // pixels per second
+
+    var startProductsMarquee = function() {
+        if (!productsMarqueeRunning) return;
+        var contentWidth = $productsContent.outerWidth(),
+            currentLeft = parseInt($productsWrapper.css('margin-left')) || 0,
+            scrollDistance = contentWidth + currentLeft,
+            duration = (scrollDistance / SCROLL_SPEED) * 1000;
+
+        $productsWrapper.animate({
+            marginLeft: -contentWidth
+        }, duration, 'linear', function() {
+            $(this).css('margin-left', 0);
+            if (productsMarqueeRunning) startProductsMarquee();
+        });
+    };
+
+    var startStocksMarquee = function() {
+        if (!stocksMarqueeRunning) return;
+        var contentWidth = $stocksContent.outerWidth(),
+            currentLeft = parseInt($stocksWrapper.css('margin-left')) || 0,
+            scrollDistance = contentWidth + currentLeft,
+            duration = (scrollDistance / SCROLL_SPEED) * 1000;
+
+        $stocksWrapper.animate({
+            marginLeft: -contentWidth
+        }, duration, 'linear', function() {
+            $(this).css('margin-left', 0);
+            if (stocksMarqueeRunning) startStocksMarquee();
+        });
+    };
+
+    var startArchivesMarquee = function() {
+        if (!archivesMarqueeRunning) return;
+        var contentWidth = $archivesContent.outerWidth(),
+            currentLeft = parseInt($archivesWrapper.css('margin-left')) || 0,
+            scrollDistance = contentWidth + currentLeft,
+            duration = (scrollDistance / SCROLL_SPEED) * 1000;
+
+        $archivesWrapper.animate({
+            marginLeft: -contentWidth
+        }, duration, 'linear', function() {
+            $(this).css('margin-left', 0);
+            if (archivesMarqueeRunning) startArchivesMarquee();
+        });
+    };
+
+    // Start/stop marquees based on visibility
+    function updateMarquees() {
+        // Products marquee
+        if (currentTickerIndex === 0) {
+            if (!productsMarqueeRunning) {
+                productsMarqueeRunning = true;
+                $productsWrapper.css('margin-left', 0);
+                startProductsMarquee();
+            }
+        } else {
+            productsMarqueeRunning = false;
+            $productsWrapper.stop();
+            $productsWrapper.css('margin-left', 0);
+        }
+
+        // Stocks marquee
+        if (currentTickerIndex === 1) {
+            if (!stocksMarqueeRunning) {
+                stocksMarqueeRunning = true;
+                $stocksWrapper.css('margin-left', 0);
+                startStocksMarquee();
+            }
+        } else {
+            stocksMarqueeRunning = false;
+            $stocksWrapper.stop();
+            $stocksWrapper.css('margin-left', 0);
+        }
+
+        // Archives marquee
+        if (currentTickerIndex === 2) {
+            if (!archivesMarqueeRunning) {
+                archivesMarqueeRunning = true;
+                $archivesWrapper.css('margin-left', 0);
+                startArchivesMarquee();
+            }
+        } else {
+            archivesMarqueeRunning = false;
+            $archivesWrapper.stop();
+            $archivesWrapper.css('margin-left', 0);
+        }
+    }
+
+    // Pause on hover for products
+    $marqueeProducts.mouseenter(function() {
+        $productsWrapper.stop();
+    }).mouseleave(function() {
+        if (!tickerPaused && productsMarqueeRunning) startProductsMarquee();
+    });
+
+    // Pause on hover for stocks
+    $marqueeStocks.mouseenter(function() {
+        $stocksWrapper.stop();
+    }).mouseleave(function() {
+        if (!tickerPaused && stocksMarqueeRunning) startStocksMarquee();
+    });
+
+    // Pause on hover for archives
+    $marqueeArchives.mouseenter(function() {
+        $archivesWrapper.stop();
+    }).mouseleave(function() {
+        if (!tickerPaused && archivesMarqueeRunning) startArchivesMarquee();
+    });
+
+    // Start products marquee immediately (it's the first visible ticker)
+    productsMarqueeRunning = true;
+    startProductsMarquee();
+
+    // Rotate through tickers with variable timing
+    // 0=products, 1=stocks, 2=archives, 3=commodities
+    var tickerDurations = [15000, 15000, 15000, 30000];
+
+    function scheduleNextRotation() {
+        var duration = tickerDurations[currentTickerIndex];
+        tickerInterval = setTimeout(function() {
+            rotateTicker();
+            updateMarquees();
+            scheduleNextRotation();
+        }, duration);
+    }
+    scheduleNextRotation();
+
+    // Pause ticker rotation on hover
+    $('#ticker-container').mouseenter(function() {
+        clearTimeout(tickerInterval);
+        $productsWrapper.stop();
+        $stocksWrapper.stop();
+        $archivesWrapper.stop();
+    }).mouseleave(function() {
+        if (tickerPaused) return;
+        if (productsMarqueeRunning) startProductsMarquee();
+        if (stocksMarqueeRunning) startStocksMarquee();
+        if (archivesMarqueeRunning) startArchivesMarquee();
+        scheduleNextRotation();
+    });
+
+    // Ticker pause/play button
+    var tickerPaused = false;
+    $('#ticker-pause').on('click', function() {
+        tickerPaused = !tickerPaused;
+        if (tickerPaused) {
+            clearTimeout(tickerInterval);
+            $productsWrapper.stop();
+            $stocksWrapper.stop();
+            $archivesWrapper.stop();
+            $content.stop();
+            $(this).html('&#x25B6;').attr('aria-label', 'Play ticker').attr('aria-pressed', 'true');
+        } else {
+            if (productsMarqueeRunning) startProductsMarquee();
+            if (stocksMarqueeRunning) startStocksMarquee();
+            if (archivesMarqueeRunning) startArchivesMarquee();
+            startMarquee();
+            scheduleNextRotation();
+            $(this).html('&#x23F8;').attr('aria-label', 'Pause ticker').attr('aria-pressed', 'false');
+        }
+    });
+    // ========== End Ticker Rotation ==========
+
+    // ========== Search Modal ==========
+    var searchDebounceTimer;
+    var selectedResultIndex = -1;
+    var searchResults = [];
+
+    function openSearchModal() {
+        $('#search-modal-overlay').addClass('active');
+        $('#search-modal-input').val('').focus();
+        $('#search-modal-results').empty().removeClass('has-query');
+        selectedResultIndex = -1;
+        searchResults = [];
+    }
+
+    function closeSearchModal() {
+        $('#search-modal-overlay').removeClass('active');
+        $('#search-modal-input').val('');
+        $('#search-modal-results').empty().removeClass('has-query');
+        selectedResultIndex = -1;
+        searchResults = [];
+        $('#search-trigger').focus();
+    }
+
+    function performSearch(query) {
+        if (!query.trim()) {
+            $('#search-modal-results').empty().removeClass('has-query');
+            searchResults = [];
+            return;
+        }
+
+        $('#search-modal-results').addClass('has-query').html('<div class="search-loading">Searching...</div>');
+
+        $.ajax({
+            url: "https://marketsdata.dev/v1/search_tinycomputers_io?query=" + encodeURIComponent(query),
+            method: 'GET',
+            dataType: 'json'
+        })
+        .done(function(items) {
+            // Fix double .html in URLs from API
+            if (items && items.length) {
+                items.forEach(function(item) {
+                    if (item.url) {
+                        item.url = item.url.replace(/\.html\.html$/, '.html');
+                    }
+                });
+            }
+            searchResults = items || [];
+            selectedResultIndex = -1;
+
+            if (!items || !items.length) {
+                $('#search-modal-results').html('');
+                return;
+            }
+
+            var html = '';
+            $.each(items.slice(0, 10), function(i, item) {
+                var tagsHtml = '';
+                if (item.tags && item.tags.length) {
+                    var maxTags = Math.min(item.tags.length, 3);
+                    for (var j = 0; j < maxTags; j++) {
+                        tagsHtml += '<span class="search-result-tag">' + $('<div>').text(item.tags[j]).html() + '</span>';
+                    }
+                }
+
+                html += '<a href="' + item.url + '" class="search-result-item" data-index="' + i + '">' +
+                    '<div class="search-result-title">' + $('<div>').text(item.headline).html() + '</div>' +
+                    (item.description ? '<div class="search-result-description">' + $('<div>').text(item.description).html() + '</div>' : '') +
+                    (tagsHtml ? '<div class="search-result-tags">' + tagsHtml + '</div>' : '') +
+                '</a>';
+            });
+
+            $('#search-modal-results').html(html);
+        })
+        .fail(function() {
+            $('#search-modal-results').html('<div class="search-loading" style="color: #dc3545;">Error loading results. Please try again.</div>');
+        });
+    }
+
+    function updateSelectedResult() {
+        $('.search-result-item').removeClass('selected');
+        if (selectedResultIndex >= 0 && selectedResultIndex < searchResults.length) {
+            var $selected = $('.search-result-item[data-index="' + selectedResultIndex + '"]');
+            $selected.addClass('selected');
+            // Scroll into view if needed
+            var container = $('#search-modal-results')[0];
+            var item = $selected[0];
+            if (item) {
+                if (item.offsetTop < container.scrollTop) {
+                    container.scrollTop = item.offsetTop;
+                } else if (item.offsetTop + item.offsetHeight > container.scrollTop + container.offsetHeight) {
+                    container.scrollTop = item.offsetTop + item.offsetHeight - container.offsetHeight;
+                }
+            }
+        }
+    }
+
+    // Open modal on trigger click
+    $('#search-trigger').on('click', function(e) {
+        e.preventDefault();
+        openSearchModal();
+    });
+
+    // Close modal on close button or overlay click
+    $('#search-modal-close').on('click', closeSearchModal);
+    $('#search-modal-overlay').on('click', function(e) {
+        if (e.target === this) {
+            closeSearchModal();
+        }
+    });
+
+    // Keyboard shortcut to open (Cmd+K or Ctrl+K)
+    $(document).on('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            if ($('#search-modal-overlay').hasClass('active')) {
+                closeSearchModal();
+            } else {
+                openSearchModal();
+            }
+        }
+        // Close on Escape
+        if (e.key === 'Escape' && $('#search-modal-overlay').hasClass('active')) {
+            closeSearchModal();
+        }
+    });
+
+    // Focus trap for search modal
+    $(document).on('keydown', function(e) {
+        if (e.key !== 'Tab' || !$('#search-modal-overlay').hasClass('active')) return;
+        var modal = document.getElementById('search-modal');
+        var focusable = modal.querySelectorAll('input, button, a[href]');
+        if (focusable.length === 0) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    });
+
+    // Search input handling
+    $('#search-modal-input').on('input', function() {
+        var query = $(this).val();
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function() {
+            performSearch(query);
+        }, 250);
+    });
+
+    // Keyboard navigation in results
+    $('#search-modal-input').on('keydown', function(e) {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (searchResults.length > 0) {
+                selectedResultIndex = Math.min(selectedResultIndex + 1, Math.min(searchResults.length, 10) - 1);
+                updateSelectedResult();
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (searchResults.length > 0) {
+                selectedResultIndex = Math.max(selectedResultIndex - 1, 0);
+                updateSelectedResult();
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedResultIndex >= 0 && selectedResultIndex < searchResults.length) {
+                window.location.href = searchResults[selectedResultIndex].url;
+            } else if (searchResults.length > 0) {
+                window.location.href = searchResults[0].url;
+            }
+        }
+    });
+
+    // Hover to select
+    $(document).on('mouseenter', '.search-result-item', function() {
+        selectedResultIndex = parseInt($(this).data('index'));
+        updateSelectedResult();
+    });
+    // ========== End Search Modal ==========
+
+    // ========== Dark Mode Toggle ==========
+    function updateToggleIcon() {
+        var theme = document.documentElement.getAttribute('data-theme');
+        var icon = $('#dark-mode-toggle .toggle-icon');
+        if (theme === 'dark') {
+            icon.text('☀️');
+        } else if (theme === 'light') {
+            icon.text('🌙');
+        } else {
+            // Auto mode — check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                icon.text('☀️');
+            } else {
+                icon.text('🌙');
+            }
+        }
+    }
+
+    $('#dark-mode-toggle').on('click', function() {
+        var current = document.documentElement.getAttribute('data-theme');
+        // Determine the effective theme (accounting for system preference in auto mode)
+        var effectiveTheme = current;
+        if (!current && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            effectiveTheme = 'dark';
+        }
+        var newTheme;
+        if (effectiveTheme === 'dark') {
+            newTheme = 'light';
+        } else {
+            newTheme = 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateToggleIcon();
+
+        // Update Utterances theme if present
+        var utterancesFrame = document.querySelector('.utterances-frame');
+        if (utterancesFrame) {
+            var utterancesTheme = newTheme === 'dark' ? 'github-dark' : 'github-light';
+            utterancesFrame.contentWindow.postMessage(
+                { type: 'set-theme', theme: utterancesTheme },
+                'https://utteranc.es'
+            );
+        }
+    });
+
+    updateToggleIcon();
+    // ========== End Dark Mode Toggle ==========
+
+});
+
+  // ========== Weather Readout ==========
+  (function() {
+      var WEATHER_API_URL = 'https://marketsdata.dev/weather';
+      var WEATHER_CITIES = [
+          'Minneapolis', 'New York', 'San Francisco', 'Seattle', 'Austin',
+          'Toronto', 'Mexico City', 'Montevideo', 'São Paulo', 'Buenos Aires',
+          'London', 'Paris', 'Berlin', 'Helsinki', 'Reykjavik',
+          'Tokyo', 'Seoul', 'Singapore', 'Mumbai', 'Taipei',
+          'Dubai', 'Cape Town', 'Sydney'
+      ];
+      var weatherData = [];
+      var weatherIndex = 0;
+      var weatherCycleTimer = null;
+      var el = document.getElementById('weather-readout');
+      if (!el) return;
+
+      function displayWeatherCity() {
+          if (!weatherData.length) return;
+          el.style.opacity = '0';
+          setTimeout(function() {
+              var w = weatherData[weatherIndex];
+              var txt = w.emoji + ' ' + w.city + ' ' + w.temp_f + '\u00b0F';
+              if (w.aqi_label) txt += ' · AQI ' + w.aqi_label;
+              el.textContent = txt;
+              el.style.opacity = '1';
+          }, 200);
+      }
+
+      function cycleWeather() {
+          if (!weatherData.length) return;
+          weatherIndex = (weatherIndex + 1) % weatherData.length;
+          displayWeatherCity();
+      }
+
+      function fetchWeather() {
+          var results = [];
+          var done = 0;
+          WEATHER_CITIES.forEach(function(city) {
+              fetch(WEATHER_API_URL + '?city=' + encodeURIComponent(city))
+                  .then(function(r) { return r.json(); })
+                  .then(function(data) {
+                      var item = Array.isArray(data) ? data[0] : data;
+                      if (item && item.city) results.push(item);
+                  })
+                  .catch(function() {})
+                  .finally(function() {
+                      done++;
+                      if (done === WEATHER_CITIES.length && results.length) {
+                          weatherData = results;
+                          weatherIndex = 0;
+                          displayWeatherCity();
+                          if (weatherCycleTimer) clearInterval(weatherCycleTimer);
+                          weatherCycleTimer = setInterval(cycleWeather, 5000);
+                      }
+                  });
+          });
+      }
+
+      el.addEventListener('click', cycleWeather);
+      fetchWeather();
+      setInterval(fetchWeather, 600000);
+  })();
+  // ========== End Weather Readout ==========
+
+  // Archives Ticker - Populate from RSS feed
+  (function() {
+    function formatDate(date) {
+      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+    }
+
+    function fetchArchivePosts() {
+      $.ajax({
+        url: '/rss.xml',
+        dataType: 'xml',
+        success: function(xml) {
+          var posts = [];
+          var items = $(xml).find('item');
+          items.each(function() {
+            var $item = $(this);
+            var title = $item.find('title').text();
+            var link = $item.find('link').text();
+            var pubDate = $item.find('pubDate').text();
+            link = link.replace('https://tinycomputers.io', '');
+            posts.push({ title: title, link: link, date: new Date(pubDate) });
+          });
+
+          // Shuffle for variety
+          for (var i = posts.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = posts[i];
+            posts[i] = posts[j];
+            posts[j] = temp;
+          }
+
+          if (posts.length > 0) {
+            var html = '';
+            posts.forEach(function(post, index) {
+              if (index > 0) html += ' <span style="color: #666;">&middot;</span> ';
+              html += '<a href="' + post.link + '" style="color: #fff; text-decoration: none;">';
+              html += '<span style="color: #4FC3A1;">' + formatDate(post.date) + '</span> ';
+              html += post.title;
+              html += '</a>';
+            });
+            $('#archives-content').html(html);
+            $('#archives-content-clone').html(html);
+          }
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      fetchArchivePosts();
+    });
+  })();
+
+</script><!-- End of Menubar --><div class="container" id="content" role="main" style="font-size: var(--font-size-base);">
+    <div class="body-content">
+        <!--Body content-->
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><div class="sticky-div">
+    <header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Repurposing Enterprise GPUs: The Tesla P40 Home Lab Story</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    A.C. Jokela
+            </span></p>
+            <p class="dateline">
+            <a href="#" rel="bookmark">
+            <time class="published dt-published" datetime="2026-03-11T08:00:00-06:00" itemprop="datePublished" title="2026-03-11">2026-03-11</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="repurposing-enterprise-gpus-the-tesla-p40-home-lab-story.md" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header>
+</div>
+
+    <div class="post-layout">
+      <div class="post-main">
+        <div class="e-content entry-content" itemprop="articleBody text">
+          <div style="width: 100%; text-align: right; padding-bottom: 25px; font-size: 10pt;">
+            <!-- Ad: <a href="https://bestbuy.7tiv.net/c/4038774/1071815/10014" target="_blank">Best Buy Financing on Purchases over $299</a> -->
+            <!-- ADS GO HERE -->
+          </div>
+        <div class="audio-widget">
+<div class="audio-widget-header">
+<span class="audio-widget-icon">🎧</span>
+<span class="audio-widget-label">Listen to this article</span>
+</div>
+<audio controls preload="metadata"><source src="../repurposing-enterprise-gpus-the-tesla-p40-home-lab-story_tts.mp3" type="audio/mpeg"></source></audio><div class="audio-widget-footer">17 min · AI-generated narration</div>
+</div>
+
+<p>There is a window, maybe eighteen months wide, where enterprise hardware hits a pricing sweet spot. The first-generation buyers (the hyperscalers, the research labs, the Fortune 500 AI teams) have moved on to the next generation. The second-hand market floods. Prices crater. And if you know what you're looking for, you can build something genuinely capable for less than a month of cloud compute.</p>
+<p>I built a four-GPU inference server for about twenty-five hundred dollars. This is the story of how, why, and whether you should do the same.</p>
+<h3>The Buy</h3>
+<p>The acquisition strategy is straightforward: eBay, patience, and knowing what to look for.</p>
+<p>Tesla P40s started appearing in volume on the secondary market around 2023, when cloud providers and enterprise data centers began cycling them out in favor of A100s and H100s. A card that sold for over five thousand dollars new was suddenly available for three hundred, then two hundred and fifty, then, if you watched listings carefully and were willing to buy from decommissioned lot sellers, sometimes less. I picked up four cards over the course of about two months, averaging two hundred and fifty dollars each.</p>
+<p>The chassis was a Penguin Computing 2U rack-mount server, also from eBay. These show up when government labs and research institutions liquidate equipment. The Penguin Computing systems are well-built, with proper server-grade construction, redundant power supplies, and engineered airflow. Mine takes the Xeon E5-2697A v4 and two were purchased from eBay: eighteen Broadwell cores, more than enough CPU to keep four GPUs fed. The chassis cost around six hundred dollars.</p>
+<p>Memory was the lucky purchase. I bought 252GB of DDR4 ECC RAM before the memory price spike that hit in late 2024 when every company on Earth decided they needed AI infrastructure simultaneously. What I paid around two hundred and fifty dollars for would cost significantly more today. Total build: roughly twenty-five hundred dollars.</p>
+<h3>The Hardware</h3>
+<p>The Tesla P40 is a 2016-era data center GPU. NVIDIA designed it for the Pascal generation, targeting inference workloads in enterprise environments. The specifications, for something you can buy on eBay for two hundred and fifty dollars, are remarkable:</p>
+<ul>
+<li>
+<strong>24GB GDDR5X</strong> per card, more memory than an RTX 4090</li>
+<li>
+<strong>3,840 CUDA cores</strong>, Pascal architecture, compute capability 6.1</li>
+<li>
+<strong>12 TFLOPS FP32</strong>, respectable even by 2026 standards for inference</li>
+<li>
+<strong>250W TDP</strong>: this is a data center card and it draws power like one</li>
+</ul>
+<p>Multiply by four and you get 96GB of VRAM for a thousand dollars. That is an extraordinary amount of GPU memory for the price. For context, a single NVIDIA A100 80GB still sells for north of five thousand dollars on the secondary market. Four P40s give you more total VRAM for a fraction of the cost.</p>
+<h3>What You Give Up</h3>
+<p>There is no free lunch in computing, and the P40 makes you pay for its low price in specific, sometimes painful ways.</p>
+<p><strong>No Tensor Cores.</strong> The P40 predates NVIDIA's Tensor Core architecture, which arrived with Volta in 2017. Tensor Cores accelerate matrix multiplication (the fundamental operation in neural network inference) by factors of 4x to 16x depending on precision. The P40 does everything with its CUDA cores, the old-fashioned way. This matters less than you might think for inference at moderate batch sizes, but it means you will never match the throughput of a V100 or newer card, clock for clock.</p>
+<p><strong>No native BF16 or FP16.</strong> This is the real gotcha. BF16 (bfloat16) has become the default precision for large language models. It is what most model weights are distributed in. The P40 cannot compute in BF16 natively; it emulates it through FP32 operations, which is roughly 21% slower than native support. In practice, this means you are running quantized models (Q4, Q5, Q8) through llama.cpp or similar frameworks, which handle the precision conversion for you. It works. It is not optimal.</p>
+<p><strong>Passive cooling designed for server airflow.</strong> The P40 is a blower-style card designed for 1U and 2U server chassis with front-to-back forced airflow. In a proper server, this is fine. In anything else, you need to solve cooling yourself. I put mine in a Penguin Computing 2U rack-mount chassis, which has the right airflow characteristics, but this is not a card you drop into a desktop tower.</p>
+<p><strong>PCIe 3.0 x16.</strong> The P40 connects via PCIe 3.0, which provides about 16 GB/s of bandwidth per direction. When you are running a model that spans four GPUs, the inter-GPU communication goes over PCIe, not NVLink. This creates a bottleneck for models that require heavy cross-GPU communication. For inference, where the communication pattern is more predictable than training, this is manageable. For training, it would be a serious constraint.</p>
+<h3>The Minnesota Problem</h3>
+<p>My server lives in an unheated shop building in northern Minnesota. This has created an issue that no hardware review will prepare you for.</p>
+<p>When ambient temperatures drop below freezing (which, in Minnesota, means roughly October through April) the onboard temperature sensors report values that the baseboard management controller interprets as a malfunction. The BMC's response is to spin every fan to maximum RPM as a protective measure.</p>
+<p>The result is a machine that, on quiet winter nights, is audible from the house. The house is a hundred and fifty feet away.</p>
+<p>I have not solved this problem. I have learned to live with it. You can override BMC fan curves on some platforms, but the Penguin Computing firmware is locked down in ways that make this nontrivial, and frankly, a server that runs its fans at full speed because it thinks it is dying is doing exactly what it should be doing. The firmware's assumptions are just wrong for the environment.</p>
+<p>The server runs 24/7 regardless of the season, and the cold air actually keeps the GPUs well within thermal limits. The irony is that the machine has never been cooler or louder than when it is twenty below zero outside. If you are considering a similar setup in a garage, basement, or outbuilding, factor in noise. A 2U server with four 250W GPUs is not quiet under any circumstances, and server-grade fans at full RPM are genuinely loud.</p>
+<h3>Setting Up the Software Stack</h3>
+<p>The driver situation for the P40 in 2026 is straightforward, though it was not always. NVIDIA's <code>nvidia-driver-570-server</code> package works cleanly on Ubuntu, and the DKMS module rebuilds automatically on kernel updates, most of the time. I have had exactly two occasions where a kernel update broke the NVIDIA module and required manual intervention. This is fewer than I expected.</p>
+<p>For inference, I run <a href="https://ollama.com">Ollama</a>, which wraps llama.cpp and provides a simple API for model management and inference. Ollama handles multi-GPU sharding automatically: when you load a model, it distributes layers across GPUs based on available memory and model size. A 65GB model like gpt-oss:120b fits across three of the four P40s, leaving one free. Smaller models may only need one or two cards. The allocation is generally sensible, though you have less control over placement than you would with raw llama.cpp.</p>
+<p>The alternative stack (vLLM, TGI, or raw llama.cpp) offers more control over GPU assignment but requires more configuration. With llama.cpp directly, you can pin specific GPU layers to specific devices, which lets you optimize for the P40's memory topology. vLLM provides better batching and continuous batching for serving multiple concurrent requests. For a home lab where the primary use case is running various models for experimentation and development rather than serving production traffic, Ollama's simplicity wins.</p>
+<p>One thing worth noting: the P40 is well-supported by the GGUF ecosystem that llama.cpp (and therefore Ollama) uses. GGUF quantized models (Q4_K_M, Q5_K_M, Q8_0) run without issues on Pascal hardware. The quantization handles the BF16 problem for you: model weights are stored in 4-bit or 8-bit integer formats and dequantized to FP32 at runtime, which the P40 handles natively. You are not fighting the hardware; you are working with it.</p>
+<h3>The Benchmarks</h3>
+<p>Theory is cheap. Benchmarks are what matter. I ran the same inference workload across three configurations: my four P40 home lab, a single AWS Tesla T4 instance, and a quad T4 instance on AWS. The T4 is the closest cloud comparison; it is the workhorse inference GPU in AWS's fleet, one generation newer than the P40 (Turing architecture, 2018), with 16GB of GDDR6 and actual Tensor Cores.</p>
+<p>All benchmarks used Ollama with the same prompt, measuring tokens per second during the evaluation phase (excluding model load time).</p>
+<h4>Dense Models</h4>
+<table>
+<thead><tr>
+<th>Model</th>
+<th>Parameters</th>
+<th>4x P40 (Home Lab)</th>
+<th>1x T4 (AWS \$0.53/hr)</th>
+<th>4x T4 (AWS \$3.91/hr)</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Llama 3.2</td>
+<td>3B</td>
+<td>94.3 tok/s</td>
+<td>81.5 tok/s</td>
+<td>101.5 tok/s</td>
+</tr>
+<tr>
+<td>Qwen 2.5</td>
+<td>7B</td>
+<td>52.7 tok/s</td>
+<td>36.9 tok/s</td>
+<td>40.3 tok/s</td>
+</tr>
+<tr>
+<td>Llama 3.1</td>
+<td>8B</td>
+<td>47.8 tok/s</td>
+<td>35.7 tok/s</td>
+<td>29.2 tok/s</td>
+</tr>
+</tbody>
+</table>
+<p>The P40 wins on the 7B and 8B models by substantial margins, 31% and 64% respectively over the quad T4 configuration. The only model where the T4 edges ahead is the 3B, which is small enough to fit entirely on a single GPU. Here, the T4's higher clock speeds and faster GDDR6 memory give it an advantage because there is no multi-GPU overhead to penalize it.</p>
+<p>The 8B result is particularly interesting. The quad T4 actually performs <em>worse</em> than a single T4 on this model (29.2 vs 35.7 tok/s). Ollama shards the model across all four GPUs even though it fits on one, and the PCIe communication overhead between four T4s costs more than it gains. The P40, with its larger 24GB per-card memory, likely fits more of the model per GPU, reducing cross-GPU transfers.</p>
+<h4>The MoE Advantage</h4>
+<p>The most compelling benchmark comes from OpenAI's gpt-oss, a 120-billion parameter mixture-of-experts model with only 5.1 billion active parameters per token. The MoE architecture means the model's total weight is large (it needs the memory), but the computation per token is modest (only a fraction of the parameters fire for any given input).</p>
+<table>
+<thead><tr>
+<th>Model</th>
+<th>Architecture</th>
+<th>4x P40</th>
+<th>4x T4 (AWS \$3.91/hr)</th>
+</tr></thead>
+<tbody><tr>
+<td>gpt-oss</td>
+<td>120B MoE (5.1B active)</td>
+<td><strong>28.1 tok/s</strong></td>
+<td>20.6 tok/s</td>
+</tr></tbody>
+</table>
+<p>The P40 runs OpenAI's 120B model at 28.1 tokens per second, 36% faster than the cloud instance, and fast enough for comfortable interactive use. This is a state-of-the-art model running on decade-old GPUs at a speed that would have been impressive on much newer hardware a year ago.</p>
+<p>The reason is memory. The gpt-oss model uses MXFP4 quantization on its MoE weights, bringing the total model size to about 65GB. Four P40s offer 96GB of VRAM, enough to hold the entire model in GPU memory. Four T4s offer only 64GB, which means some of the model likely spills to system RAM, adding latency on every token.</p>
+<p>This is the P40's superpower: 24GB per card was overkill in 2016, and it is exactly right in 2026. Models have grown to fill the memory, and the P40 has more of it per dollar than almost anything else on the market.</p>
+<h4>Where It Falls Apart</h4>
+<p>Dense 70B models are a different story. Llama 3.1 70B at Q4_0 quantization (39GB) fits across 96GB of P40 VRAM, but the inference speed is essentially unusable: 0.033 tokens per second. One token every thirty seconds. Answering "What is 2+2?" took six and a half minutes. The combination of no Tensor Cores, PCIe 3.0 interconnect, and the sheer volume of cross-GPU data transfers for a dense 70B model pushes the per-token latency beyond any practical threshold.</p>
+<p>The quad T4 on AWS managed 2.0 tokens per second on the same model, sixty times faster. Slow, but functional. The T4's Tensor Cores make the difference here; at this scale, the P40's raw CUDA cores simply cannot keep up with the matrix math.</p>
+<p>The lesson: MoE models and quantized models up to about 8B parameters are the P40's sweet spot. Dense models above 13B start hitting diminishing returns. Dense 70B is a wall.</p>
+<h3>The Cost Argument</h3>
+<p>Here is the math that justifies the project.</p>
+<p>A <code>g4dn.12xlarge</code> on AWS (four Tesla T4s, 48 vCPUs, 192GB RAM) costs \$3.91 per hour. My home lab outperforms it on every model except the smallest. If I run inference for just four hours a day, the cloud cost would be:</p>
+<ul>
+<li>
+<strong>Daily</strong>: \$15.64</li>
+<li>
+<strong>Monthly</strong>: \$469</li>
+<li>
+<strong>Yearly</strong>: \$5,694</li>
+</ul>
+<p>My server cost \$2,500 to build. It pays for itself in roughly five months of equivalent cloud usage. After that, the only ongoing cost is electricity. At Minnesota residential rates (roughly \$0.12/kWh) and an average draw of 800W under load, that is about \$70 per month. Less than a single day of the equivalent cloud instance.</p>
+<p>Even if you factor in the P40's lower performance on some workloads and assume you only get 70% of the cloud equivalent's utility, the break-even point is still well under a year. For a home lab that runs 24/7 for development, experimentation, and <a href="clean-room-z80-emulator.html">text-to-speech generation</a>, the economics are overwhelming.</p>
+<h3>What I Actually Use It For</h3>
+<p>The server runs several workloads:</p>
+<p><strong>Local LLM inference.</strong> This is the primary use case. Having a local inference server with 96GB of VRAM means I can run frontier-class open-weight models without sending data to a cloud API. For development work, where I might make hundreds of inference calls while iterating on a project, the zero marginal cost changes how I work. I experiment more freely when each query costs nothing.</p>
+<p><strong>Text-to-speech.</strong> I run <a href="clean-room-z80-emulator.html">Qwen TTS</a> on the P40s to generate audio narration for blog posts. The model fits comfortably in the P40's memory, and the generation speed is acceptable for batch processing. The narration you hear on posts across this site was generated on these GPUs.</p>
+<p><strong>Development and testing.</strong> When I am building projects like <a href="sampo-designing-a-16-bit-risc-cpu-from-scratch-part-1-theory-and-architecture.html">Sampo</a> or <a href="introducing-lattice-a-crystallization-based-programming-language.html">Lattice</a>, having local GPU compute available for testing AI-assisted workflows means I do not need to worry about API rate limits or costs during intensive development sessions.</p>
+<p>The server sits on my local network at a static IP, accessible from any machine in the house. It is always on, always available, and always free to use. That availability changes your relationship with AI inference in ways that are hard to appreciate until you have lived with it. There is a psychological difference between "this costs two cents per query" and "this costs nothing per query." The first makes you think about whether the query is worth it. The second lets you experiment without friction, and that friction reduction, compounded across hundreds of daily interactions, fundamentally changes how you work.</p>
+<p>This is, incidentally, a small-scale example of the <a href="jevons-paradox.html">Jevons Paradox</a> I have been writing about in this blog's economics series. Making inference cheaper did not cause me to run the same number of queries and pocket the savings. It caused me to run dramatically more queries, on more models, for more projects, consuming more total compute than I ever would have purchased from a cloud provider. The efficiency created demand.</p>
+<h3>Should You Build One?</h3>
+<p>The honest answer is: it depends on what you value.</p>
+<p><strong>Build one if:</strong>
+- You run local inference regularly and the cloud costs are adding up
+- You want 96GB of VRAM for under a thousand dollars in GPU costs
+- You have the physical space, electrical capacity, and noise tolerance for a rack-mount server
+- You enjoy the process of building and configuring systems; this is not a plug-and-play experience</p>
+<p><strong>Do not build one if:</strong>
+- You need the latest model performance (Tensor Cores, FP8, NVLink)
+- You are training models, not running inference
+- You need reliability guarantees; this is a home lab, not a production environment
+- You are not comfortable with Linux system administration, driver debugging, and occasional hardware troubleshooting</p>
+<p>The P40 window will not last forever. As newer GPUs age out of data centers (the V100, the A100) the P40 will eventually lose its price-to-performance advantage. The V100, with its first-generation Tensor Cores and 32GB of HBM2, is already starting to appear at attractive secondary market prices. Within a year, it may be the new sweet spot. But right now, in early 2026, four P40s on eBay represent one of the best deals in GPU computing. Ninety-six gigabytes of VRAM, proven CUDA compatibility, and a decade of driver maturity, for the price of a weekend trip.</p>
+<p>The server in my shop building will keep running. The fans will keep screaming through the Minnesota winter. And I will keep running models on hardware that a hyperscaler discarded three years ago, at speeds that would have been remarkable on any hardware five years ago. That is the beauty of the secondary market: someone else paid for the R&amp;D, someone else paid for the depreciation, and you get the compute.</p>
+        </div>
+      </div>
+      <aside class="post-sidebar"><div class="post-sidebar-inner">
+          <nav class="post-toc" id="post-toc" aria-label="Table of Contents"><h4>On This Page</h4>
+            <ul id="toc-list"></ul></nav><div class="post-sidebar-tags">
+            <h4>Tags</h4>
+            <ul>
+<li><a href="../categories/ai.html" rel="tag">ai</a></li>
+                <li><a href="../categories/benchmarks.html" rel="tag">benchmarks</a></li>
+                <li><a href="../categories/cuda.html" rel="tag">cuda</a></li>
+                <li><a href="../categories/deep-learning.html" rel="tag">deep learning</a></li>
+                <li><a href="../categories/ebay.html" rel="tag">ebay</a></li>
+                <li><a href="../categories/enterprise-hardware.html" rel="tag">enterprise hardware</a></li>
+                <li><a href="../categories/gpu.html" rel="tag">gpu</a></li>
+                <li><a href="../categories/home-lab.html" rel="tag">home lab</a></li>
+                <li><a href="../categories/inference.html" rel="tag">inference</a></li>
+                <li><a href="../categories/nvidia.html" rel="tag">nvidia</a></li>
+                <li><a href="../categories/ollama.html" rel="tag">ollama</a></li>
+                <li><a href="../categories/tesla-p40.html" rel="tag">tesla p40</a></li>
+            </ul>
+</div>
+        </div>
+      </aside>
+</div>
+
+    <!-- Related Posts Section -->
+    <div id="related-posts-section">
+        <h4>
+            <span style="background: var(--color-accent); color: white; padding: 4px 10px; border-radius: 4px; margin-right: 10px;">Related</span>
+            You Might Also Like
+        </h4>
+        <div id="related-posts-grid">
+        </div>
+    </div>
+    <script>
+    (function() {
+        var currentTags = [
+            "ai",
+            "benchmarks",
+            "cuda",
+            "deep learning",
+            "ebay",
+            "enterprise hardware",
+            "gpu",
+            "home lab",
+            "inference",
+            "nvidia",
+            "ollama",
+            "tesla p40",
+        ].map(function(t) { return t.toLowerCase(); });
+        var currentUrl = "/posts/repurposing-enterprise-gpus-the-tesla-p40-home-lab-story.html";
+
+        if (currentTags.length === 0) return;
+
+        fetch('/posts.json')
+            .then(function(response) { return response.json(); })
+            .then(function(posts) {
+                var scored = [];
+                posts.forEach(function(p) {
+                    if (p.url === currentUrl || p.url === currentUrl.replace(/\/$/, '')) return;
+                    var postTags = (p.tags || []).map(function(t) { return t.toLowerCase(); });
+                    var matchCount = currentTags.filter(function(t) { return postTags.indexOf(t) !== -1; }).length;
+                    if (matchCount > 0) {
+                        scored.push({ post: p, score: matchCount });
+                    }
+                });
+
+                scored.sort(function(a, b) {
+                    if (b.score !== a.score) return b.score - a.score;
+                    return b.post.date.localeCompare(a.post.date);
+                });
+
+                var related = scored.slice(0, 3);
+                if (related.length === 0) return;
+
+                var grid = document.getElementById('related-posts-grid');
+                related.forEach(function(item) {
+                    var p = item.post;
+                    var card = document.createElement('a');
+                    card.href = p.url;
+
+                    var titleDiv = document.createElement('div');
+                    titleDiv.style.cssText = 'font-size: 15px; font-weight: 600; color: var(--color-text-primary); line-height: 1.4; margin-bottom: 8px;';
+                    titleDiv.textContent = p.title;
+                    card.appendChild(titleDiv);
+
+                    var metaDiv = document.createElement('div');
+                    metaDiv.style.cssText = 'font-size: 12px; color: var(--color-text-muted);';
+
+                    var dateSpan = document.createElement('span');
+                    dateSpan.textContent = p.date.split(' ')[0];
+                    metaDiv.appendChild(dateSpan);
+
+                    if (p.tags && p.tags.length > 0) {
+                        var tagsSpan = document.createElement('span');
+                        tagsSpan.style.cssText = 'margin-left: 8px; color: var(--color-accent);';
+                        tagsSpan.textContent = p.tags.slice(0, 2).join(', ');
+                        metaDiv.appendChild(tagsSpan);
+                    }
+
+                    card.appendChild(metaDiv);
+                    grid.appendChild(card);
+                });
+
+                document.getElementById('related-posts-section').style.display = 'block';
+            })
+            .catch(function() {});
+    })();
+    </script><!-- Share Buttons --><div class="share-buttons-section">
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <span style="font-size: 13px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Share:</span>
+            <a id="share-twitter" href="#" target="_blank" rel="noopener" class="share-btn share-btn-twitter">
+                <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                Twitter
+            </a>
+            <a id="share-reddit" href="#" target="_blank" rel="noopener" class="share-btn share-btn-reddit">
+                <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"></path></svg>
+                Reddit
+            </a>
+            <a id="share-hn" href="#" target="_blank" rel="noopener" class="share-btn share-btn-hn">
+                <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M0 0v24h24V0H0zm12.8 13.4V19h-1.6v-5.6L7.1 5.8h1.9l3 5.2 3-5.2h1.9l-4.1 7.6z"></path></svg>
+                Hacker News
+            </a>
+            <a id="share-linkedin" href="#" target="_blank" rel="noopener" class="share-btn share-btn-linkedin">
+                <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+                LinkedIn
+            </a>
+            <button id="share-copy" class="share-btn share-btn-copy">
+                <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span id="copy-text">Copy Link</span>
+            </button>
+        </div>
+    </div>
+    <script>
+    (function() {
+        var title = encodeURIComponent("Repurposing Enterprise GPUs: The Tesla P40 Home Lab Story");
+        var url = encodeURIComponent(window.location.href);
+
+        document.getElementById('share-twitter').href = 'https://twitter.com/intent/tweet?text=' + title + '&url=' + url;
+        document.getElementById('share-reddit').href = 'https://reddit.com/submit?url=' + url + '&title=' + title;
+        document.getElementById('share-hn').href = 'https://news.ycombinator.com/submitlink?u=' + url + '&t=' + title;
+        document.getElementById('share-linkedin').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
+
+        document.getElementById('share-copy').addEventListener('click', function() {
+            navigator.clipboard.writeText(decodeURIComponent(url)).then(function() {
+                var copyText = document.getElementById('copy-text');
+                copyText.textContent = 'Copied!';
+                var announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = 'Link copied to clipboard';
+                document.body.appendChild(announcement);
+                setTimeout(function() {
+                    copyText.textContent = 'Copy Link';
+                    announcement.remove();
+                }, 2000);
+            });
+        });
+    })();
+    </script><!-- Comments section with reserved min-height to prevent CLS --><div id="utterances-container" style="min-height: 270px; margin-top: 30px;">
+    </div>
+    <script>
+    (function() {
+        var theme = 'github-light';
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            theme = 'github-dark';
+        } else if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'github-dark';
+        }
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'ajokela/tinycomputers.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.getElementById('utterances-container').appendChild(script);
+    })();
+    </script><aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../categories/ai.html" rel="tag">ai</a></li>
+            <li><a class="tag p-category" href="../categories/benchmarks.html" rel="tag">benchmarks</a></li>
+            <li><a class="tag p-category" href="../categories/cuda.html" rel="tag">cuda</a></li>
+            <li><a class="tag p-category" href="../categories/deep-learning.html" rel="tag">deep learning</a></li>
+            <li><a class="tag p-category" href="../categories/ebay.html" rel="tag">ebay</a></li>
+            <li><a class="tag p-category" href="../categories/enterprise-hardware.html" rel="tag">enterprise hardware</a></li>
+            <li><a class="tag p-category" href="../categories/gpu.html" rel="tag">gpu</a></li>
+            <li><a class="tag p-category" href="../categories/home-lab.html" rel="tag">home lab</a></li>
+            <li><a class="tag p-category" href="../categories/inference.html" rel="tag">inference</a></li>
+            <li><a class="tag p-category" href="../categories/nvidia.html" rel="tag">nvidia</a></li>
+            <li><a class="tag p-category" href="../categories/ollama.html" rel="tag">ollama</a></li>
+            <li><a class="tag p-category" href="../categories/tesla-p40.html" rel="tag">tesla p40</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="jokelaos-bare-metal-x86-kernel.html" rel="prev" title="JokelaOS: Writing a Bare-Metal x86 Kernel from Scratch">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="the-real-cost-of-running-qwen-tts-locally-three-machines-compared.html" rel="next" title="The Real Cost of Running Qwen TTS Locally: Three Machines Compared">Next post</a>
+            </li>
+        </ul></nav></aside><!-- TOC Generation & Scroll Spy --><script>
+    (function() {
+        var content = document.querySelector('.post-main .e-content');
+        var tocList = document.getElementById('toc-list');
+        var tocNav = document.getElementById('post-toc');
+        if (!content || !tocList || !tocNav) return;
+
+        var headings = content.querySelectorAll('h2, h3, h4');
+        if (headings.length < 2) {
+            tocNav.style.display = 'none';
+            return;
+        }
+
+        var tocItems = [];
+        for (var i = 0; i < headings.length; i++) {
+            var h = headings[i];
+            if (!h.id) {
+                h.id = 'heading-' + i;
+            }
+            var level = parseInt(h.tagName.charAt(1));
+            var li = document.createElement('li');
+            li.className = 'toc-level-' + level;
+            var a = document.createElement('a');
+            a.href = '#' + h.id;
+            a.textContent = h.textContent;
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    var header = document.querySelector('.sticky-header');
+                    var offset = header ? header.offsetHeight + 16 : 100;
+                    var top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                    history.replaceState(null, '', this.getAttribute('href'));
+                    setTimeout(function() {
+                        target.setAttribute('tabindex', '-1');
+                        target.focus();
+                    }, 350);
+                }
+            });
+            li.appendChild(a);
+            tocList.appendChild(li);
+            tocItems.push({ el: h, link: a });
+        }
+
+        // Scroll spy
+        var ticking = false;
+        var header = document.querySelector('.sticky-header');
+        function updateActiveHeading() {
+            var offset = header ? header.offsetHeight + 20 : 120;
+            var active = null;
+            for (var i = 0; i < tocItems.length; i++) {
+                if (tocItems[i].el.getBoundingClientRect().top <= offset) {
+                    active = tocItems[i];
+                }
+            }
+            for (var j = 0; j < tocItems.length; j++) {
+                tocItems[j].link.classList.remove('active');
+            }
+            if (active) {
+                active.link.classList.add('active');
+                var tocUl = document.getElementById('toc-list');
+                if (tocUl) {
+                    var linkTop = active.link.offsetTop - tocUl.offsetTop;
+                    var target = linkTop - tocUl.clientHeight / 2;
+                    tocUl.scrollTop = target;
+                }
+            }
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(updateActiveHeading);
+                ticking = true;
+            }
+        });
+        updateActiveHeading();
+    })();
+    </script></article><!--End of body content-->
+</div>
+    <!-- div style="padding-top: 75px;"></div -->
+    <div>
+      
+    <footer id="footer"><div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="footer-heading">Navigate</h4>
+                <ul class="footer-links">
+<li><a href="../archive.html">Archive</a></li>
+                    <li><a href="../pages/best-of.html">Best Of</a></li>
+                    <li><a href="../categories/index.html">Tags</a></li>
+                    <li><a href="../pages/projects-inflight.html">Projects</a></li>
+                </ul>
+</div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Topics</h4>
+                <ul class="footer-links">
+<li><a href="../categories/cat_retrocomputing.html">Retro Computing</a></li>
+                    <li><a href="../categories/cat_machine-learning.html">AI &amp; Inference</a></li>
+                    <li><a href="../categories/cat_hardware.html">Hardware</a></li>
+                    <li><a href="../categories/cat_philosophy.html">Philosophy</a></li>
+                </ul>
+</div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Connect</h4>
+                <ul class="footer-links">
+<li><a href="../rss.xml">RSS Feed</a></li>
+                    <li><a href="https://baud.rs/alexjokela-linkedin" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="mailto:email@tinycomputers.io">Email</a></li>
+                    <li><a href="../pages/about-me.html">About</a></li>
+                </ul>
+</div>
+            <div class="footer-col footer-about">
+                <div class="footer-brand">
+                    <img src="../images/raspberry-bot.png" alt="" width="28" height="25"><span>Tiny Computers</span>
+                </div>
+                <p class="footer-about-text">Embedded systems, retro computing, GPU inference, and hardware projects. Written by Alex Jokela in Minnesota.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>
+Contents © 2026         A.C. Jokela - 
+<!-- div style="width: 100%" -->
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"> Creative Commons Attribution-ShareAlike</a> | 
+<!-- /div -->
+ <a href="../pages/tos.html">Terms of Service</a> | <a href="../pages/copyright.html">Copyright</a> | <a href="../pages/affiliates-and-supporters.html">Affiliates and Supporters</a> | <a href="../pages/privacy-policy.html">Privacy Policy</a>
+</p>
+            
+        </div>
+    </footer>
+</div>
+</div>
+
+
+
+            <script src="../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><!-- Amazon Affiliate Rotating Ad --><div id="amazon-affiliate-widget" class="hidden">
+    <div class="widget-header">
+        <span>Recommended Reading</span>
+        <button class="widget-close" onclick="closeAffiliateWidget()" aria-label="Close">×</button>
+    </div>
+    <a href="#" class="widget-content" id="affiliate-link" target="_blank" rel="noopener">
+        <img class="widget-image" id="affiliate-image" src="#" alt=""><div class="widget-info">
+            <div class="widget-title" id="affiliate-title"></div>
+            <div class="widget-byline" id="affiliate-byline"></div>
+            <div class="widget-price" id="affiliate-price"></div>
+        </div>
+    </a>
+</div>
+
+<script>
+(function() {
+    const AFFILIATE_TAG = 'tinycompute05-20';
+    const API_BASE = 'https://api.ballistics.7.62x51mm.sh/v1/amazon/product';
+    const ROTATION_INTERVAL = 12000; // 12 seconds
+
+    // Pre-shortened Amazon book URLs via baud.rs
+    const bookShortUrls = {
+        '1098109430': 'https://baud.rs/lwSFGm',
+        '1803243198': 'https://baud.rs/Ubxg5Z',
+        '1492024333': 'https://baud.rs/CcQAiS',
+        '1492055433': 'https://baud.rs/w7IXwd',
+        '1492097675': 'https://baud.rs/paAdKI',
+        '1098148398': 'https://baud.rs/vtABFf',
+        '1492073059': 'https://baud.rs/Or4dRX',
+        '1718501854': 'https://baud.rs/QUw8pK',
+        'B0BHLDMFDQ': 'https://baud.rs/nRuXaC',
+        '1718503105': 'https://baud.rs/gSnSwR',
+        '1492052043': 'https://baud.rs/CxrOse',
+        '1098151542': 'https://baud.rs/oYdktD',
+        '0995707227': 'https://baud.rs/Ch4htI',
+        'B0BKMS6752': 'https://baud.rs/n39HUo',
+        '171850294X': 'https://baud.rs/RGjpAj',
+    };
+
+    const products = [
+        { asin: '1098109430', title: 'Command-Line Rust', byline: 'A Project-Based Primer for Writing Rust CLIs', image: 'https://images-na.ssl-images-amazon.com/images/P/1098109430.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1803243198', title: 'Python for Finance Cookbook', byline: 'Over 80 powerful recipes for effective financial data analysis', image: 'https://images-na.ssl-images-amazon.com/images/P/1803243198.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1492024333', title: 'Python for Finance', byline: 'Mastering Data-Driven Finance', image: 'https://images-na.ssl-images-amazon.com/images/P/1492024333.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1492055433', title: 'Artificial Intelligence in Finance', byline: 'A Python-Based Guide', image: 'https://images-na.ssl-images-amazon.com/images/P/1492055433.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1492097675', title: 'Probabilistic Machine Learning for Finance', byline: 'A Primer to Generative AI with Python', image: 'https://images-na.ssl-images-amazon.com/images/P/1492097675.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1098148398', title: 'Deep Learning for Finance', byline: 'Creating Machine & Deep Learning Models for Trading', image: 'https://images-na.ssl-images-amazon.com/images/P/1098148398.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1492073059', title: 'Machine Learning for Finance', byline: 'From Trading Strategies to Robo-Advisors', image: 'https://images-na.ssl-images-amazon.com/images/P/1492073059.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1718501854', title: 'Rust for Rustaceans', byline: 'Idiomatic Programming for Experienced Developers', image: 'https://images-na.ssl-images-amazon.com/images/P/1718501854.01._SCLZZZZZZZ_.jpg' },
+        { asin: 'B0BHLDMFDQ', title: 'Zero To Production In Rust', byline: 'An introduction to backend development', image: 'https://images-na.ssl-images-amazon.com/images/P/B0BHLDMFDQ.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1718503105', title: 'The Rust Programming Language', byline: '2nd Edition', image: 'https://images-na.ssl-images-amazon.com/images/P/1718503105.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1492052043', title: 'TinyML', byline: 'Machine Learning with TensorFlow Lite on Arduino', image: 'https://images-na.ssl-images-amazon.com/images/P/1492052043.01._SCLZZZZZZZ_.jpg' },
+        { asin: '1098151542', title: 'Making Embedded Systems', byline: 'Design Patterns for Great Software', image: 'https://images-na.ssl-images-amazon.com/images/P/1098151542.01._SCLZZZZZZZ_.jpg' },
+        { asin: '0995707227', title: 'Design a Z80 Computer', byline: 'A Practical Guide to Designing a Working Z80 Computer System', image: 'https://images-na.ssl-images-amazon.com/images/P/0995707227.01._SCLZZZZZZZ_.jpg' },
+        { asin: 'B0BKMS6752', title: 'Learn Multiplatform Assembly Programming', byline: 'with ChibiAkumas!', image: 'https://images-na.ssl-images-amazon.com/images/P/B0BKMS6752.01._SCLZZZZZZZ_.jpg' },
+        { asin: '171850294X', title: 'Getting Started with FPGAs', byline: 'Digital Circuit Design, Verilog, and VHDL for Beginners', image: 'https://images-na.ssl-images-amazon.com/images/P/171850294X.01._SCLZZZZZZZ_.jpg' }
+    ];
+
+    let currentIndex = 0;
+    let productCache = {};
+    let rotationTimer = null;
+
+    const widget = document.getElementById('amazon-affiliate-widget');
+    const linkEl = document.getElementById('affiliate-link');
+    const imageEl = document.getElementById('affiliate-image');
+    const titleEl = document.getElementById('affiliate-title');
+    const bylineEl = document.getElementById('affiliate-byline');
+    const priceEl = document.getElementById('affiliate-price');
+
+    async function fetchProductData(asin) {
+        if (productCache[asin]) {
+            return productCache[asin];
+        }
+
+        try {
+            const response = await fetch(`${API_BASE}?asin=${asin}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    productCache[asin] = data;
+                    return data;
+                }
+            }
+        } catch (e) {
+            console.log('Failed to fetch product data:', e);
+        }
+        return null;
+    }
+
+    function displayProduct(product, apiData) {
+        const affiliateUrl = bookShortUrls[product.asin] || `https://www.amazon.com/dp/${product.asin}?tag=${AFFILIATE_TAG}`;
+        linkEl.href = affiliateUrl;
+        titleEl.textContent = product.title;
+        bylineEl.textContent = product.byline;
+
+        // Use hardcoded image, fallback to API if available
+        imageEl.src = product.image || (apiData && apiData.images && apiData.images[0]) || '';
+        imageEl.alt = '';
+
+        if (apiData && apiData.price) {
+            // Price already includes $ from API
+            priceEl.textContent = apiData.price;
+        } else {
+            priceEl.textContent = 'View on Amazon';
+        }
+
+        widget.classList.remove('hidden');
+    }
+
+    async function showNextProduct() {
+        const product = products[currentIndex];
+        const apiData = await fetchProductData(product.asin);
+        displayProduct(product, apiData);
+        currentIndex = (currentIndex + 1) % products.length;
+    }
+
+    function startRotation() {
+        showNextProduct();
+        rotationTimer = setInterval(showNextProduct, ROTATION_INTERVAL);
+    }
+
+    window.closeAffiliateWidget = function() {
+        widget.classList.add('hidden');
+        if (rotationTimer) {
+            clearInterval(rotationTimer);
+        }
+    };
+
+    // Shuffle products array for variety
+    for (let i = products.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [products[i], products[j]] = [products[j], products[i]];
+    }
+
+    // Start after page load with a small delay
+    if (document.readyState === 'complete') {
+        setTimeout(startRotation, 2000);
+    } else {
+        window.addEventListener('load', function() {
+            setTimeout(startRotation, 2000);
+        });
+    }
+})();
+</script><!-- Cookie Consent Banner --><div id="cookie-consent-banner" role="dialog" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-desc">
+    <div class="cookie-consent-content">
+        <div class="cookie-consent-text">
+            <strong id="cookie-consent-title">Cookie Notice</strong>
+            <p id="cookie-consent-desc">We use cookies to analyze site traffic and improve your experience. By clicking "Accept", you consent to our use of cookies. See our <a href="../pages/privacy-policy.html">Privacy Policy</a> for details.</p>
+        </div>
+        <div class="cookie-consent-buttons">
+            <button id="cookie-reject" class="cookie-consent-btn cookie-consent-btn-reject">Reject</button>
+            <button id="cookie-accept" class="cookie-consent-btn cookie-consent-btn-accept">Accept</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var banner = document.getElementById('cookie-consent-banner');
+    var acceptBtn = document.getElementById('cookie-accept');
+    var rejectBtn = document.getElementById('cookie-reject');
+
+    // Check if consent was already given
+    var consent = localStorage.getItem('cookie_consent');
+
+    if (!consent) {
+        // Show banner if no consent decision was made
+        banner.classList.add('show');
+    }
+
+    function hideBanner() {
+        banner.classList.remove('show');
+    }
+
+    acceptBtn.addEventListener('click', function() {
+        localStorage.setItem('cookie_consent', 'accepted');
+        // Update Google Analytics consent
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'ad_storage': 'granted'
+            });
+        }
+        hideBanner();
+    });
+
+    rejectBtn.addEventListener('click', function() {
+        localStorage.setItem('cookie_consent', 'rejected');
+        // Ensure analytics stay denied
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied'
+            });
+        }
+        hideBanner();
+    });
+})();
+</script><!-- Email Subscribe Exit Intent Modal --><div id="subscribe-modal" class="subscribe-modal" role="dialog" aria-labelledby="subscribe-title" aria-modal="true">
+    <div class="subscribe-modal-backdrop"></div>
+    <div class="subscribe-modal-content">
+        <button class="subscribe-modal-close" aria-label="Close">×</button>
+        <h2 id="subscribe-title">Before you go...</h2>
+        <p>Get occasional updates about retro computing, embedded systems, and hardware hacking. No spam, unsubscribe anytime.</p>
+        <form id="subscribe-form">
+            <input type="email" id="subscribe-email" placeholder="you@example.com" required autocomplete="email"><button type="submit" id="subscribe-submit">Subscribe</button>
+        </form>
+        <p id="subscribe-message" class="subscribe-message"></p>
+        <p class="subscribe-privacy">We respect your privacy. See our <a href="../pages/privacy-policy.html">Privacy Policy</a>.</p>
+    </div>
+</div>
+
+<style>
+.subscribe-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
+.subscribe-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subscribe-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+.subscribe-modal-content {
+    position: relative;
+    background: #fff;
+    padding: 32px 40px;
+    border-radius: 12px;
+    max-width: 420px;
+    width: 90%;
+    margin: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+.subscribe-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+}
+.subscribe-modal-close:hover {
+    color: #333;
+}
+.subscribe-modal h2 {
+    margin: 0 0 12px;
+    font-size: 24px;
+    color: #333;
+}
+.subscribe-modal p {
+    margin: 0 0 20px;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5;
+}
+#subscribe-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+#subscribe-email {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+#subscribe-email:focus {
+    border-color: #5670d4;
+}
+#subscribe-submit {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: #5670d4;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#subscribe-submit:hover {
+    background: #4560c4;
+}
+#subscribe-submit:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+.subscribe-message {
+    font-size: 14px;
+    min-height: 20px;
+}
+.subscribe-message.success {
+    color: #28a745;
+}
+.subscribe-message.error {
+    color: #dc3545;
+}
+.subscribe-privacy {
+    font-size: 12px !important;
+    color: #888 !important;
+    margin-bottom: 0 !important;
+}
+.subscribe-privacy a {
+    color: #5670d4;
+}
+@media (max-width: 480px) {
+    .subscribe-modal-content {
+        padding: 24px 20px;
+    }
+    #subscribe-form {
+        flex-direction: column;
+    }
+    #subscribe-submit {
+        width: 100%;
+    }
+}
+</style>
+<script>
+(function() {
+    const SUBSCRIBE_API = 'https://us-central1-tinycomputers-bb8cd.cloudfunctions.net/subscribe';
+    const STORAGE_KEY = 'tc_subscribe_dismissed';
+    const DISMISS_DAYS = 30;
+
+    const modal = document.getElementById('subscribe-modal');
+    const form = document.getElementById('subscribe-form');
+    const emailInput = document.getElementById('subscribe-email');
+    const submitBtn = document.getElementById('subscribe-submit');
+    const messageEl = document.getElementById('subscribe-message');
+    const closeBtn = modal.querySelector('.subscribe-modal-close');
+    const backdrop = modal.querySelector('.subscribe-modal-backdrop');
+
+    let hasShown = false;
+
+    function shouldShowModal() {
+        const dismissed = localStorage.getItem(STORAGE_KEY);
+        if (dismissed) {
+            const dismissedDate = new Date(parseInt(dismissed));
+            const daysSince = (Date.now() - dismissedDate) / (1000 * 60 * 60 * 24);
+            if (daysSince < DISMISS_DAYS) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function showModal() {
+        if (hasShown || !shouldShowModal()) return;
+        hasShown = true;
+        modal.classList.add('show');
+        emailInput.focus();
+    }
+
+    function hideModal() {
+        modal.classList.remove('show');
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
+    }
+
+    // Exit intent detection
+    document.addEventListener('mouseout', function(e) {
+        if (e.clientY < 10 && e.relatedTarget === null) {
+            showModal();
+        }
+    });
+
+    // Mobile: detect scroll up near top or back button behavior
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', function() {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY < 100 && lastScrollY > currentScrollY && lastScrollY > 200) {
+            showModal();
+        }
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    // Close handlers
+    closeBtn.addEventListener('click', hideModal);
+    backdrop.addEventListener('click', hideModal);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            hideModal();
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Subscribing...';
+        messageEl.textContent = '';
+        messageEl.className = 'subscribe-message';
+
+        try {
+            const response = await fetch(SUBSCRIBE_API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                messageEl.textContent = data.message || 'Thanks for subscribing!';
+                messageEl.classList.add('success');
+                form.style.display = 'none';
+                localStorage.setItem(STORAGE_KEY, (Date.now() + 365 * 24 * 60 * 60 * 1000).toString());
+                setTimeout(hideModal, 2500);
+            } else {
+                throw new Error(data.error || 'Subscription failed');
+            }
+        } catch (err) {
+            messageEl.textContent = err.message || 'Something went wrong. Please try again.';
+            messageEl.classList.add('error');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Subscribe';
+        }
+    });
+})();
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.css" integrity="sha384-JwmmMju6Z7M9jiY4RXeJLoNb3aown2QCC/cI7JPgmOLsn3n33pdwAj0Ml/CMMd1W" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.js" integrity="sha384-atIluo+2Hixq8HCazSQWa1JjeC5L0CQeWAx74Q+EbqgAW4UixbrBQF4+1jvBX01b" crossorigin="anonymous"></script><!-- To automatically render math in text elements, include the auto-render extension: --><script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"></script><script>
+$(document).ready(function () { // this need jquery
+  renderMathInElement(document.body, {
+    // ...options...
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+      { left: "\\[", right: "\\]", display: true }
+    ]
+  });
+});
+</script><!-- Table styling is handled via CSS in theme.css to prevent CLS --><!-- Reading Progress Bar Script --><script>
+(function() {
+    var progressBar = document.getElementById('reading-progress');
+    if (!progressBar) return;
+
+    // Only show on post pages (URLs containing /posts/)
+    if (window.location.pathname.indexOf('/posts/') === -1) {
+        progressBar.style.display = 'none';
+        return;
+    }
+
+    function updateProgress() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+    }
+
+    // Throttle scroll events for performance
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateProgress();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // Initial update
+    updateProgress();
+})();
+</script>
+</body>
+</html>

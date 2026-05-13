@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="handheldfriendly" content="true"><meta name="yandex-verification" content="74b6d3ec870c10a2"><meta name="og:title" content="LLM Performance on Consumer Hardware"/><meta name="og:type" content="og:article"/><meta name="og:url" content="https://boredconsultant.com/2025/05/03/LLM-Performance-on-Consumer-Hardware/"/><meta name="og:description" content="Performance comparison of deepseek-r1 and llama 3.x on consumer hardware."/><meta name="og:locale" content="en_US"/><meta name="og:site_name" content="Bored Consultant"/><meta name="og:image" content="https://boredconsultant.com/2025/05/03/LLM-Performance-on-Consumer-Hardware/llama3x-q4_k-performance.jpg"/><meta name="og:article:published_time" content="2025-05-03T12:46:20.000Z"/><meta name="og:article:author" content="Benjamin Behringer"/><meta name="og:article:modified_time" content="2026-03-29T00:47:25.576Z"/><meta name="og:article:tag" content="ai"/><meta name="og:article:tag" content="llm"/><meta name="og:article:tag" content="large language model"/><meta name="og:article:tag" content="llama"/><meta name="og:article:tag" content="deepseek"/><meta name="og:article:tag" content="benchmark"/><meta name="og:article:tag" content="performance"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+    "headline": "LLM Performance on Consumer Hardware",
+    "image": "https://boredconsultant.com/2025/05/03/LLM-Performance-on-Consumer-Hardware/llama3x-q4_k-performance.jpg",
+    "keywords": "ai,llm,large language model,llama,deepseek,benchmark,performance",
+    "url": "https://boredconsultant.com/2025/05/03/LLM-Performance-on-Consumer-Hardware/",
+    "datePublished": "2025-05-03T12:46:20.000Z",
+    "abstract": "Performance comparison of deepseek-r1 and llama 3.x on consumer hardware.",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "familyName": "Behringer",
+      "name": "Benjamin Behringer",
+      "givenName": "Benjamin",
+      "weight": {
+        "@type": "QuantitativeValue",
+        "unitText": "M☉",
+        "value": "42.09266e-30"
+      }
+    }
+  }</script><meta name="description" content="Performance comparison of deepseek-r1 and llama 3.x on consumer hardware."><title>LLM Performance on Consumer Hardware | Bored Consultant</title><link rel="canonical" href="https://boredconsultant.com/2025/05/03/LLM-Performance-on-Consumer-Hardware/"><link rel="stylesheet" type="text/css" href="/css/bundle-b142e36d84cd1df83ef1.css"><script type="text/javascript" src="/js/bundle-e442b12cdd907d96d756.js" defer></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>if(String(localStorage.plausible_ignore).toLowerCase() !== 'true') {
+  var s = document.createElement('script');
+  s.async = 1;
+  s.src = 'https://stats.boredconsultant.com/js/plausible.js'
+  s.defer = 1;
+  s.setAttribute('data-domain', 'boredconsultant.com');
+
+  var firstScript = document.getElementsByTagName("script")[0];
+  firstScript.parentNode.insertBefore(s, firstScript);
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="body_container"><header id="header"><div class="site-name"><a id="logo" href="/.">Bored Consultant</a><p class="description">Ambitious but rubbish</p></div><nav id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/epubts/"><i class="fa fa-book"> epubts</i></a><a href="/Turmberg-Webcam/"><i class="fa fa-video-camera"> Turmberg Webcam</i></a><a href="/about/"><i class="fa fa-address-card"> About</i></a><a href="/privacy-policy/"><i class="fa fa-file-text"> Privacy Policy</i></a></nav></header><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-lg-3-4"><div class="content_container"><article class="post"><header><h1 class="post-title">LLM Performance on Consumer Hardware</h1><div class="post-meta">2025-05-03</div><a class="post-twitter-button" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=/2025/05/03/LLM-Performance-on-Consumer-Hardware/&amp;text=LLM Performance on Consumer Hardware by @bored_advisor"><i class="fa fa-twitter"></i></a></header><section class="post-content"><p>LLMs are huge, slow to run and require terrabytes of RAM on the newest graphics cards, right? Well, maybe not. In this article we compare the performance of two popular current LLMs: llama 3.x and deepseek-r1 on a variety of consumer hardware from Laptop GPUs to dual Nvidia 5090s. We test quantized and full precision models and show which one can fit into the memory of your graphics card. We also test against Apples M chip series and explore what can be achieved with older but cheaper server hardware.</p>
+<h2 id="Test-Setup"><a href="#Test-Setup" class="headerlink" title="Test Setup"></a>Test Setup</h2><p>We test two of the currently popular LLM families, llama 3 and deepseek-r1, in quantized and 16bit floating point (fp16) versions for their performance on consumer hardware.<br>We run the models using <a target="_blank" rel="noopener" href="https://ollama.com/">ollama 0.6.5</a> and <a target="_blank" rel="noopener" href="https://openwebui.com/">open-webui</a> as frontend. We collect the measured response tokens after executing the following query:</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">I need a summary of the book “War and Peace¨. Please write at least 500 words.</span><br></pre></td></tr></table></figure>
+
+<p>For each test, the model fits into the memory of the graphics card (VRAM). Mobile devices are allowed to cool down before each test run.</p>
+<h3 id="Tested-Models"><a href="#Tested-Models" class="headerlink" title="Tested Models"></a>Tested Models</h3><p>In this article we focus on two of the currently popular LLMs:</p>
+<ul>
+<li><strong>Llama 3</strong>, developed by Meta, represents the latest evolution in open-source large language models, building upon its predecessors with enhanced capabilities, improved efficiency, and greater contextual understanding. It comes in various sizes, typically ranging from smaller, more efficient models suitable for edge computing and personal devices, to larger, more powerful variants designed for complex tasks and extensive data processing. Its versatility makes it ideal for applications such as chatbots, content generation, coding assistance, and research. For the AI community, Llama 3 signifies a significant step toward democratizing advanced AI technology, fostering innovation, and enabling broader access to sophisticated AI tools and research opportunities.</li>
+<li><strong>DeepSeek-R1</strong>, developed by DeepSeek AI, is a cutting-edge large language model designed specifically to excel in coding and technical tasks. It comes in multiple variants, including models optimized for general-purpose programming, debugging, and software development assistance, making it highly versatile for developers and tech professionals. Its primary uses include code generation, error detection, automated debugging, and providing detailed technical explanations. For the AI community, DeepSeek-R1 represents a significant advancement in specialized AI models, enhancing productivity and accuracy in software development, and contributing to the broader adoption of AI-driven coding solutions.</li>
+</ul>
+<figure id="table-1-tested-llms">
+
+<table>
+<thead>
+<tr>
+<th align="center">Model</th>
+<th align="center">Variant</th>
+<th align="center">Precision</th>
+<th align="center">VRAM Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">llama3.2:1b</td>
+<td align="center">instruct</td>
+<td align="center">Q8_0</td>
+<td align="center">2.7GB</td>
+</tr>
+<tr>
+<td align="center">llama3.2:3b</td>
+<td align="center">instruct</td>
+<td align="center">Q4_K_M</td>
+<td align="center">4GB</td>
+</tr>
+<tr>
+<td align="center">llama3.1:8b</td>
+<td align="center">instruct</td>
+<td align="center">Q4_K_M</td>
+<td align="center">6.9GB</td>
+</tr>
+<tr>
+<td align="center">llama3.3:70b</td>
+<td align="center">instruct</td>
+<td align="center">Q4_K_M</td>
+<td align="center">49GB</td>
+</tr>
+<tr>
+<td align="center">llama3.2:1b</td>
+<td align="center">instruct</td>
+<td align="center">fp16</td>
+<td align="center">3.9GB</td>
+</tr>
+<tr>
+<td align="center">llama3.2:3b</td>
+<td align="center">instruct</td>
+<td align="center">fp16</td>
+<td align="center">8.5GB</td>
+</tr>
+<tr>
+<td align="center">llama3.1:8b</td>
+<td align="center">instruct</td>
+<td align="center">fp16</td>
+<td align="center">17GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:7b</td>
+<td align="center">qwen distill</td>
+<td align="center">Q4_K_M</td>
+<td align="center">6GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:8b</td>
+<td align="center">llama distill</td>
+<td align="center">Q4_K_M</td>
+<td align="center">6.9GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:14b</td>
+<td align="center">qwen distill</td>
+<td align="center">Q4_K_M</td>
+<td align="center">11GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:32b</td>
+<td align="center">qwen distill</td>
+<td align="center">Q4_K_M</td>
+<td align="center">25GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:70b</td>
+<td align="center">qwen distill</td>
+<td align="center">Q4_K_M</td>
+<td align="center">49GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:1.5b</td>
+<td align="center">qwen distill</td>
+<td align="center">fp16</td>
+<td align="center">4.2GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:7b</td>
+<td align="center">qwen distill</td>
+<td align="center">fp16</td>
+<td align="center">16GB</td>
+</tr>
+<tr>
+<td align="center">deepseek-r1:14b</td>
+<td align="center">qwen distill</td>
+<td align="center">fp16</td>
+<td align="center">32GB</td>
+</tr>
+</tbody></table>
+<figcaption>Table 1: tested llms </figcaption>
+</figure>
+
+<p><a href="#table-1-tested-llms">Table 1</a> shows the tested LLMs. Ollama uses quantized models by default. If you specify a more detailed tag you can choose different quantizations as well as the non-quantized floating point versions. We select llama 3.x and deepseek-r1 for their popularity and start with the smallest versions parameter-wise. We continuously choose higher parameter models until they would not fit into any of the test systems VRAM.<br>The last column in the table shows the size of the model when loaded into VRAM as reported by <code>ollama ps</code>. We can already see here that not all models will fit into the VRAM of the test systems from <a href="#table-2-tested-systems">Table 2</a>.</p>
+<span id="more"></span>
+
+<h3 id="Tested-Systems"><a href="#Tested-Systems" class="headerlink" title="Tested Systems"></a>Tested Systems</h3><figure id="table-2-tested-systems">
+
+<table>
+<thead>
+<tr>
+<th align="center">System</th>
+<th align="center">VRAM</th>
+<th align="center">Architecture</th>
+<th align="center">Chip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2x Nvidia 5090</td>
+<td align="center">64GB</td>
+<td align="center">Blackwell</td>
+<td align="center">GB202</td>
+</tr>
+<tr>
+<td align="center">Nvidia 5090</td>
+<td align="center">32GB</td>
+<td align="center">Blackwell</td>
+<td align="center">GB202</td>
+</tr>
+<tr>
+<td align="center">Nvidia 4090</td>
+<td align="center">24GB</td>
+<td align="center">Ada Lovelace</td>
+<td align="center">AD102</td>
+</tr>
+<tr>
+<td align="center">Apple M4 Max</td>
+<td align="center">64GB</td>
+<td align="center">M4</td>
+<td align="center">40 core M4 Max</td>
+</tr>
+<tr>
+<td align="center">Apple M3 Max</td>
+<td align="center">64GB</td>
+<td align="center">M3</td>
+<td align="center">40 core M3 Max</td>
+</tr>
+<tr>
+<td align="center">Apple M1 Pro</td>
+<td align="center">16GB</td>
+<td align="center">M1</td>
+<td align="center">16 core M1 Pro</td>
+</tr>
+<tr>
+<td align="center">Nvidia 4070 Mobile</td>
+<td align="center">8GB</td>
+<td align="center">Ada Lovelace</td>
+<td align="center">AD106</td>
+</tr>
+<tr>
+<td align="center">Nvidia 2080 ti</td>
+<td align="center">12GB</td>
+<td align="center">Turing</td>
+<td align="center">TU102</td>
+</tr>
+<tr>
+<td align="center">2x Nvidia P40</td>
+<td align="center">48GB</td>
+<td align="center">Pascal</td>
+<td align="center">GP102</td>
+</tr>
+<tr>
+<td align="center">Nvidia 3060 Mobile</td>
+<td align="center">6GB</td>
+<td align="center">Ampere</td>
+<td align="center">GA106</td>
+</tr>
+</tbody></table>
+<figcaption>Table 2: tested systems</figcaption>
+</figure>
+
+<p><a href="#table-2-tested-systems">Table 2</a> shows the test systems avaible to us including their respective architecture and VRAM sizes. The Apple systems as well as the 4070 and 3060 systems are Laptops, the rest desktop PCs.</p>
+<h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><p>We test two of the currently popular LLM families, llama 3 and deepseek-r1, in quantized and fp16 versions for their performance on the consumer hardware mentioned in <a href="#table-2-tested-systems">Table 2</a>.</p>
+<h3 id="LLama-3"><a href="#LLama-3" class="headerlink" title="LLama 3"></a>LLama 3</h3><p>Here we test llama 3.x performance across our test systems. First in a quantized form and then the full precision available on huggingface.</p>
+<div id="chart-1-llama-3-quantized" style="margin-bottom: 2em;">
+    <figure>
+        <img src="/2025/05/03/LLM-Performance-on-Consumer-Hardware/llama3x-q4_k-performance.svg" alt="llama 3.x quantized performance on consumer hardware" />
+        <figcaption>Chart 1: llama 3.x quantized performance on consumer hardware</figcaption>
+    </figure>
+</div>
+
+<p>As shown in <a href="#chart-1-llama-3-quantized">Chart 1</a>, all test systems provide usable performance for the smaller llama 3.2 models. Even the weakest Nvidia 3060 Mobile delivers 60 response tokens per second (t&#x2F;s) on llama 3.2:3b. Larger models will not fit into every test systems VRAM. The slowest test system that can run the llama 3.1:8B is the MacBook Pro with M1 Pro on its 16 graphics cores. It manages to do 26 t&#x2F;s which already feels sluggish.<br>Only four of our test systems are able to run the largest model tested: the llama 3.3:70b which requires 49GB of VRAM. So even the single Nvidia 4090 and 5090 are not able to run this model. A dual 5090 of course can, the MacBooks with M3 and M4 MAX as well due to the unified memory, and interestingly our dual P40 setup.<br>The dual P40 setup is an outlier: the P40 is a server graphics card from 2016 that doesn’t even have a video output. The chip is closely related to a Nvidia Titan but sports 24GB of VRAM each. It might be a budget solution for someone who just wants to run large models and can wait for the results because the performance is bad. The dual cards even get beaten in smaller models by the 3060 Mobile chip.<br>We didn’t even expect the P40s to be able to run the llama 3.3:70b as it requires 49GB of VRAM and the cards combined only have 48GB of VRAM. It’s still possible though and ollama reports it to run 100% on the GPU.<br>Interestingly, the dual 5090 setup sometimes delivers slightly less performance compared to the single card setup. So not only does ollama not scale on performance, the overhead seems to cost us a few tokens per second. The dual card setup can run the largest tested model, llama 3.3:70b,  though.<br>Also noteworthy: the 3060 Mobile and 4070 Mobile are not far off performance wise. Not the upgrade the name suggests.</p>
+<div id="chart-2-llama-3-fp16" style="margin-bottom: 2em;">
+    <figure>
+        <img src="/2025/05/03/LLM-Performance-on-Consumer-Hardware/llama3x-fp16-performance.svg" alt="llama 3.x fp16 performance on consumer hardware" />
+        <figcaption>Chart 2: llama 3.x fp16 performance on consumer hardware</figcaption>
+    </figure>
+</div>
+
+<p>Moving on to llama 3.x in the full precision distributed even less systems can run the larger models. <a href="#chart-2-llama-3-fp16">Chart 2</a> shows the remaining possible combinations. The performance also takes a hit: we now only get a little more than half the reponse tokens per second compared to the quantized version across all systems.<br>Here, there is no edge case where the dual P40s can run a particularly large model in contrast to other systems, as the next model size up is too large for any of the tested systems. Again, a the dual 5090 setup is slightly slower than the single card setup.</p>
+<h3 id="Deepseek"><a href="#Deepseek" class="headerlink" title="Deepseek"></a>Deepseek</h3><p>Next we test deepseek-r1 performance across our test systems. First in a quantized form and then the full precision available on huggingface. There is no fp16 version of the 1b model, so we choose the 1.5b variant.</p>
+<div id="chart-3-deepseek-r1-quantized" style="margin-bottom: 2em;">
+    <figure>
+        <img src="/2025/05/03/LLM-Performance-on-Consumer-Hardware/deepseek-r1-q4_k-performance.svg" alt="deepseek-r1 quantized performance on consumer hardware" />
+        <figcaption>Chart 3: deepseek-r1 quantized performance on consumer hardware</figcaption>
+    </figure>
+</div>
+
+<p>At first it looks os if the deepseek-r1 performance on our test systems shown in <a href="chart-3-deepseek-r1-quantized">Chart 3</a> is significantly worse by about 50% compared to the llama test. But comparing same-sized models like llama3.1:8b to deepseek-r1:7b the numbers are actually really close. Of course that doesn´t make it usable. And already the smallest deepseek-r1:7b will not fit into the VRAM of the 3060 Mobile, at least if you still have a GUI working alongside it.<br>However, the double P40 setup can excel again: running the deepseek-r1:70b setup from VRAM albeit being slow. This is something not even the single Nvidia 4090 or 5090. This shows that at some point for a single user more VRAM would be favourable over higher card speed as the higher speed will not bring as much benefits as the ability to run larger models.</p>
+<div id="chart-4-deepseek-r1-fp16" style="margin-bottom: 2em;">
+    <figure>
+        <img src="/2025/05/03/LLM-Performance-on-Consumer-Hardware/deepseek-r1-fp16-performance.svg" alt="deepseek-r1 fp16 performance on consumer hardware" />
+        <figcaption>Chart 4: deepseek-r1 fp16 performance on consumer hardware</figcaption>
+    </figure>
+</div>
+
+<p>For the fp16 variant of deepseek-r1 we start with a smaller variant: 1.5b-qwen-distill-fp16. This variant can run on the 3060 Mobile. The results from <a href="chart-4-deepseek-r1-fp16">Chart 4</a> show that the performance is close to that of the 4070 again.<br>The larger variants require 32GB of VRAM so if you don’t have an M3 or M4 MAX or a dual 5090 setup, you are of luck except if you settle for the performance level of the dual P40s.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Modern LLMs in their smaller, quantized variants have acceptable to good performance on consumer hardware. Using ollama to run them and open-webui as frontend will suffice for a lot of day to day tasks without the need for a subscription to a paid service and with the ease of mind that your data stays on your system.<br>Even larger models will perform well on current hardware but VRAM may be a restricting factor. If you can live with reduced performance but need to run larger models, older server hardware like the Nvidia P40 or Quadro P6000 will provide the necessary VRAM.</p>
+</section><footer><div class="tags"><a href="/tags/ai/"><i class="fa fa-tag"></i>ai</a><a href="/tags/llm/"><i class="fa fa-tag"></i>llm</a><a href="/tags/large-language-model/"><i class="fa fa-tag"></i>large language model</a><a href="/tags/llama/"><i class="fa fa-tag"></i>llama</a><a href="/tags/deepseek/"><i class="fa fa-tag"></i>deepseek</a><a href="/tags/benchmark/"><i class="fa fa-tag"></i>benchmark</a><a href="/tags/performance/"><i class="fa fa-tag"></i>performance</a></div><div class="post-nav"><a class="pre" href="/2025/06/04/Typescript-x-AI-Meetup-Talk-Privacy-First-AI-Summarizing-in-TypeScript/">Typescript x AI Meetup Talk: Privacy First AI Summarizing in TypeScript</a><a class="next" href="/2025/04/21/The-Rebuttal-AI-s-Impact-On-Content-Creation-And-Knowledge-Sharing/">The Rebuttal: AI's Impact On Content Creation And Knowledge Sharing</a></div></footer></article></div></div><aside class="pure-u-lg-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://boredconsultant.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/gather-town/" style="font-size: 15px;">gather.town</a> <a href="/tags/remote/" style="font-size: 15px;">remote</a> <a href="/tags/video-conference/" style="font-size: 15px;">video conference</a> <a href="/tags/video-call/" style="font-size: 15px;">video call</a> <a href="/tags/home-office/" style="font-size: 15px;">home office</a> <a href="/tags/video/" style="font-size: 15px;">video</a> <a href="/tags/apacheds/" style="font-size: 15px;">apacheds</a> <a href="/tags/ldap/" style="font-size: 15px;">ldap</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/ansible/" style="font-size: 15px;">ansible</a> <a href="/tags/mail/" style="font-size: 15px;">mail</a> <a href="/tags/mailserver/" style="font-size: 15px;">mailserver</a> <a href="/tags/selfhosted/" style="font-size: 15px;">selfhosted</a> <a href="/tags/github/" style="font-size: 15px;">github</a> <a href="/tags/cloud/" style="font-size: 15px;">cloud</a> <a href="/tags/microsoft-azure/" style="font-size: 15px;">microsoft azure</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/grafana/" style="font-size: 15px;">grafana</a> <a href="/tags/monitoring/" style="font-size: 15px;">monitoring</a> <a href="/tags/devops/" style="font-size: 15px;">devops</a> <a href="/tags/postfix/" style="font-size: 15px;">postfix</a> <a href="/tags/dovecot/" style="font-size: 15px;">dovecot</a> <a href="/tags/vm/" style="font-size: 15px;">vm</a> <a href="/tags/vcard/" style="font-size: 15px;">vcard</a> <a href="/tags/excel/" style="font-size: 15px;">excel</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/openpyxl/" style="font-size: 15px;">openpyxl</a> <a href="/tags/grafana-loki/" style="font-size: 15px;">grafana loki</a> <a href="/tags/logs/" style="font-size: 15px;">logs</a> <a href="/tags/DAVx/" style="font-size: 15px;">DAVx</a> <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/SOGo/" style="font-size: 15px;">SOGo</a> <a href="/tags/CalDAV/" style="font-size: 15px;">CalDAV</a> <a href="/tags/bookstack/" style="font-size: 15px;">bookstack</a> <a href="/tags/alpine/" style="font-size: 15px;">alpine</a> <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/log/" style="font-size: 15px;">log</a> <a href="/tags/Xdebug/" style="font-size: 15px;">Xdebug</a> <a href="/tags/profiling/" style="font-size: 15px;">profiling</a> <a href="/tags/debugging/" style="font-size: 15px;">debugging</a> <a href="/tags/anamorphic/" style="font-size: 15px;">anamorphic</a> <a href="/tags/photography/" style="font-size: 15px;">photography</a> <a href="/tags/SIRUI/" style="font-size: 15px;">SIRUI</a> <a href="/tags/squeezefix/" style="font-size: 15px;">squeezefix</a> <a href="/tags/exif/" style="font-size: 15px;">exif</a> <a href="/tags/tags/" style="font-size: 15px;">tags</a> <a href="/tags/resize/" style="font-size: 15px;">resize</a> <a href="/tags/RAW/" style="font-size: 15px;">RAW</a> <a href="/tags/asus/" style="font-size: 15px;">asus</a> <a href="/tags/Pop-OS/" style="font-size: 15px;">Pop!_OS</a> <a href="/tags/bluetooth/" style="font-size: 15px;">bluetooth</a> <a href="/tags/spam/" style="font-size: 15px;">spam</a> <a href="/tags/rspamd/" style="font-size: 15px;">rspamd</a> <a href="/tags/gpn21/" style="font-size: 15px;">gpn21</a> <a href="/tags/talk/" style="font-size: 15px;">talk</a> <a href="/tags/ccc/" style="font-size: 15px;">ccc</a> <a href="/tags/entropia/" style="font-size: 15px;">entropia</a> <a href="/tags/ssl/" style="font-size: 15px;">ssl</a> <a href="/tags/self-signed-certificate/" style="font-size: 15px;">self signed certificate</a> <a href="/tags/rsa/" style="font-size: 15px;">rsa</a> <a href="/tags/stable-diffusion-3-5/" style="font-size: 15px;">stable diffusion 3.5</a> <a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/image-generation/" style="font-size: 15px;">image generation</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Nvidia/" style="font-size: 15px;">Nvidia</a> <a href="/tags/Hugging-Face/" style="font-size: 15px;">Hugging Face</a> <a href="/tags/quantization/" style="font-size: 15px;">quantization</a> <a href="/tags/tutorial/" style="font-size: 15px;">tutorial</a> <a href="/tags/Diffusers/" style="font-size: 15px;">Diffusers</a> <a href="/tags/quanto/" style="font-size: 15px;">quanto</a> <a href="/tags/traefik/" style="font-size: 15px;">traefik</a> <a href="/tags/certificate/" style="font-size: 15px;">certificate</a> <a href="/tags/domain/" style="font-size: 15px;">domain</a> <a href="/tags/webserver/" style="font-size: 15px;">webserver</a> <a href="/tags/hosting/" style="font-size: 15px;">hosting</a> <a href="/tags/groupware/" style="font-size: 15px;">groupware</a> <a href="/tags/ai/" style="font-size: 15px;">ai</a> <a href="/tags/llm/" style="font-size: 15px;">llm</a> <a href="/tags/large-language-model/" style="font-size: 15px;">large language model</a> <a href="/tags/llama/" style="font-size: 15px;">llama</a> <a href="/tags/deepseek/" style="font-size: 15px;">deepseek</a> <a href="/tags/benchmark/" style="font-size: 15px;">benchmark</a> <a href="/tags/performance/" style="font-size: 15px;">performance</a> <a href="/tags/raspberry-pi/" style="font-size: 15px;">raspberry pi</a> <a href="/tags/headless/" style="font-size: 15px;">headless</a> <a href="/tags/image/" style="font-size: 15px;">image</a> <a href="/tags/monero/" style="font-size: 15px;">monero</a> <a href="/tags/mining/" style="font-size: 15px;">mining</a> <a href="/tags/crypto/" style="font-size: 15px;">crypto</a> <a href="/tags/openssh/" style="font-size: 15px;">openssh</a> <a href="/tags/ssh-keygen/" style="font-size: 15px;">ssh-keygen</a> <a href="/tags/bridge/" style="font-size: 15px;">bridge</a> <a href="/tags/networking/" style="font-size: 15px;">networking</a> <a href="/tags/plausible/" style="font-size: 15px;">plausible</a> <a href="/tags/web-analytics/" style="font-size: 15px;">web analytics</a> <a href="/tags/Raspberry-Pi-Camera-Module-3/" style="font-size: 15px;">Raspberry Pi Camera Module 3</a> <a href="/tags/webcam/" style="font-size: 15px;">webcam</a> <a href="/tags/camera/" style="font-size: 15px;">camera</a> <a href="/tags/qwen/" style="font-size: 15px;">qwen</a></div></div></div></aside><div class="pure-u-1 pure-u-md-3-4"><footer id="footer">Copyright © 2026 <a href="/." rel="nofollow">Benjamin Behringer</a></footer></div></div><a class="show" id="rocket" href="#top"></a></div></body></html>

@@ -1,0 +1,370 @@
+ <!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<title>Old Xeon motherboards, LLMs and Kubernetes &#8211; KernelCrash</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//www.kernelcrash.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="KernelCrash &raquo; Feed" href="https://www.kernelcrash.com/blog/feed/" />
+<link rel="alternate" type="application/rss+xml" title="KernelCrash &raquo; Comments Feed" href="https://www.kernelcrash.com/blog/comments/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://www.kernelcrash.com/blog/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.kernelcrash.com%2Fblog%2Fold-xeon-motherboards-llms-and-kubernetes%2F2025%2F03%2F10%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://www.kernelcrash.com/blog/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.kernelcrash.com%2Fblog%2Fold-xeon-motherboards-llms-and-kubernetes%2F2025%2F03%2F10%2F&#038;format=xml" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='furnish-lite-font-css' href='https://fonts.googleapis.com/css?family=Playfair+Display%3A400%2C700%7CRoboto%3A400%2C700%7COswald%3A400%2C700&#038;ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='furnish-lite-basic-style-css' href='https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/style.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='furnish-lite-editor-style-css' href='https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/editor-style.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='furnish-lite-responsive-style-css' href='https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/css/theme-responsive.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='nivo-style-css' href='https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/css/nivo-slider.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-style-css' href='https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/css/font-awesome.css?ver=6.9.4' type='text/css' media='all' />
+<script type="text/javascript" src="https://www.kernelcrash.com/blog/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://www.kernelcrash.com/blog/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/js/jquery.nivo.slider.js?ver=6.9.4" id="jquery-nivo-slider-js-js"></script>
+<script type="text/javascript" src="https://www.kernelcrash.com/blog/wp-content/themes/furnish-lite/js/custom.js?ver=6.9.4" id="furnish-lite-customscripts-js"></script>
+<link rel="https://api.w.org/" href="https://www.kernelcrash.com/blog/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://www.kernelcrash.com/blog/wp-json/wp/v2/posts/2826" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.kernelcrash.com/blog/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.9.4" />
+<link rel="canonical" href="https://www.kernelcrash.com/blog/old-xeon-motherboards-llms-and-kubernetes/2025/03/10/" />
+<link rel='shortlink' href='https://www.kernelcrash.com/blog/?p=2826' />
+        <style>
+				a, 
+				.tm_client strong,
+				.postmeta a:hover,
+				#sidebar ul li a:hover,
+				.blog-post h3.entry-title,
+				.home-section .home-left h3{
+					color:#001be8;
+				}
+				.main-nav ul li a:hover,
+				.sitenav ul li a:hover, 
+				.sitenav ul li.current_page_item a, 
+				.sitenav ul li:hover a.parent,
+				.sitenav ul li ul.sub-menu li a:hover, 
+				.sitenav ul li.current_page_item ul.sub-menu li a:hover, 
+				.sitenav ul li ul.sub-menu li.current_page_item a{
+					color:#ffa200;
+				}
+				a.blog-more:hover,
+				#commentform input#submit,
+				input.search-submit,
+				.nivo-controlNav a.active,
+				.blog-date .date,
+				.home-section .home-left a.ReadMore,
+				.nav-links .current, .nav-links a:hover{
+					background-color:#001be8;
+				}
+				.header-top{
+					background-color:#000000;
+				}
+				.copyright-wrapper{
+					background-color:#282a2b;
+				}
+				#header{
+					background-color:#ffffff;
+				}
+				@media screen and (max-width: 980px){
+					.header_right .sitenav ul li a:hover{
+							color:#fdc300 !important;
+						}	
+				}
+		</style>
+		<style type="text/css">
+			#header{
+			background-image: url(https://www.kernelcrash.com/blog/wp-content/cropped-kernel-shrunk2.jpg);
+			background-position: center top;
+		}
+		.logo h1 a { color:#000000;}
+		
+	</style>
+	</head>
+
+<body class="wp-singular post-template-default single single-post postid-2826 single-format-standard wp-theme-furnish-lite group-blog">
+
+<div id="header">
+	<div class="header-inner">
+      <div class="logo">
+           			    <h1><a href="https://www.kernelcrash.com/blog/" rel="home">KernelCrash</a></h1>
+											<p>the difference that is no difference makes no difference</p>
+					      </div><!-- logo -->      
+      <div class="prime-menu">
+	<div class="prime-inner">
+        <div class="toggle">
+                <a class="toggleMenu" href="#">
+                    Menu                
+                </a>
+         </div><!-- toggle -->    
+        <div class="sitenav">                   
+            <div class="menu"><ul>
+<li class="page_item page-item-2"><a href="https://www.kernelcrash.com/blog/about/">About</a></li>
+<li class="page_item page-item-1353"><a href="https://www.kernelcrash.com/blog/arduino-uno-flash-rom-programmer/">Arduino Uno flash ROM programmer</a></li>
+</ul></div>
+ 
+        </div><!--.sitenav -->
+        <div class="clear"></div>
+      </div><!-- prime-inner -->
+</div><!-- prime-menu --><div class="clear"></div>
+</div><!-- .header-inner-->
+</div><!-- .header -->  <div class="main-container">
+<div class="content-area">
+    <div class="middle-align content_sidebar">
+        <div class="site-main" id="sitemain">
+			                <article id="post-2826" class="single-post post-2826 post type-post status-publish format-standard hentry category-ai category-kubernetes">
+
+    <header class="entry-header">
+        <h1 class="entry-title">Old Xeon motherboards, LLMs and Kubernetes</h1>
+    </header><!-- .entry-header -->
+
+    <div class="entry-content">
+        <div class="postmeta">
+            <div class="post-date">March 10, 2025</div><!-- post-date -->
+            <div class="post-comment"> | <a href="https://www.kernelcrash.com/blog/old-xeon-motherboards-llms-and-kubernetes/2025/03/10/#respond">No Comments</a></div>
+            <div class="clear"></div>
+        </div><!-- postmeta -->
+		        <p>Something a little different.</p>
+<p>I started to write this a  year ago 😉</p>
+<p>My day job is in the <a href="https://kubernetes.io/">Kubernetes</a> realm, and I quite like Kubernetes for what it is, but given one of it&#8217;s aims is to group the resources of a bunch of machines together, you often need several machines just to &#8216;try some experiment out&#8217;. In my job we just use &#8216;the cloud&#8217; and I know I am meant to love the cloud because everyone tells me to, but I always feel like I am &#8220;Paying Jeff&#8221; just to tinker with something and that always seems a bit &#8216;wrong&#8217; to me. However, there are ways of running Kubernetes locally. You can indeed make up your cluster of machines at home, but often it&#8217;d be nicer if you could get away with just running a single system to achieve your test case.</p>
+<p><span id="more-2826"></span></p>
+<p>So recently I had a good look at a few local kubernetes alternatives; <a href="https://k3s.io/">k3s</a> and <a href="https://k3d.io/">k3d</a> and <a href="https://kind.sigs.k8s.io/">kind</a> . For whatever reasons I liked kind more, so I set about replicating something a bit like I do at work on a single system at home.  I have a mix of PC hardware at home running various versions of linux. For a long time I had a bunch of what I would call &#8216;intel 4th gen&#8217; systems. One of these was a desktop system that I&#8217;d continually upgraded over the years until it had 32GB of DDR3 RAM and an i7-4790 CPU. If you know anything about the 4th gen era, then you&#8217;d know that those specs are about as good as it gets in consumer hardware for 4th gen. So i was going to use that. It&#8217;s old but it has quite a lot of RAM.  But certainly, with kubernetes under kind, it&#8217;s all on top of docker, I would have a lot of processes running and a lot of load, so maybe it was time to consider an upgrade.</p>
+<p>Somewhat related to needing lots of computing power is the rise of all the AI/ LLM stuff over the past year or two. I am undecided where this stuff is all going, but the underlying tech is really interesting. You have quite a lot of open source(ish) large language models now. The big one  was &#8216;<a href="https://llama.meta.com/">llama</a>&#8216;, but deepseek, qwen and others are in the news a fair bit. Initially you could not run these LLMs locally without a very expensive GPU card, but that changed a bit when <a href="https://github.com/ggerganov/llama.cpp">llama.cpp</a> came out around March 2023. llama.cpp allowed people to use their CPU to run these LLMs somewhat slowly. When I say &#8220;run&#8221; I mean &#8220;inference&#8221;.</p>
+<p>Anyway, llama.cpp lets you do &#8216;inference on a CPU&#8217;. Of course I had to try this. The first barrier you hit is &#8220;What model do I download and from where?&#8221;. This is a bit of a minefield for someone new to this. If you poke around the <a href="https://www.reddit.com/r/LocalLLaMA/">/r/localllama subreddit</a> you can often find suggestions. But you&#8217;ll see all this stuff about 7B, 8B, 35B, 70B and so on which at first is quite confusing. I&#8217;d go off and read some explanation of LLMs at this point. I often point people at Wolfram&#8217;s <a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/">What is chatgpt doing and why does it work</a>. It&#8217;s quite long and starts easy and get&#8217;s harder. Usually I tell people to start at the top and read until they can&#8217;t understand it anymore 😉 There&#8217;s lot&#8217;s of other good sources now too. I recently discovered <a href="https://www.youtube.com/watch?v=zjkBMFhNj_g">Andrej Karpathy&#8217;s Intro to Large Language Models</a>. That&#8217;s quite good as well, but probably a bit lighter. I found it had some very important stuff in it though. One thing that resonates with me is how LLM&#8217;s are a bit like compression, or in my mind they are like &#8216;lossy&#8217; compression algorithms like JPEG. There&#8217;s a large volume of data that is &#8216;shoved in&#8217; as part of the training process, and the end result is meant to be something kinda/sorta like the material that was shoved in, but in order to make the LLM a &#8216;reasonable size&#8217; some amount of &#8216;quality&#8217; is thrown out.</p>
+<p>As an example the &#8216;llama 3&#8217; models were trained on 15 trillion tokens (tokens are like subsections of &#8216;words&#8217;). But the llama 3 models have been published as a 8B and a 70B. The &#8216;B&#8217; means &#8216;Billions of parameters&#8217;. The &#8216;parameters&#8217; are like the &#8216;weights&#8217; that indicate the correlations between information in the LLM. So very very broadly the 8B model had 8 billion numbers in it , and the 70B had 70 billion numbers in it. Often models are initially published with the numbers stored in an FP16 (16 bit floating point) format, so an 8B using FP16 might take up 16GB of RAM (since 16 bits is 2 bytes). The 70B might then need 140GB. Now the way inference works means that you need to have very fast access to all those billion of parameters to perform a lot of matrix math. The reality is that you have to be able to fit the entire model into RAM otherwise performance is awful. Now, 140GB of RAM is obviously a lot. Even 16GB of RAM for an 8B is a lot as a typical system needs more RAM than that for other operating system processes and the inference program itself.</p>
+<p>Thankfully, enthusiasts and researchers have tried reducing the size of these weights/parameters. eg. going from FP16 to an 8 bit integer. Given that these weights are effectively saying &#8216;the probability of one thing being related to another thing&#8217;, reducing them from  a 16bit floating point number to an 8 bit integer you would think would mean a large drop off in quality, but it turns out there is very little impact on quality, so the same people have tried lots of smaller numbers; 6 bit, 5 bit, 4 bit , 3 bit, 2 bit and even 1 bit (don&#8217;t ask), and other weird combinations where its &#8216;not quite 4 bits&#8217; and so on. Without going into detail, 4 bit is very common and the quality level is still decent enough for a lot of use cases. Of course going from needing 16 bits per weight to 4 bits is a (roughly) quartering of the size of the LLM. That has two important effects; The entire  amount of RAM for the LLM has decreased so an inference program like llama.cpp can perform faster since there is less overall data to traverse across, and because its smaller it fits in to a smaller amount of RAM. This shrinking down to a smaller number of bits per weight is called &#8216;quantisation&#8217;.</p>
+<p>So very very broadly a 7B or 8B model at 4 bits might take up 4 or 5GB of RAM. A 35B might be around 21GB. A 70B might be 40 to 42GB. Those numbers become very important. Someone with an 8GB RAM laptop can now run a 7B or 8B model. The 35B will fit in a machine with 32GB of RAM&#8230; or if you were using one on a GPU based inferencing system you might have a GPU with 24GB of VRAM, and of course a quantised 35B will fit.</p>
+<p>So back to hardware. A 7B or 8B or even a 35B would fit in my i7-4790 with 32GB of RAM. So I tried this (I&#8217;ll add here that you generally download all these models from <a href="https://huggingface.co">Huggingface</a> ). And I could run these LLMs locally which was very cool. But</p>
+<ul>
+<li>It was slow even with a 7B or 8B</li>
+<li>My 4 core i7-4790 was flat out for minutes. Like really flat out ,400% flat out.</li>
+</ul>
+<p>For some people the 2nd point is scary, but I was really impressed. As someone who looks at servers a lot, it is quite rare to see a use case that will simply eat all process resources for minutes. So it was slow and I kind of knew it would be, but you could at least play around with it.</p>
+<p>A key outcome here is that I wanted more resources to play with this stuff more. The /r/localllama subreddit is great for people talking about their &#8216;hacked together testbeds&#8217;. Some people spend an astonishing amount of money on this stuff. I&#8217;ll quickly highlight some options</p>
+<ul>
+<li>You can ignore trying to &#8216;run it locally yourself&#8217; and just rent GPUs in the cloud if you&#8217;re OK with that. The big 3 are quite expensive, but there are smaller companies like vast and runpod. I&#8217;ve only used vast from time to time. You get a docker container running with a GPU passed through. It works great. One other really cool thing about vast is that you can see the CPU you are renting as well, and I&#8217;ve ended up renting ones specifically just to benchmark some CPUs.</li>
+<li>You can buy an Nvidia GPU. When I started writing this post, an RTX 4090 24GB was close to NZD$4000 which is quite eye watering. For that you will get really fast performance on LLMs (I&#8217;ve rented 4090s to specifically find out). (NB: 5090&#8217;s have just come out now too. However they are more like NZ$5500!)</li>
+<li>You can try to get a second hand Nvidia 3090 24GB. In NZ these go 2nd hand around NZD$1500 to $2000 which I also find eye watering. You get great performance as well. Obviously less than a 4090, but in a lot of cases you might not notice too much depending on what you&#8217;re doing.</li>
+<li>There are a few other 2nd hand Nvidia options. A very cheap solution was Tesla P40 cards. But like a lot of older Nvidia cards that get popular on /r/localllama, the 2nd hand stocks of these seemingly deplete &#8230; and they are no longer cheap. When I started writing this post P40&#8217;s were easy to get and relatively cheap, but those days are over. But the P40 is not the only option here. There are P100s with 16GB, and interesting ones like 2080TI cards that have been modified to have 22GB of VRAM. The P40 and P100 also require you to hack together some cooling solution, as they were designed for server cases with flow through cooling and hence have no onboard fan.</li>
+<li>People have been able to get AMD GPUs to work , so too with Intel ARC GPUs, but they are much less popular.</li>
+<li>Lastly is running this stuff on a decent CPU. This is the slowest option but often the cheapest in terms of &#8220;You probably want lots of RAM&#8221; and while a GPU with 24GB of VRAM (and you reallly need that to play around) is either expensive or requires some hacking (eg. the P40), often getting 32GB of RAM into a motherboard in 2025 is not that hard or as expensive.</li>
+</ul>
+<p>So GPUs give you great performance but cost a lot of money (and I&#8217;ve left out that you still need to do research to see if your motherboard can take the GPU you want. You need to do research into &#8216;above 4G&#8217; and &#8216;bifurcation&#8217; and then these GPUs are so power hungry that you need to look at whether you need an upgraded PSU as well).</p>
+<p>So I thought &#8220;decent CPU!&#8221;</p>
+<p>I am very much &#8220;I don&#8217;t want to spend all this money on a hobby only to find that I am super bored and realise it was a waste of money&#8221;. At least going the CPU option I get a faster CPU to do other stuff and there&#8217;s also a bunch of Kubernetes related stuff I want to do, and a good CPU and lots of RAM will go a long way with that.</p>
+<p>So I actually started renting machines on vast.ai. Not to test out LLMs on GPUs, but to test out LLMs on CPUs because like I said earlier &#8220;you get to see what CPU you are renting&#8221;. So I would load up llama.cpp running in CPU mode (Just noting that over the past year llama.cpp has had so many features added including ; running on a GPU, splitting across more than one GPU if the model is large, splitting the model between CPU and GPU) and then I loaded up a mistral-7b-instruct-v0.2.Q4_K_M.gguf model (which is old now in 2025). Most benchmarks will show prompt processing speed (ie. the speed of processing what you typed in plus some other stuff you may have typed in earlier) and the &#8216;generation speed&#8217;. I was only interested in the generation speed. And llama.cpp will happily print out a tokens/sec speed when you have a query processed.</p>
+<p>I&#8217;ll note here that I tested this same mistral 7B on some other machines first</p>
+<p>&#8211; A raspberry pi 5 8GB . It did 2 tokens/sec<br />
+&#8211; My i7-4790 / 32GB DDR3 RAM thing. It did 4 tokens/sec<br />
+&#8211; A Lenovo laptop with a Zen 3 7530U / 16GB DDR4 RAM. 6 tokens/sec</p>
+<p>I was able to rent a machine with a Intel 13900K CPU, which at the time of testing was one of the fastest CPUs you could buy. It did 14 tokens/sec on this simple test. I always say &#8216;anything above 10 token/sec is awesome&#8217;. So that was awesome, but a 13900K is very very expensive as well. In the midst of my &#8216;searching for interesting CPUs to try&#8217; I saw an AMD 7600X. So that is Zen 4, and I know from work that Zen 4 servers are generally impressive. Anyway, that was able to do 12 tokens/sec. And a 7600X is not exactly a budget CPU, but its a lot cheaper than a 13900K.</p>
+<p>So that&#8217;s what I decided to get. 12 tokens/sec vs the 4 tokens/sec seemed like a big step up. Sure a 7B or 8B model is kind of &#8216;the bottom&#8217; in terms of LLM quality &#8230; but it would be a big step up. I ended up getting a Gigabyte motherboard, the AMD 7600X, a cooler and 2x16GB 6000MT/s DDR5 DIMMs running with XMP (the motherboard could take 4 DIMMs, but I&#8217;d read that 4xDDR5 often works worse than 2xDDR5). In hindsight I should have either spent more to get 2x32GB or 2x48GB, but I was trying to contain my budget.</p>
+<p>Anyway, I finally had a system that I could do some faster CPU based LLM inference on , although I was limited to models that would fit into 32GB. And it could also run some kubernetes stuff for me too. It is a very good system. I can&#8217;t recommend the 7600X enough.</p>
+<p>But of course I wanted more.</p>
+<p>I was wanting more RAM for my kubernetes experiments &#8230; but llama 3 had just come out and that llama 3 70B kept on getting fantastic write ups &#8230; but I could not run it locally. You need at least 40 GB to run 4 bit. I rented some containers on vast a few times, and I could definitely see the llama 3 70B 4 bit was quite a step up. I&#8217;d also started using Claude 3 Opus at work, so my brain kept on comparing the two &#8230; and hey everyone wants the open source LLM world to catch up to the commercial ones &#8230; and this was very &#8216;close&#8217;.</p>
+<p>So what to do. I had seen all these cheap X79 and X99 motherboards on aliexpress for a while now. They&#8217;re the kind of &#8216;cheap thing&#8217; that sounds cool to me, but there&#8217;s a mix of positive and negative reviews for these things. If you are unfamiliar with them. It&#8217;s like all the old servers in the world were stripped of their Xeons&#8217;s and old DDR3 ECC and DDR4 ECC ram and ended up in China. For some reason, some motherboard manufacturers in China decided to make new motherboards for these chips. So old Xeon, plus old RAM plus new weird motherboard. Quite often these new motherboards would have features that never existed when these old Xeons came out, most noticeably M.2 NVME slots. And they are cheap and possibly the thing that piqued my curiousity was &#8216;quad channel memory&#8217;.</p>
+<p>See, if you scour the llama.cpp issues section or /r/localllama you&#8217;ll discover that in terms of running LLMs on CPUs, its not the fastest CPU that wins. It generally comes down to &#8216;memory bandwidth&#8217;. ie. How fast can you transfer things between the CPU and the main RAM memory. You&#8217;d think surely the CPU speed is a factor, but not as much as you think. Think in terms of &#8216;the inference program is manipulating so much data in RAM on such a wide scale that all the caches in the world won&#8217;t help. Anyway &#8220;Quad channel&#8221; sounds awesome for getting things faster to/from memory. I knew vaguely that &#8216;quad channel on an old Xeon&#8217; probably wasn&#8217;t as fast as some more modern stuff, but I got a bit lost in the details.</p>
+<p>Of course there was an Aliexpress sale at the time. I saw an X99 motherboard with 4x32GB DDR3 ECC DIMMs (so 128GB of RAM) for a really great price. It was some Jingsha brand thing . It was an 8 slot DIMM motherboard so my brain is going &#8216;Obviously it can take 8x32GB = 256GB&#8217; which would be awesome! I asked the seller if they&#8217;d  sell it to me with 256GB and the deal was done. It was definitely cheap for &#8216;anything with 256GB of RAM&#8217;, but it was probably the most expensive thing I&#8217;ve ever bought on aliexpress. The seller said they&#8217;d test it and send it out.</p>
+<p>So the board turned up. It had the 8x32GB and Xeon already inserted in the board. I think I had to wait a few days for my cheap Xeon cooler to turn up. Then I tried powering on. It has one of those two digit 7 segment LED POST error code thingees on the motherboard. It flickered through some numbers and eventually I had a picture on the cheap video card I had plugged in. Some mad pressing of the key to the BIOS and I could see the amount of memory detected. It said 128GB. But clearly the board had 256GB plugged into it. For me I then go into troubleshooting mode. I swap DIMMs around. I reseat them.  I check the Xeon. So I ended up rebooting this thing a lot. I am trying various things for a few hours and then it just refuses to boot. I get an error like B6 on the LED display and it&#8217;s stuck. Its just decided to give up. Damn.</p>
+<p>I reach out to the Aliexpress seller. They get me to try things. Because of the time difference this drags on for a week or two, and at the back of my head I am thinking this is not going to end well. The seller was not helpful at all &#8230; and I go into &#8216;cut my losses&#8217; mode. I noticed on my local auction site an auction for an old Supermicro server board, an X9SRL-F that conveniently took the same DDR3 ECC RAMs I had. The Supermicro board actually came already with 8x8GB DDR3 ECC and an E5 2650L V2 10 core Xeon (which was older and slower than the one in the X99 board) and a low profile blower fan heatsink (for a 1U case). After some bidding I won the auction. I thought it was still a bit of a bargain. A bit over NZD$100 for a 10 core machine with 64GB of RAM.</p>
+<p>So the X9SRL-F turns up and I test it out. It&#8217;s actually a little nicer than the X99 board in that it has built in VGA and IPMI. There&#8217;s no NVME though, but I have some PCIE NVME adapters that I&#8217;ve used in the past anyway. It boots up, the 64GB checks out and it all works but gosh these blower fans are the loudest thing ever. Obviously my office is not a data centre, and the fan was just obnoxiously loud. I turned it off.</p>
+<p>The Supermicro board had a narrow LGA 2011 socket rather than the more normal wider one on the X99 board. That just meant the heatsink holes were different and importantly I could not use the fan I had for the X99 board on this one. I ordered the right LGA 2011 mount off aliexpress , but in the mean time I thought &#8216;Surely I have some old heatsink bits and pieces that I could hack together to make this go&#8217; and I&#8217;d read somewhere that AM4 or AM5 mounting holes are very similar to this narrow LGA 2011 thing. So I took the  blower fan  off and I had some bolts that looked like they might fit and I was screwing something down into them when I thought &#8216;this is going a bit too far, I should stop&#8217;. That&#8217;s when I noticed that these heatsink bolt holes on the LGA 2011 metal mounting plate are only designed for the bolts to go down a few millimetres and stop. The key issue is that the actual Supermicro PCB is directly underneath. ie. they did not design the board so that the heatsink bolts would go all the way through.</p>
+<p>I thought &#8220;I hope I haven&#8217;t damaged the PCB&#8221;</p>
+<p>Anyway, I park it for a while, and then the proper narrow LGA 2011 bracket turns up and I attach the fan to the X9SRL-F and boot it up and the onscreen POST number stops at B7 and does not get any further. Doh. I eventually work out that if I remove the two DIMMs closest to the Xeon on the power connector side that it does boot up and detects 192GB of RAM (ie. 256-32-32). Doh. Doh. Lots of fiddling and rebooting later and I still cannot get it to work with the full 256GB. I park it for a while.</p>
+<p>Eventually I remove the 4 torx bolts that hold the LGA 2011 bracket down, and finally I see the results of my eager heatsink bolt attempts.</p>
+<p><a href="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-05-29.png"><img fetchpriority="high" decoding="async" class="alignnone size-medium wp-image-2889" src="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-05-29-253x300.png" alt="" width="253" height="300" srcset="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-05-29-253x300.png 253w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-05-29-864x1024.png 864w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-05-29-768x910.png 768w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-05-29.png 890w" sizes="(max-width: 253px) 100vw, 253px" /></a></p>
+<p>Yep, the burr mark (below where it says CPU1 and to the left a bit) there is the end of the bolt damaging the traces on the PCB. The traces must have gone to the 4th memory channel which is the two DIMMs closest on that side.</p>
+<p>Some mad searching the internet for ideas of what to do. Sure 192GB of RAM is still a lot, but I was really keen to have quad channel RAM, so I didn&#8217;t want to give up on the 4th channel.</p>
+<p>At one point I came across a video with some comments similar to my bolt damage with a comment that &#8216;people handy with a soldering iron might be able to repair it&#8217;. It&#8217;s hard to see from the photo but these traces are super tiny. But I decided to have a go:</p>
+<p><a href="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-07-22.png"><img decoding="async" class="alignnone size-medium wp-image-2890" src="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-07-22-300x284.png" alt="" width="300" height="284" srcset="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-07-22-300x284.png 300w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-07-22-768x726.png 768w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-07-22.png 895w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>I don&#8217;t have a proper magnifying setup so it was a very hit and miss affair trying to scrape off the green stuff, get some flux in there, and get enough solder to &#8216;take&#8217; so I could solder these kynar wires down. Initially I had one of the two broken DIMM slots working &#8230; and then finally after a few more goes &#8230; I got the 2nd one going. All 256GB of RAM detected. I was amazed as my soldering job was quite awful.</p>
+<p>So that got me a 10 core V2 Xeon with a low clock speed (E5 2650L), and 256GB of RAM. I set it up with a disk running linux and finally I was able to try  the llama 3 70B 4 bit that I wanted to try. I could get 0.7 to 0.8 tokens/second. Oh well ;-). At least it works &#8230; but its certainly slow. I was curious to see what the memory bandwidth was actually like. The only decent linux program I found for this was stressapptest by google. It&#8217;s designed to stress memory out, but also prints out a memory bandwidth figure. With my quad channel setup I got about 29GB/sec which seemed low to me. If I removed half the RAM (ie. one DIMM per channel) and hence reduced some of the &#8216;load&#8217;, then the speed went to 35GB/s. That still didn&#8217;t make a great deal of difference in inference speed.  I went back to the 7600X system and ran the same stressapptest. It got 61GB/sec. Wow. that DDR5 with XMP really powers along &#8230; and that&#8217;s just with two DIMMs.  So what I&#8217;ve realised now is that the 7600X system with say 2x32GB or 2x48GB would have been the better choice to run these bigger models.</p>
+<p>I did actually order a faster CPU for the Supermicro board ; a E5-2697 V2 which is 12 core and has a higher base clock. The most interesting thing is that the LLM performance is the same as the slower E5 2650L. Like I said , memory bandwidth is the bottleneck. The fast CPU was only NZD$32 or so, so it&#8217;s not really money wasted and will help out with the kubernetes stuff I want to do.</p>
+<p>So, running a kind (kubernetes) cluster on this machine is rather good. Given the type of test loads I run, I often hit the limits of my 12 core CPU. Maybe 2 CPUs might have solved that, but it is a good test bed for that sort of thing.</p>
+<p>But for LLM stuff the setup was quite poor, and I started to think about possible options. An interesting one is the modified Nvidia 2080TI cards. The story is basically ; some company in China buys up old 2080ti 11GB cards (they only came with 11GB), desolders the 11GB of VRAM, and solders back in 22GB of VRAM. So you end up with a cost effective way to get over 20GB of VRAM. The prices of these cards vary a lot. You can find them on ebay and aliexpress, but I noticed if I went directly to taobao they are much cheaper. On taobao these modded cards had &#8216;list prices&#8217; of around NZ$620 which is still a decent chunk of money but way way cheaper than other options like a 3090 or 4090. Anyway, after much umming and arring I decided that I really wanted two of these cards so that I would have 40GB of VRAM , which would mean I could run a 70B in 4 or 5bit, but given my nervousness about ordering one of these, I opted to buy one first. If it turned up and worked good, I would order a second one.</p>
+<p>So I ordered one. Now taobao is all in Chinese and even though people outside of China can order stuff on it, it is generally focussed on domestic sales within China. So you have to run your browser in translate mode. I fumbled my way through the ordering process, but it ended up way more expensive than NZ$620. NZ GST was added (which is 15%). Shipping was added which I think was NZ$32 or so, then there was some weird payment fee of $20, then the exchange rate for a foreign credit card is not good .. and my NZ$620 became NZ$750 when I actually clicked the BUY button. Then I waited. I didn&#8217;t realise it, but I had somehow hit the button to send via ship, not plane. But an odd thing happened some days later. I started getting weird phone calls from unknown numbers in Sydney. I never answered them, but then the weird phone calls started coming from Hong Kong. I initially ignored these too, but finally answered one. It was the shipping company. They said I needed to pay an NZ$35 customs fee. So, yes, a completely unknown number calls and says &#8216;give us some money&#8217; ;-). But the Hong Kong person told me to go to Taobao messages. This I had never looked at before, and finally found it. The message wanted me to do a direct bank to bank transfer in NZ for the $35, and to screenshot my payment and upload the screen shot into the chat. So the next challenge was uploading a screenshot. This didn&#8217;t seem to work at all. I think I tried lots of different computers and none seemed to work. I eventually got it to work on a Mac (but later I think it may have been related to the DNS from my pihole). The customs agent via taobao messages said the package was &#8216;released&#8217; and then I waited .. for possibly a month, and then weirdly I started getting txts in Chinese in NZ saying that my parcel would be delivered &#8230; on an upcoming Sunday which was a little odd &#8230; but sure enough it was delivered on the Sunday before Christmas.</p>
+<p>So I finally had a 2080ti 22GB card. Mine was a leadtek branded one with a blower fan. I was umming and arring about whether to put the card in the 7600X machine or the supermicro system. I had actually bought a new modern case ahead of time thinking all GPUs are really long, and the old case I had would not be able to fit the 2080ti. But it turns out that the 2080ti is much shorter than you think, and when I bought the newer style case and put the 7600X system in it, I ended up putting the supermicro system in this older tower case (with 5 1/4 and 3 1/2&#8243; front slots). The 2080ti fitted in the older case . I also had sourced a larger capacity PSU locally. Given that I was aiming to have two 2080ti&#8217;s, I ended up buying a 1000W Lian Li PSU.</p>
+<p>So did it work? Yes it did. Yes it went faster. Yes I didn&#8217;t write down any benchmarks because &#8230; I then ordered a 2nd card.</p>
+<p>I spoke to the same taobao seller this time, and organised to get an NVLink as well. I got the impression that an NVLink would improve performance, and it is one of the luxuries of older NVidia cards, as the nvlink connector was removed in the 4090 and beyond. So this cost a bit more this time (around NZ$800 all up). And I again, accidentally hit the button to send by ship. After the weird ordering process of the first card I was all prepared to answer weird anonymous calls from Sydney and Hong Kong ;-). Again, I had to transfer NZ$35 to a bank account. I did that but I had a huge issue with uploading the screenshot. Previously I had only used taobao on a browser on a desktop machine, and accessed &#8216;taobao messages&#8217; from there. But this time when the shipping people called me from Hong Kong, they too said that they had left me a message on taobao messages, but it wasn&#8217;t there. On a whim, I installed the taobao app on my phone. Finally I could see the message from the shipping agent (ie. logged in on the taobao app on a phone I could see a lot more messages compared to if I logged in in a browser on a PC). Of course, the next problem was that the taobao phone app would not let me upload a screenshot 🙁 . I then just reached out on the leftover taobao messages chat from ordering the 1st 2080TI. I spoke to the shipping agent on that chat thread, and they let me upload the screenshot to them (via a browser connection) and &#8216;released&#8217; the parcel.</p>
+<p>And the 2nd 2080TI 22GB turned up (about a month later) with the NVLink.</p>
+<p>Yes the case is over 20yrs old I think. Yes I am using a pci-e 1x slot with an NVME adapter, yes the orange SATA cable is for an extra drive I needed to plug in, yes all the older drives towards the front of the case are disconnected, and yes I am using a clover boot to allow me to boot from the red USB stick then switch to the NVME drive.</p>
+<p><a href="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-47-06.png"><img decoding="async" class="alignleft wp-image-2892 size-medium" src="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-47-06-300x241.png" alt="" width="300" height="241" srcset="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-47-06-300x241.png 300w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-47-06-1024x823.png 1024w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-47-06-768x617.png 768w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-47-06.png 1484w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52.png"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-2893" src="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52-300x221.png" alt="" width="300" height="221" srcset="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52-300x221.png 300w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52-1024x756.png 1024w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52-768x567.png 768w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52-1536x1134.png 1536w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-48-52.png 1578w" sizes="auto, (max-width: 300px) 100vw, 300px" /></a></p>
+<p>&nbsp;</p>
+<p>Here&#8217;s the obligatory nvidia-smi screenshot</p>
+<p><a href="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-51-04.png"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-2894" src="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-51-04-300x190.png" alt="" width="300" height="190" srcset="https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-51-04-300x190.png 300w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-51-04-768x485.png 768w, https://www.kernelcrash.com/blog/wp-content/Screenshot-from-2025-03-10-13-51-04.png 826w" sizes="auto, (max-width: 300px) 100vw, 300px" /></a></p>
+<p>So how does it go with llama.cpp?</p>
+<p>Previously I had tested with this older LLM ; mistral-7b-instruct-v0.2.Q4_K_M.gguf . So same kind of test, but running the latest llama.cpp (in March 2025), with the two 2080TI 22GB cards with NVLink fitted, and the full 41 layers offloaded, I get generation speeds of:</p>
+<p style="padding-left: 40px;">mistral-7b-instruct-v0.2.Q4_K_M.gguf      :  22.5 token/s</p>
+<p>And for some recent LLMs for comparison (and yes there is something weird with the old mistral 7B, as I get faster generation on some modern 32B models)</p>
+<p style="padding-left: 40px;">DeepSeek-R1-Distill-Llama-70B-Q4_K_M.gguf (all 81 layers offloaded, but need to use -nkvo):   9.8 token/s</p>
+<p style="padding-left: 40px;">DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf (all 65 layers offloaded): 23.9 token/s</p>
+<p style="padding-left: 40px;">Qwen_QwQ-32B-Q5_K_M.gguf (all 65 layers offloaded): 21.2 token/s</p>
+<p style="padding-left: 40px;">Llama-3-Instruct-8B-SPPO-Iter3-Q4_K_M.gguf (all 33 layers offloaded): 86.1 token/s</p>
+<p style="padding-left: 40px;">gemma-2-27b-it-SimPO-37K-Q4_K_M.gguf ( all 47 layers offloaded): 28.5 token/s</p>
+<p style="padding-left: 40px;">phi-4-Q5_K_M.gguf (I think this is a 14B. All 41 layers offloaded): 45.6 token/s</p>
+<p style="padding-left: 40px;">Mistral-Small-24B-Instruct-2501-Q8_0.gguf ( all 41 layers offloaded): 22.4 token/s</p>
+<p>So that&#8217;s all quite good. The 70B is right on that 10 tokens/s border. It&#8217;s good enough to work with. Of course the latest news is QwQ 32B being the cool kid, and that runs twice as fast (though spends more time thinking).</p>
+<p>One more thing. A 2080TI is quite impressive for gaming as well 😉</p>
+                <div class="postmeta">
+            <div class="post-categories"><a href="https://www.kernelcrash.com/blog/category/ai/" rel="category tag">ai</a>, <a href="https://www.kernelcrash.com/blog/category/kubernetes/" rel="category tag">kubernetes</a></div>
+            <div class="post-tags"> </div>
+            <div class="clear"></div>
+        </div><!-- postmeta -->
+    </div><!-- .entry-content -->
+   
+    <footer class="entry-meta">
+            </footer><!-- .entry-meta -->
+
+</article>                
+	<nav class="navigation post-navigation" aria-label="Posts">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://www.kernelcrash.com/blog/appleii-vga-and-emulating-other-retro-video-subsystems/2024/06/15/" rel="prev">AppleII-VGA and emulating other retro video subsystems</a></div></div>
+	</nav>                                    </div>
+        <div id="sidebar">
+    
+            <aside id="archives" class="widget">
+            <h3 class="widget-title">Archives</h3>
+            <ul>
+                	<li><a href='https://www.kernelcrash.com/blog/2025/03/'>March 2025</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2024/06/'>June 2024</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2023/10/'>October 2023</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2023/06/'>June 2023</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2023/05/'>May 2023</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2023/03/'>March 2023</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2023/02/'>February 2023</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2023/01/'>January 2023</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2021/09/'>September 2021</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2021/06/'>June 2021</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2020/09/'>September 2020</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2020/08/'>August 2020</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2020/06/'>June 2020</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2020/03/'>March 2020</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2019/05/'>May 2019</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2019/01/'>January 2019</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2018/06/'>June 2018</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2018/05/'>May 2018</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2018/03/'>March 2018</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2017/11/'>November 2017</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2017/08/'>August 2017</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2017/04/'>April 2017</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2017/01/'>January 2017</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2016/10/'>October 2016</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2016/09/'>September 2016</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2016/04/'>April 2016</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2016/03/'>March 2016</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2016/02/'>February 2016</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2016/01/'>January 2016</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/11/'>November 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/10/'>October 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/09/'>September 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/08/'>August 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/07/'>July 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/06/'>June 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/05/'>May 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/03/'>March 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/02/'>February 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2015/01/'>January 2015</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2014/11/'>November 2014</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2014/09/'>September 2014</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2014/06/'>June 2014</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2013/11/'>November 2013</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2012/09/'>September 2012</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2012/08/'>August 2012</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2012/04/'>April 2012</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2012/02/'>February 2012</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2011/06/'>June 2011</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2011/05/'>May 2011</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2011/04/'>April 2011</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2010/04/'>April 2010</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/12/'>December 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/11/'>November 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/10/'>October 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/09/'>September 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/08/'>August 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/06/'>June 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/05/'>May 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/04/'>April 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/03/'>March 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/02/'>February 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2009/01/'>January 2009</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/12/'>December 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/10/'>October 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/09/'>September 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/08/'>August 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/07/'>July 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/06/'>June 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/05/'>May 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/03/'>March 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/02/'>February 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2008/01/'>January 2008</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/12/'>December 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/11/'>November 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/10/'>October 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/09/'>September 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/08/'>August 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/07/'>July 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/05/'>May 2007</a></li>
+	<li><a href='https://www.kernelcrash.com/blog/2007/04/'>April 2007</a></li>
+            </ul>
+        </aside>
+    	
+</div><!-- sidebar -->
+        <div class="clear"></div>
+    </div>
+</div><div class="clear"></div>
+
+</div><!-- main-container -->
+
+<div class="copyright-wrapper">
+                <div class="copyright">
+                    	<p>&copy; <a href="https://www.kernelcrash.com/blog/" rel="home">KernelCrash</a>  2026. Powered by WordPress</p>               
+                </div><!-- copyright --><div class="clear"></div>           
+        </div>
+    </div>        
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/blog/*"},{"not":{"href_matches":["/blog/wp-*.php","/blog/wp-admin/*","/blog/wp-content/*","/blog/wp-content/plugins/*","/blog/wp-content/themes/furnish-lite/*","/blog/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.kernelcrash.com/blog/wp-includes/js/wp-emoji-release.min.js?ver=6.9.4"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://www.kernelcrash.com/blog/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+
+</body>
+</html>

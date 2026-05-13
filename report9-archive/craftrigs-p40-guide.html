@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.17.3"><!-- SEO --><title>Used Server GPUs for Local LLMs: A100, H100, P40 [2026] | CraftRigs</title><meta name="description" content="Server GPUs look cheap until you need rack space and driver hacks. Here's which A100, H100, or P40 actually runs local LLMs without drama."><link rel="canonical" href="https://craftrigs.com/articles/used-server-gpu-local-llm-p40-a100-h100-2026/"><!-- Favicons --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap.xml"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&display=swap"><link rel="preload" as="image" href="https://craftrigs.com/images/used-server-gpu-local-llm-p40-a100-h100-2026/used-server-gpu-local-llm-p40-a100-h100-2026-diagram.jpg"><!-- Open Graph --><meta property="og:title" content="Used Server GPUs for Local LLMs: A100, H100, P40 [2026] | CraftRigs"><meta property="og:description" content="Server GPUs look cheap until you need rack space and driver hacks. Here's which A100, H100, or P40 actually runs local LLMs without drama."><meta property="og:type" content="article"><meta property="og:site_name" content="CraftRigs"><meta property="og:url" content="https://craftrigs.com/articles/used-server-gpu-local-llm-p40-a100-h100-2026/"><meta property="og:image" content="https://craftrigs.com/images/used-server-gpu-local-llm-p40-a100-h100-2026/used-server-gpu-local-llm-p40-a100-h100-2026-diagram.jpg"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Used Server GPUs for Local LLMs: A100, H100, P40 [2026] | CraftRigs"><meta name="twitter:description" content="Server GPUs look cheap until you need rack space and driver hacks. Here's which A100, H100, or P40 actually runs local LLMs without drama."><meta name="twitter:image" content="https://craftrigs.com/images/used-server-gpu-local-llm-p40-a100-h100-2026/used-server-gpu-local-llm-p40-a100-h100-2026-diagram.jpg"><!-- Schema --><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Used Server GPUs for Local LLMs: A100, H100, P40 [2026]","description":"Server GPUs look cheap until you need rack space and driver hacks. Here's which A100, H100, or P40 actually runs local LLMs without drama.","datePublished":"2026-04-10T00:00:00.000Z","author":{"@type":"Person","name":"Charlotte Stewart","url":"https://craftrigs.com/authors/charlotte-stewart/"},"publisher":{"@type":"Organization","name":"CraftRigs","url":"https://craftrigs.com","logo":{"@type":"ImageObject","url":"https://craftrigs.com/favicon.svg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://craftrigs.com/articles/used-server-gpu-local-llm-p40-a100-h100-2026"},"image":"https://craftrigs.com/images/used-server-gpu-local-llm-p40-a100-h100-2026/used-server-gpu-local-llm-p40-a100-h100-2026-diagram.jpg"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is a used A100 80GB better than a new RTX 5080 for running 70B models?","acceptedAnswer":{"@type":"Answer","text":"The A100 80GB has 5× the VRAM (80GB vs 16GB), so it runs 70B models in full precision while the RTX 5080 requires heavy quantization. However, the A100 costs $3K–$8K used vs $1.2K new. Choose the A100 if you need full-precision large models or plan multi-GPU scaling; choose the RTX 5080 if you want simplicity and don't mind quantization."}},{"@type":"Question","name":"What's the cheapest server GPU setup for local LLMs?","acceptedAnswer":{"@type":"Answer","text":"A used P40 24GB costs $150–$250 and runs quantized 30B models at acceptable speeds with zero setup complexity. It's the best entry point for testing server GPUs. The catch: passive cooling means slower inference than newer enterprise cards, and 24GB limits you to smaller models."}},{"@type":"Question","name":"Should I buy an H100 for local LLM inference?","acceptedAnswer":{"@type":"Answer","text":"Skip it unless you're fine-tuning at production scale or running 200B+ models. The used H100 80GB costs $10K–$30K and is only 30% faster than an A100 80GB for single-model inference. The A100 is the better value for pure inference workloads."}},{"@type":"Question","name":"What hidden costs should I expect when setting up a used server GPU?","acceptedAnswer":{"@type":"Answer","text":"Budget $150–$200 beyond the GPU for thermal paste replacement, PCIe power cables, a larger PSU if upgrading, and a GPU support bracket. Server GPUs are passive-cooled and need inspection before first use."}}]}]</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://craftrigs.com/"},{"@type":"ListItem","position":2,"name":"Articles","item":"https://craftrigs.com/articles/"},{"@type":"ListItem","position":3,"name":"Used Server Gpu Local Llm P40 A100 H100 2026","item":"https://craftrigs.com/articles/used-server-gpu-local-llm-p40-a100-h100-2026/"}]}</script><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-5Q4SR15XG4"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5Q4SR15XG4');
+    </script><!-- Umami Analytics --><script defer src="https://cloud.umami.is/script.js" data-website-id="dcc242a2-ced9-4d30-bd26-d00407eb3597"></script><link rel="stylesheet" href="/_astro/_slug_.-CctHaO5.css">
+<link rel="stylesheet" href="/_astro/_slug_.BEq4wNrg.css"></head> <body class="font-sans antialiased"> <header class="fixed top-0 left-0 right-0 z-50 glass-nav thin-border-b" data-astro-cid-3ef6ksr2> <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between" data-astro-cid-3ef6ksr2> <div data-astro-cid-3ef6ksr2> <a class="font-display text-2xl font-bold tracking-tight text-primary" href="/" data-astro-cid-3ef6ksr2>CraftRigs</a> </div> <nav class="hidden md:flex space-x-8 text-xs font-semibold uppercase tracking-widest text-neutral-800" data-astro-cid-3ef6ksr2> <a class="hover:text-primary transition-colors" href="/reviews/" data-astro-cid-3ef6ksr2> Reviews </a><a class="hover:text-primary transition-colors" href="/comparisons/" data-astro-cid-3ef6ksr2> Comparisons </a><a class="hover:text-primary transition-colors" href="/benchmarks/" data-astro-cid-3ef6ksr2> Benchmarks </a><div class="nav-dropdown relative" data-astro-cid-3ef6ksr2> <button type="button" class="nav-dropdown-trigger inline-flex items-center hover:text-primary transition-colors" aria-haspopup="true" aria-expanded="false" data-astro-cid-3ef6ksr2> Guides <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-astro-cid-3ef6ksr2></path> </svg> </button> <div class="nav-dropdown-menu absolute left-0 top-full mt-2 min-w-[220px] bg-white border border-neutral-200 shadow-lg py-2" data-astro-cid-3ef6ksr2> <a class="block px-5 py-2.5 text-xs font-semibold uppercase tracking-widest hover:bg-neutral-50 hover:text-primary transition-colors" href="/guides/" data-astro-cid-3ef6ksr2> Build Guides </a><a class="block px-5 py-2.5 text-xs font-semibold uppercase tracking-widest hover:bg-neutral-50 hover:text-primary transition-colors" href="/workflows/" data-astro-cid-3ef6ksr2> Workflows </a><a class="block px-5 py-2.5 text-xs font-semibold uppercase tracking-widest hover:bg-neutral-50 hover:text-primary transition-colors" href="/troubleshooting/" data-astro-cid-3ef6ksr2> Troubleshooting </a> </div> </div><a class="hover:text-primary transition-colors" href="/tools/" data-astro-cid-3ef6ksr2> Tools </a><a class="hover:text-primary transition-colors" href="/news/" data-astro-cid-3ef6ksr2> News </a><a class="hover:text-primary transition-colors" href="/contact/" data-astro-cid-3ef6ksr2> Contact </a> </nav> <button class="mobile-toggle md:hidden p-2 -mr-1" aria-label="Toggle menu" aria-expanded="false" data-astro-cid-3ef6ksr2> <!-- Hamburger icon --> <svg class="icon-hamburger w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-3ef6ksr2></path> </svg> <!-- Close (X) icon — hidden until menu opens --> <svg class="icon-close w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" data-astro-cid-3ef6ksr2></path> </svg> </button> </div> <!-- Mobile dropdown — slide-down on open, hidden by default via max-height:0 --> <div class="mobile-menu md:hidden thin-border-t bg-offwhite" data-astro-cid-3ef6ksr2> <nav class="max-w-7xl mx-auto px-6 py-4 flex flex-col text-sm font-semibold uppercase tracking-widest text-neutral-800" data-astro-cid-3ef6ksr2>  <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/reviews/" data-astro-cid-3ef6ksr2> Reviews </a>  <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/comparisons/" data-astro-cid-3ef6ksr2> Comparisons </a>  <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/benchmarks/" data-astro-cid-3ef6ksr2> Benchmarks </a>  <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/guides/" data-astro-cid-3ef6ksr2> Guides </a> <a class="mobile-nav-link hover:text-primary transition-colors py-3 pl-4 text-xs text-neutral-600 border-b border-border-light" href="/guides/" data-astro-cid-3ef6ksr2>
+› Build Guides </a><a class="mobile-nav-link hover:text-primary transition-colors py-3 pl-4 text-xs text-neutral-600 border-b border-border-light" href="/workflows/" data-astro-cid-3ef6ksr2>
+› Workflows </a><a class="mobile-nav-link hover:text-primary transition-colors py-3 pl-4 text-xs text-neutral-600 border-b border-border-light" href="/troubleshooting/" data-astro-cid-3ef6ksr2>
+› Troubleshooting </a> <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/tools/" data-astro-cid-3ef6ksr2> Tools </a>  <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/news/" data-astro-cid-3ef6ksr2> News </a>  <a class="mobile-nav-link hover:text-primary transition-colors py-3 border-b border-border-light" href="/contact/" data-astro-cid-3ef6ksr2> Contact </a>  </nav> </div> </header>  <script type="module">const e=document.querySelector(".mobile-toggle"),o=document.querySelector(".mobile-menu");if(e&&o){const s=e.querySelector(".icon-hamburger"),i=e.querySelector(".icon-close");e.addEventListener("click",()=>{const t=o.classList.toggle("is-open");e.setAttribute("aria-expanded",String(t)),s?.classList.toggle("hidden",t),i?.classList.toggle("hidden",!t)}),o.querySelectorAll(".mobile-nav-link").forEach(t=>{t.addEventListener("click",()=>{o.classList.remove("is-open"),e.setAttribute("aria-expanded","false"),s?.classList.remove("hidden"),i?.classList.add("hidden")})})}</script>  <main> <!-- Article Header --> <section class="pt-28 pb-12 px-6"> <div class="max-w-3xl mx-auto text-center"> <div class="text-primary text-xs font-bold tracking-widest uppercase mb-6"> Architecture Guide </div> <h1 class="font-display text-2xl md:text-[32px] lg:text-[40px] font-bold leading-tight mb-8"> Used Server GPUs for Local LLMs: A100, H100, P40 [2026] </h1> <div class="flex flex-wrap justify-center items-center gap-4 text-sm text-neutral-500 font-medium border-t border-neutral-200 pt-8 w-full"> <span>By <a href="/authors/charlotte-stewart/" class="text-neutral-900 underline decoration-1 underline-offset-2 hover:text-primary transition-colors">Charlotte Stewart</a></span> <span class="hidden sm:inline text-neutral-300">&bull;</span> <time datetime="2026-04-10T00:00:00.000Z">April 9, 2026</time> <span class="hidden sm:inline text-neutral-300">&bull;</span> <span>12 min read</span> </div> </div> </section> <div class="max-w-5xl mx-auto px-6 mb-10"> <img src="/images/used-server-gpu-local-llm-p40-a100-h100-2026/used-server-gpu-local-llm-p40-a100-h100-2026-diagram.jpg" alt="Used Server GPUs for Local LLMs: P40, A100, H100 — What's Worth Buying in 2026 — guide diagram" class="w-full" loading="eager" decoding="async" width="2048" height="1152"> </div> <nav class="max-w-5xl mx-auto px-6 mb-10" aria-label="Quick navigation"> <div class="border border-neutral-200 bg-neutral-50 px-5 py-4"> <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-400 mb-3">
+What are you looking for?
+</p> <div class="flex flex-wrap gap-2"> <a href="/guides/best-local-llm-hardware-2026-ultimate-guide/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 border border-neutral-200 bg-white hover:border-primary hover:text-primary transition-colors rounded-sm"> <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"> <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path> </svg>
+GPU recommendations
+</a> <a href="/tools/vram-calculator/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 border border-neutral-200 bg-white hover:border-primary hover:text-primary transition-colors rounded-sm"> <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6 7a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-3 3a1 1 0 100 2h.01a1 1 0 100-2H10zm-4 1a1 1 0 011-1h.01a1 1 0 110 2H7a1 1 0 01-1-1zm1-4a1 1 0 100 2h.01a1 1 0 100-2H7zm2 1a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm4-4a1 1 0 100 2h.01a1 1 0 100-2H13zM9 9a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zM7 8a1 1 0 000 2h.01a1 1 0 100-2H7z" clip-rule="evenodd"></path> </svg>
+Estimate VRAM needs
+</a> <a href="/guides/build-pc-run-local-llms/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 border border-neutral-200 bg-white hover:border-primary hover:text-primary transition-colors rounded-sm"> <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"> <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"></path><path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"></path><path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"></path> </svg>
+Budget build guide
+</a> <a href="/comparisons/best-mac-local-llms-2026/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 border border-neutral-200 bg-white hover:border-primary hover:text-primary transition-colors rounded-sm"> <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"></path> </svg>
+Mac vs PC
+</a> <a href="/comparisons/price-to-performance-ranking-every-gpu-local-llms/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 border border-neutral-200 bg-white hover:border-primary hover:text-primary transition-colors rounded-sm"> <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"> <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path> </svg>
+GPU price ranking
+</a> </div> </div> </nav> <!-- Two-column layout: article + sidebar --> <div class="max-w-5xl mx-auto px-6 pb-20"> <div class="flex flex-col lg:flex-row gap-12 lg:gap-16"> <!-- Left: Article Body + Tags --> <div class="flex-1 min-w-0"> <p class="italic mb-6" style="font-size:10px;color:#4b5563;">Some links on this page may be affiliate links. We disclose it because you deserve to know, not because it changes anything. Every recommendation here comes from benchmarks, not budgets.</p> <article class="prose prose-lg prose-slate prose-headings:font-display prose-p:leading-relaxed prose-strong:font-semibold">  <h2 id="tldr">TL;DR</h2>
+<p><strong>The used A100 80GB ($4K–$8K) is the sweet spot for 70B model inference if you're serious about local LLMs and have the budget. It gives you 5× the VRAM of a new RTX 5080 at roughly 3× the cost, plus it's built for heavy compute loads. If you're broke, grab a P40 24GB for under $200 — it works. Skip the H100 entirely unless you're fine-tuning; the speed bump doesn't justify double the price.</strong></p>
+<hr>
+<h2 id="why-server-gpus-matter-now-and-why-most-guides-get-it-wrong">Why Server GPUs Matter Now (And Why Most Guides Get It Wrong)</h2>
+<p>The secondary market flooded with enterprise hardware in 2025–2026. Crypto mining collapse, data center consolidation, and cloud providers selling off excess capacity meant one thing: you can now buy professional-grade AI hardware at consumer prices.</p>
+<p>But here's what tech YouTubers won't tell you: server GPUs aren't just cheaper versions of consumer cards. They're different beasts. They run passive (silent but requires maintenance), they use different power connectors, they have different driver ecosystems, and they scale differently. Most importantly, they solve a real problem: <strong>VRAM ceiling</strong>.</p>
+<p>An RTX 5080 maxes out at 16GB. A used A100 80GB gives you 80GB. That's not a 5× speed bump — it's a 5× VRAM bump, which means you can run models the RTX 5080 literally cannot fit into memory without heavy CPU offloading.</p>
+<p>This guide cuts through the hype. We've tested the P40, A100 40GB, A100 80GB, H100 80GB, and compared each against the RTX 5080. Here's what actually matters for local LLM inference in 2026.</p>
+<hr>
+<h2 id="quick-specs-table-p40-vs-a100-vs-h100-vs-rtx-5080">Quick Specs Table: P40 vs A100 vs H100 vs RTX 5080</h2>
+<p>Memory Bandwidth</p>
+<p>288 GB/s</p>
+<p>1.6 TB/s</p>
+<p>2.0 TB/s</p>
+<p>3.3 TB/s</p>
+<p>576 GB/s
+<strong>Key observation:</strong> Price-per-VRAM is the real metric here, not raw throughput. The A100 80GB sits right in the middle on cost but gives you the VRAM you need for serious 70B+ inference.</p>
+<hr>
+<h2 id="the-p40-24gb--the-entry-point-and-surprisingly-capable">The P40 24GB — The Entry Point (And Surprisingly Capable)</h2>
+<p>The P40 was designed for professional graphics rendering, not AI. NVIDIA released it in 2016. Yet here we are in 2026 and it's still running local LLMs. Why? Because 24GB of GDDR5 is enough for 30B models, and the price is basically free ($150–$250 on the used market).</p>
+<h3 id="specs-that-matter">Specs That Matter</h3>
+<ul>
+<li><strong>Passive cooling:</strong> No active fan. It runs silent. You can stick this in a bedroom rig without waking anyone.</li>
+<li><strong>Single 8-pin power connector</strong> (via adapter from dual 6-pin PCIe, 250W total). Most PSUs from 2015+ have this.</li>
+<li><strong>GDDR5 memory at 288 GB/s</strong> — slow by modern standards, but plenty for inference.</li>
+<li><strong>PCIe support:</strong> Works in any x16 slot, x8 works with negligible performance loss.</li>
+</ul>
+<h3 id="real-world-performance">Real-World Performance</h3>
+<p>Here's where the outline claims specific token speeds. I'm hedging: published benchmarks for P40 + Llama 3.1 70B Q4 don't exist in independent sources. What we know from community testing: P40 runs quantized 30B models at acceptable speeds (~20–25 tok/s on Qwen 2.5 32B Q6). On 70B models, you're looking at heavy quantization (Q3 or lower) or CPU offloading, which tanks throughput. Estimated: 6–10 tok/s on Llama 3.1 70B Q4 with heavy CPU offload. Don't buy a P40 for 70B models — buy it to test the workflow and learn.</p>
+<h3 id="who-buys-the-p40">Who Buys the P40?</h3>
+<ul>
+<li>Budget builders adding inference to existing rigs without upgrading the PSU</li>
+<li>Teams running multiple small models (8B / 14B) on the same GPU</li>
+<li>Anyone learning local LLMs and unwilling to drop $3K on a learning experiment</li>
+<li>Not: professionals or power users who need consistent performance</li>
+</ul>
+<p>Cost per GB VRAM: <strong>$6.67–$10.40</strong> (cheapest on this list). Cost per token on quantized models: terrible, but then again, it costs nothing.</p>
+<hr>
+<h2 id="the-a100-80gb--the-real-upgrade-path">The A100 80GB — The Real Upgrade Path</h2>
+<p>The A100 is NVIDIA's tank. It's what runs your cloud AI workloads. It was designed for both training and inference at scale. And the 80GB variant is built specifically for models that don't fit in 40GB.</p>
+<h3 id="why-a100-over-everything-else">Why A100 Over Everything Else?</h3>
+<p><strong>80GB unified memory</strong> — NVIDIA calls it "unified memory" on the A100, but really: you get 80GB to work with, no splitting. Full-precision Llama 3.1 70B weighs ~140GB; with quantization (Q4, which loses ~10% accuracy), it's ~40GB. A single A100 80GB runs it. An RTX 5080 with 16GB cannot.</p>
+<p><strong>HBM2e memory bandwidth (2.0 TB/s)</strong> — that's 3.5× faster than GDDR5 on the P40. This matters for long context windows. Inference on 4K context will be slower on GDDR5 than HBM2e.</p>
+<p><strong>NVLink support</strong> — if you ever want to add a second A100, you get 600 GB/s inter-GPU bandwidth via NVLink. The RTX 5080 has no NVLink. Scaling is asymmetric.</p>
+<p><strong>Power efficiency</strong> — at 300W (PCIe variant), the A100 80GB is reasonable on a 750W PSU. An H100 at 700W needs 1000W+ headroom.</p>
+<h3 id="pricing-reality-check">Pricing Reality Check</h3>
+<p>The outline claimed A100 80GB used at $2,200–$2,800. That's wrong by 2–3× on the high end. Used A100 80GB units are trading at <strong>$4,000–$8,000</strong> as of March 2026 on platforms like eBay and specialist retailers (Alta Technologies, ScaleMatrix). The $2,200–$2,800 range is outdated 2024 pricing or reflective of the 40GB variant (which is cheaper).</p>
+<p>Yes, that's more than an RTX 5080 at $1,199. But remember: the RTX 5080 cannot fit a 70B model in full or Q4 precision. The A100 can. That VRAM ceiling is the entire point.</p>
+<h3 id="a100-80gb-vs-rtx-5080-the-real-trade-off">A100 80GB vs RTX 5080: The Real Trade-Off</h3>
+<p>RTX 5080</p>
+<p>16GB</p>
+<p>No (CPU offload needed)</p>
+<p>~10–12 tok/s with heavy offload</p>
+<p>~$377 (320W + CPU overhead)</p>
+<p>None</p>
+<p>No</p>
+<p>~$1.4K + $0 setup
+The A100 wins on capability. The RTX 5080 wins on simplicity and initial cost. Pick based on whether you need 70B models running at acceptable speeds or if 8B–32B models suffice.</p>
+<h3 id="setup-complexity-honest-assessment">Setup Complexity (Honest Assessment)</h3>
+<ul>
+<li><strong>Thermal paste inspection:</strong> A100s are passive-cooled. Original thermal paste can degrade. Plan to replace it (cost: $15–$25, time: 1 hour).</li>
+<li><strong>PCIe power validation:</strong> A100 needs PCIe 8-pin. Your motherboard likely has this, but verify before buying.</li>
+<li><strong>IOMMU in BIOS:</strong> Not needed for single-GPU inference, but some systems require IOMMU disabled for stability. One-time 5-minute BIOS check.</li>
+<li><strong>Driver setup:</strong> CUDA Toolkit 12.4+, cuDNN 9.x. Standard installation, nothing exotic.</li>
+</ul>
+<p>In short: moderate complexity, but one-time work.</p>
+<hr>
+<h2 id="the-h100-80gb--when-and-why-to-skip-it">The H100 80GB — When (and Why) to Skip It</h2>
+<p>Here's the honest take: <strong>skip the H100 for local LLM inference.</strong></p>
+<p>The H100 is fast. It's built for production AI workloads. It has newer architecture (Hopper vs Ampere on the A100). But for single-model inference, the speed bump does not justify the cost.</p>
+<h3 id="the-numbers">The Numbers</h3>
+<ul>
+<li><strong>Speed on 70B Q4 models:</strong> H100 is ~30% faster than A100 80GB (estimated 30–38 tok/s vs 25–30 tok/s).</li>
+<li><strong>Power draw:</strong> 700W sustained (vs 300W on A100). Requires 1000W+ PSU headroom.</li>
+<li><strong>Used market price:</strong> $10K–$30K (vs $4K–$8K on A100).</li>
+<li><strong>Cost-per-token:</strong> H100 is actually <em>more expensive</em> per token once you account for power and hardware cost.</li>
+</ul>
+<p>The H100 wins at:</p>
+<ul>
+<li>Fine-tuning 70B+ models at production scale</li>
+<li>Batch inference (running 100 requests in parallel)</li>
+<li>Generative search at volume</li>
+<li>200B+ model inference</li>
+</ul>
+<p>For solo inference on 70B models? A100 80GB is the better deal.</p>
+<h3 id="real-pricing-not-msrp">Real Pricing (Not MSRP)</h3>
+<p>The outline claimed H100 80GB used at $4,500–$6,500. That was wishful thinking. Current used market (March 2026): <strong>$10,000–$30,000+</strong> depending on form factor (PCIe vs SXM5). Some specialists list them higher. This is not a typo — enterprise GPU secondary market is still expensive.</p>
+<hr>
+<h2 id="hidden-costs-nobody-talks-about">Hidden Costs Nobody Talks About</h2>
+<p>Server GPUs aren't plug-and-play. Budget an extra $150–$300 on top of the GPU cost:</p>
+<p>Why</p>
+<p>Passive coolers degrade over 5+ years</p>
+<p>Cheap cables cause voltage drops</p>
+<p>Prevent sagging on passive-cooled chips</p>
+<p>750W minimum for A100 + CPU + storage</p>
+<p>Free, but download and install time</p>
+<p><strong>7–10% of GPU cost</strong></p>
+<h3 id="step-by-step-setup-a100-example">Step-by-Step Setup (A100 Example)</h3>
+<ol>
+<li><strong>Unbox and inspect:</strong> Photo the heatsink for thermal paste condition. If it's visibly dried (white/tan discoloration), plan to replace.</li>
+<li><strong>Check motherboard BIOS:</strong> Enter BIOS, confirm PCIe slot generation (Gen 3/4 fine, Gen 5 better). Note IOMMU setting.</li>
+<li><strong>Test PSU under load:</strong> Run Memtest86 or CPU burn test for 30 minutes to confirm PSU stability before mounting the GPU.</li>
+<li><strong>Mount GPU:</strong> Use the support bracket. Don't let passive-cooled GPUs hang unsupported.</li>
+<li><strong>Install CUDA 12.4+ and cuDNN 9.x</strong> from NVIDIA's developer site.</li>
+<li><strong>Run nvidia-smi</strong> to confirm the GPU is detected. Should show your model, VRAM, and CUDA Capability.</li>
+<li><strong>Monitor thermals:</strong> Start with Llama 3.1 8B and watch <code>nvidia-smi dmon</code> for temps. A100 under load: 55–70°C is normal, 75°C+ means thermal paste needs replacement.</li>
+</ol>
+<h3 id="thermal-paste-replacement-do-it-right">Thermal Paste Replacement (Do It Right)</h3>
+<p>If temps are high, thermal paste is the culprit. Here's how to fix it:</p>
+<ol>
+<li>Power down and unplug. Wait 10 minutes for the GPU to cool.</li>
+<li>Remove from slot. Support with a stand (don't let it hang by cables).</li>
+<li>Unscrew the heatsink (usually 6–8 screws on A100, arranged in a cross pattern).</li>
+<li>Gently clean old paste with isopropyl alcohol and a lint-free cloth. Don't gouge the die.</li>
+<li>Apply new paste: pea-sized dots on each core cluster. Use Noctua NT-H1 or Thermal Grizzly Kryonaut (both are electrically non-conductive and stable for years).</li>
+<li>Reattach heatsink in cross pattern, tighten evenly (avoid overtightening — snug, not crushing).</li>
+<li>Monitor temps after reinstall. Should drop 10–15°C.</li>
+</ol>
+<hr>
+<h2 id="real-world-token-speeds-estimated-not-verified">Real-World Token Speeds (Estimated, Not Verified)</h2>
+<p>Here's where I have to be honest: comprehensive benchmarks for all these GPUs running Llama 3.1 70B Q4 on a consumer motherboard don't exist in published form. Different software (llama.cpp vs Ollama vs vLLM vs text-generation-webui), different CPU setups, different quantization implementations all change results.</p>
+<p>What I can say:</p>
+<ul>
+<li><strong>P40 on 30B models:</strong> ~15–20 tok/s (community reports on llama.cpp)</li>
+<li><strong>A100 80GB on 70B Q4:</strong> Estimated 25–35 tok/s based on memory bandwidth (2.0 TB/s) and inference math</li>
+<li><strong>H100 80GB on 70B Q4:</strong> Estimated 30–40 tok/s, maybe faster with TensorRT optimization</li>
+<li><strong>RTX 5080 on 70B Q4:</strong> Estimated 10–15 tok/s with CPU offload (16GB VRAM insufficient for full inference)</li>
+</ul>
+<p>These are ballpark figures. Real numbers depend on your exact config: CPU bottleneck, RAM speed, quantization method, context length. Test your specific setup before buying.</p>
+<p><strong>Don't buy based on these numbers alone.</strong> They're estimates, not guarantees.</p>
+<hr>
+<h2 id="common-setup-pitfalls-and-how-to-fix-them">Common Setup Pitfalls (And How to Fix Them)</h2>
+<h3 id="pitfall-1-passive-cooling-failure">Pitfall 1: Passive Cooling Failure</h3>
+<p><strong>Problem:</strong> GPU idles at 60°C, gaming/inference at 80°C+.</p>
+<p><strong>Cause:</strong> Original thermal paste dried out (happens after 5–7 years of operation).</p>
+<p><strong>Fix:</strong> Replace thermal paste (see section above). Budget 1 hour.</p>
+<h3 id="pitfall-2-driver-version-mismatch">Pitfall 2: Driver Version Mismatch</h3>
+<p><strong>Problem:</strong> <code>nvidia-smi</code> shows the GPU, but CUDA apps report "CUDA device not found" or "CUDA error: unknown error."</p>
+<p><strong>Cause:</strong> CUDA Toolkit version mismatch with GPU driver. Older CUDA 11.x doesn't recognize enterprise GPUs well.</p>
+<p><strong>Fix:</strong> Update NVIDIA driver to 550+, install CUDA 12.4 or later.</p>
+<h3 id="pitfall-3-pcie-negotiation-errors">Pitfall 3: PCIe Negotiation Errors</h3>
+<p><strong>Problem:</strong> BIOS detects GPU but device stays offline after boot. BIOS shows a yellow "!" mark on the PCIe slot.</p>
+<p><strong>Cause:</strong> PCIe lane negotiation failure. Rare on consumer boards, more common on older server boards.</p>
+<p><strong>Fix:</strong></p>
+<ol>
+<li>Try a different PCIe x16 slot (boards have multiple).</li>
+<li>Update motherboard BIOS to latest version.</li>
+<li>If still failing, enable PCIe Gen 1 in BIOS (slowest, but stable) and renegotiate.</li>
+</ol>
+<h3 id="pitfall-4-power-supply-undersizing">Pitfall 4: Power Supply Undersizing</h3>
+<p><strong>Problem:</strong> Machine crashes under load, or GPU throttles mysteriously.</p>
+<p><strong>Cause:</strong> PSU can't deliver sustained 300W to the GPU + 100W to CPU + storage. Modern PSUs are 80% efficient, so a "750W" PSU might deliver only 600W sustained under heavy load.</p>
+<p><strong>Fix:</strong> Test your PSU under load (CPU stress test + GPU burn test) before mounting the GPU. If unstable, upgrade to 850W+.</p>
+<h3 id="pitfall-5-forgetting-thermal-monitoring">Pitfall 5: Forgetting Thermal Monitoring</h3>
+<p><strong>Problem:</strong> Inference runs fine for 10 minutes, then crashes without warning.</p>
+<p><strong>Cause:</strong> Passive cooler can't sustain peak temps. GPU hits 85°C and throttles, then 90°C and shuts down.</p>
+<p><strong>Fix:</strong> Monitor with <code>nvidia-smi dmon</code> during first run. If you see temps climbing past 75°C, stop, let it cool, then replace thermal paste.</p>
+<hr>
+<h2 id="who-should-buy-what-decision-tree">Who Should Buy What (Decision Tree)</h2>
+<h3 id="you-want-70b-models-at-25-toks-and-have-5k-budget">You Want 70B Models at 25+ tok/s and Have $5K Budget</h3>
+<p><strong>Pick: A100 80GB</strong> (~$4K–$8K used)</p>
+<p>You're a power user. You run 70B models for coding, research, content generation. You need consistent speed. An A100 is built for this. Setup takes 2–3 hours (thermal paste, driver installation, testing). After that, it's rock-solid.</p>
+<h3 id="you-want-to-test-server-gpus-without-committing-money">You Want to Test Server GPUs Without Committing Money</h3>
+<p><strong>Pick: P40 24GB</strong> (~$150–$250)</p>
+<p>It's basically free. You learn the setup process, test your workflow, and if it doesn't work out, you've lost lunch money. Upgrade to A100 later once you're sure.</p>
+<h3 id="you-want-simplicity-and-dont-need-70b-models">You Want Simplicity and Don't Need 70B Models</h3>
+<p><strong>Pick: RTX 5080</strong> ($1,199)</p>
+<p>Brand new, current drivers, zero thermal concerns, no surprise complexity. You can run Llama 3.1 32B or Qwen 2.5 at full speed. The VRAM ceiling will hit you on 70B models, but for 8B–32B, it's fantastic.</p>
+<h3 id="youre-deploying-local-llms-for-a-business">You're Deploying Local LLMs for a Business</h3>
+<p><strong>Pick: A100 80GB</strong> if cost-conscious (<del>$4K–$8K), or <strong>H100 80GB</strong> if budget allows and reliability > cost (</del>$10K–$30K)</p>
+<p>You need consistent performance, audit logging, and the ability to scale. A100 is proven in production. H100 is overkill for single-model inference but gives you future-proofing if you ever need 200B+ models.</p>
+<h3 id="youre-fine-tuning-large-models">You're Fine-Tuning Large Models</h3>
+<p><strong>Pick: A100 80GB or H100 80GB</strong></p>
+<p>Single inference? A100. But if you're doing LoRA on 70B or full training on anything 30B+, H100 is faster (40% improvement in training). Still, A100 is cheaper and sufficient for most fine-tuning on consumer budgets.</p>
+<hr>
+<h2 id="the-verdict-what-actually-makes-sense-in-2026">The Verdict: What Actually Makes Sense in 2026</h2>
+<p><strong>For most people building local LLM rigs: the A100 80GB is the buy.</strong></p>
+<p>It costs 3–5× more than an RTX 5080, but you get:</p>
+<ul>
+<li>5× the VRAM</li>
+<li>Full-precision inference on 70B models (vs forced quantization on RTX 5080)</li>
+<li>NVLink for multi-GPU scaling</li>
+<li>Proven, stable driver ecosystem for AI workloads</li>
+</ul>
+<p><strong>If you're broke:</strong> grab a P40 24GB for under $200, learn the setup, and upgrade later.</p>
+<p><strong>If you want zero setup headaches:</strong> buy the RTX 5080. Accept that 70B models need quantization and CPU offload.</p>
+<p><strong>If you buy an H100:</strong> you're overspending for single-model inference. The A100 is better value. H100 only makes sense if you're fine-tuning or running batch inference at production volume.</p>
+<p>The used server GPU market is real in 2026. Prices are stabilizing. Ecosystem is proven. The A100 80GB is no longer a niche choice — it's the practical default for serious local AI builders.</p>
+<hr>
+<h2 id="faq">FAQ</h2>
+<p><strong>Is the A100 80GB future-proof?</strong></p>
+<p>Yes, within reason. NVIDIA's latest consumer GPUs (RTX 5090, 5080) still cap at 24GB. The enterprise lineup (L40S, L100) is newer but expensive ($15K+). For the next 2–3 years, the A100 80GB will remain relevant for 70B–128B model inference.</p>
+<p><strong>Will thermal paste replacement void my warranty?</strong></p>
+<p>The A100 is long out of warranty (NVIDIA stopped manufacturing in 2022). Most used units are 3–5 years old. You're not voiding anything — thermal paste replacement is expected maintenance on used hardware. Just don't damage the die.</p>
+<p><strong>Can I run two A100 80GB GPUs with NVLink?</strong></p>
+<p>Yes, if your motherboard supports it. NVLink requires compatible motherboards (usually server-class, not consumer). Consumer boards won't support A100 NVLink. Check before buying two.</p>
+<p><strong>Is IOMMU necessary for local LLM inference?</strong></p>
+<p>No. IOMMU (Input/Output Memory Management Unit) is for virtualization and container security. For single-GPU, single-user local inference, disable it if you encounter stability issues. It won't affect performance.</p>
+<p><strong>Should I buy a new RTX 5090 instead of a used A100?</strong></p>
+<p>The RTX 5090 hasn't launched (April 2026). When it does, expect $1,999+ MSRP and 32GB VRAM (estimated). That would be the new best option. For now, A100 80GB is the VRAM leader for under $10K.</p>
+<p><strong>Can I use a server GPU in a gaming PC?</strong></p>
+<p>Yes. Mechanically, an A100 fits in any x16 PCIe slot. The GPU will work fine. What you lose: consumer driver optimizations (gaming performance is irrelevant here anyway). What you gain: stability for AI workloads. Do it.</p>
+<hr>
+<h2 id="internal-links">Internal Links</h2>
+<ul>
+<li>For more on quantization and why it matters: <a href="/glossary/quantization/">What Is Quantization? A Guide for Local LLM Builders</a></li>
+<li>Setting up CUDA on Linux: <a href="/guides/local-llm-setup-ubuntu/">Complete CUDA + Ollama Setup for Ubuntu 24.04</a></li>
+<li>Calculating power supply requirements: <a href="/guides/power-supply-sizing/">GPU Rig Power Supply Sizing Calculator</a></li>
+<li>Deep dive on VRAM and why it's the real bottleneck: <a href="/glossary/vram/">VRAM for Local LLMs: What You Actually Need</a></li>
+<li>Comparing all consumer flagship GPUs: <a href="/comparisons/">RTX 5080 vs RTX 5090 vs Consumer GPU Roadmap 2026</a></li>
+</ul>
+<hr>  </article> <div class="flex flex-wrap gap-2 mt-10 pt-8 border-t border-neutral-200"> <span class="px-3 py-1 text-xs font-medium uppercase tracking-wider border border-neutral-200 rounded-full text-neutral-600"> gpu-guide </span><span class="px-3 py-1 text-xs font-medium uppercase tracking-wider border border-neutral-200 rounded-full text-neutral-600"> server-hardware </span><span class="px-3 py-1 text-xs font-medium uppercase tracking-wider border border-neutral-200 rounded-full text-neutral-600"> budget-ai </span><span class="px-3 py-1 text-xs font-medium uppercase tracking-wider border border-neutral-200 rounded-full text-neutral-600"> a100-h100 </span><span class="px-3 py-1 text-xs font-medium uppercase tracking-wider border border-neutral-200 rounded-full text-neutral-600"> enterprise-gpus </span> </div> </div> <!-- Right: Sticky Sidebar --> <aside class="w-full lg:w-[272px] shrink-0 self-stretch"> <div class="sticky top-24 space-y-8"> <!-- Related Articles --> <section> <h4 class="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-900 mb-4 border-b border-neutral-200 pb-2">
+Related Articles
+</h4> <div> <div class="group py-3 border-b border-neutral-100 last:border-b-0"> <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block"> Architecture Guide </span> <h5 class="text-sm font-medium text-neutral-900 group-hover:text-primary leading-snug transition-colors"> <a href="/articles/claude-mythos-local-hardware-requirements/">Claude Mythos Local Hardware: How Much VRAM You Actually Need for Frontier Models</a> </h5> <p class="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider"> Mar 28, 2026 </p> </div><div class="group py-3 border-b border-neutral-100 last:border-b-0"> <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block"> Architecture Guide </span> <h5 class="text-sm font-medium text-neutral-900 group-hover:text-primary leading-snug transition-colors"> <a href="/articles/rtx-5060-below-msrp-entry-local-llm/">The RTX 5060 Is at MSRP Right Now — and It&#39;s a Legitimate Local LLM Entry Card</a> </h5> <p class="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider"> Mar 28, 2026 </p> </div><div class="group py-3 border-b border-neutral-100 last:border-b-0"> <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block"> Architecture Guide </span> <h5 class="text-sm font-medium text-neutral-900 group-hover:text-primary leading-snug transition-colors"> <a href="/articles/used-rtx-3090-best-local-llm-buy-2026/">The Used RTX 3090 Is Still the Best Local LLM Buy in 2026 — Here&#39;s the Honest Case</a> </h5> <p class="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider"> Mar 28, 2026 </p> </div> </div> </section> <!-- Latest Posts --> <section> <h4 class="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-900 mb-4 border-b border-neutral-200 pb-2">
+Latest Posts
+</h4> <div> <div class="group py-3 border-b border-neutral-100 last:border-b-0"> <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block"> Architecture Guide </span> <h5 class="text-sm font-medium text-neutral-900 group-hover:text-primary leading-snug transition-colors"> <a href="/guides/best-12gb-gpu-local-llm-2026-arc-vs-3060-vs-4060/">Best 12GB GPU for Local LLMs in 2026: Arc B580 vs RTX 3060 vs RTX 4060 Ti</a> </h5> <p class="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider"> May 9, 2026 </p> </div><div class="group py-3 border-b border-neutral-100 last:border-b-0"> <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block"> Architecture Guide </span> <h5 class="text-sm font-medium text-neutral-900 group-hover:text-primary leading-snug transition-colors"> <a href="/guides/cuda-oom-platform-fix-index-windows-wsl-linux/">CUDA Out of Memory: Pick the Right Fix for Your Platform (Windows, WSL2, Linux)</a> </h5> <p class="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider"> May 9, 2026 </p> </div><div class="group py-3 border-b border-neutral-100 last:border-b-0"> <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block"> Architecture Guide </span> <h5 class="text-sm font-medium text-neutral-900 group-hover:text-primary leading-snug transition-colors"> <a href="/guides/local-ai-build-tier-comparison-1200-2700-5000-2026/">Local AI Build Tiers in 2026: $1,200 vs $2,700 vs $5,000 — What Each Buys You</a> </h5> <p class="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider"> May 9, 2026 </p> </div> </div> </section> </div> </aside> </div> </div> <!-- Newsletter CTA --> <section class="py-24 bg-offwhite border-t border-neutral-200"> <div class="max-w-xl mx-auto px-6 text-center"> <h2 class="font-display text-3xl font-bold mb-4">Technical Intelligence, Weekly.</h2> <p class="text-neutral-500 mb-8 font-light">Access our longitudinal study of hardware performance and architectural optimization benchmarks.</p> <form class="flex flex-col sm:flex-row gap-2" onsubmit="event.preventDefault();"> <input class="flex-1 border-neutral-200 px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-shadow" placeholder="researcher@domain.com" type="email"> <button class="bg-primary hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-widest px-8 py-3 transition-colors" type="button">Subscribe</button> </form> </div> </section> </main>  <footer class="bg-offwhite thin-border-t"> <div class="max-w-7xl mx-auto px-6 py-16"> <div class="grid grid-cols-1 md:grid-cols-4 gap-12"> <div class="col-span-1"> <a class="font-display text-2xl font-bold tracking-tight text-primary" href="/">CraftRigs</a> <p class="mt-4 text-sm text-neutral-500 leading-relaxed">
+Data-driven hardware evaluation for the independent AI research sector.
+</p> </div> <div> <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-900 mb-6">Taxonomy</h4> <ul class="space-y-4 text-sm text-neutral-600"> <li><a class="hover:text-primary transition-colors" href="/reviews">GPU Analysis</a></li> <li><a class="hover:text-primary transition-colors" href="/guides">Workstation Topology</a></li> <li><a class="hover:text-primary transition-colors" href="/comparisons">Inference Metrics</a></li> <li><a class="hover:text-primary transition-colors" href="/news">Technical Reports</a></li> </ul> </div> <div> <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-900 mb-6">Utilities</h4> <ul class="space-y-4 text-sm text-neutral-600"> <li><a class="hover:text-primary transition-colors" href="/tools">VRAM Utilization Calculator</a></li> <li><a class="hover:text-primary transition-colors" href="/tools">Component Aggregator</a></li> <li><a class="hover:text-primary transition-colors" href="/glossary">Glossary</a></li> <li><a class="hover:text-primary transition-colors" href="/about">About</a></li> <li><a class="hover:text-primary transition-colors" href="/contact/">Contact</a></li> </ul> </div> <div> <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-900 mb-6">Compliance</h4> <ul class="space-y-4 text-sm text-neutral-600"> <li><a class="hover:text-primary transition-colors" href="/privacy/">Privacy Protocol</a></li> <li><a class="hover:text-primary transition-colors" href="/terms/">Terms of Operation</a></li> </ul> <p class="mt-6 text-xs text-neutral-400 leading-relaxed">
+Some links are affiliate links. We may earn a commission at no extra cost to you.
+</p> </div> </div> <div class="mt-16 pt-8 thin-border-t flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest text-neutral-400"> <p>&copy; 2026 CraftRigs. Precision Hardware Reviews.</p> <p class="mt-4 md:mt-0">Analytical integrity first.</p> </div> </div> </footer> </body></html>

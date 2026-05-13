@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/source-code-pro/source-code-pro.css">
+    <link rel="stylesheet" type="text/css" href="/css/source-sans-pro/source-sans-pro.css">
+    <link rel="stylesheet" type="text/css" href="/css/source-serif-pro/source-serif-pro.css">
+
+    <link rel="stylesheet" type="text/css" href="/js/photoswipe/photoswipe.css">
+
+    
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <link rel="alternate" type="application/rss+xml"  title="RSS Feed for sebastians site" href="/rss.xml" />
+
+    <script src="/js/mathjax/tex-chtml-full.js" id="MathJax-script" async></script>
+
+    
+    <meta property="og:site_name" content="sebastians site">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="We have AI at home...">
+    <meta property="og:url" content="https://www.sebastians-site.de/software/we-have-ai-at-home">
+    
+    <meta property="og:description" content="Setting up an GPU compute server on a tight budget">
+    
+    
+    <meta property="og:image" content="https://www.sebastians-site.de/software/we-have-ai-at-home/test-setup.jpg" >
+    
+    
+
+    <title>sebastians site :: We have AI at home...</title>
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="/images/logo.png" />
+
+        <div class="text">
+            <div class="heading">sebastians site</div>
+            <div class="subtext">Adventures in Open Source Hard and Software</div>
+        </div>
+    </header>
+    
+    
+    <nav>
+        
+        
+
+        
+        <a href="&#x2F;news&#x2F;">News</a>
+        
+        
+        
+
+        
+        <div class="dropdown">
+            <button class="dropbtn">Elektronik &#x25bc;</button>
+            <div class="dropdown-content">
+                
+                <a href="&#x2F;electronics&#x2F;fy6900-ocxo&#x2F;">FY6900 OCXO</a>
+                
+                <a href="&#x2F;electronics&#x2F;seo-poster&#x2F;">Semester Opening 2013 Poster</a>
+                
+                <a href="&#x2F;electronics&#x2F;plasma-bulb&#x2F;">Plasma Birne</a>
+                
+                <a href="&#x2F;electronics&#x2F;cnc&#x2F;">CNC-Fräse</a>
+                
+                <a href="&#x2F;electronics&#x2F;hoehenmesser&#x2F;">Facharbeit: Barometrischer Höhenmesser</a>
+                
+                <a href="&#x2F;electronics&#x2F;lab-power-supply&#x2F;">Stabilisiertes Netzteil</a>
+                
+            </div>
+        </div>
+        
+        
+        
+
+        
+        <div class="dropdown">
+            <button class="dropbtn">Software &#x25bc;</button>
+            <div class="dropdown-content">
+                
+                <a href="&#x2F;software&#x2F;we-have-ai-at-home&#x2F;">We have AI at home...</a>
+                
+                <a href="&#x2F;software&#x2F;nix-i2c&#x2F;">Hey nixos, where&#x27;s my I2C?</a>
+                
+                <a href="&#x2F;software&#x2F;avr-ringlock&#x2F;">RingLock for AVR</a>
+                
+                <a href="&#x2F;software&#x2F;avr-lc7981&#x2F;">AVR library for lc7981</a>
+                
+            </div>
+        </div>
+        
+        
+        
+
+        
+        <div class="dropdown">
+            <button class="dropbtn">Photos &#x25bc;</button>
+            <div class="dropdown-content">
+                
+                <a href="&#x2F;photos&#x2F;29c3&#x2F;">29c3</a>
+                
+                <a href="&#x2F;photos&#x2F;streik170609&#x2F;">Schülerstreik 17.6.09</a>
+                
+                <a href="&#x2F;photos&#x2F;muenchen09&#x2F;">München 2009</a>
+                
+                <a href="&#x2F;photos&#x2F;paris2008&#x2F;">Paris 2008</a>
+                
+                <a href="&#x2F;photos&#x2F;london2008&#x2F;">London 2008</a>
+                
+            </div>
+        </div>
+        
+        
+        
+
+        
+        <div class="dropdown">
+            <button class="dropbtn">Anderes &#x25bc;</button>
+            <div class="dropdown-content">
+                
+                <a href="&#x2F;misc&#x2F;petg-bridges&#x2F;">Perfect PETG bridges</a>
+                
+                <a href="&#x2F;misc&#x2F;pc-wahl&#x2F;">PC-Wahl und ich</a>
+                
+                <a href="&#x2F;misc&#x2F;cheatsheets&#x2F;">Cheatsheets</a>
+                
+            </div>
+        </div>
+        
+        
+        
+
+        
+        <div class="dropdown">
+            <button class="dropbtn">Über &#x25bc;</button>
+            <div class="dropdown-content">
+                
+                <a href="&#x2F;imprint&#x2F;datenschutz&#x2F;">Datenschutzerklärung</a>
+                
+                <a href="&#x2F;imprint&#x2F;imprint&#x2F;">Impressum</a>
+                
+            </div>
+        </div>
+        
+        
+        <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="expandHamburger()">&#9776;</a>
+    </nav>
+    
+
+    
+    <main>
+        <h1>We have AI at home...</h1>
+        <p>Due to a recent set of interesting developments earlier this year, 
+<code>$dayjob</code> now revolves around energy efficient machine learning on embedded systems,
+<a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Neural_architecture_search">neural architecture search</a> 
+and sometimes a bit of <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Neuromorphic_computing">neuromorphic computing</a>.
+The only problem is: I don't know anything about machine learning.
+To be fair: I know just enough to know what I don't know.
+Fortunately for me, I don't need to know all the mathematical details for know.
+While I would like to look into that at some point,
+important for now are ML frameworks that I can use and best practises that I can stick to.
+That will probably get me 80% of the way to where I want to be for now.</p>
+<p>However, I also don't have any experience with those frameworks and the tooling that goes with them.
+In addition to that, a lot of the stuff I work with happens to run on a GPU cluster. 
+This means I get to mess around with trying to keep NVIDIA drivers, the CUDA runtime,
+and what ever ML framework I'm using compatible to each other,
+while also cursing at conda and python virtual environments.
+Also, I don't have root access, so I can't just yeet everything and do a cleanish installation
+like all those stackoverflow posts tell me to do.
+What I need is a better understanding of the various components involved in that setup.
+Which component has to be compatible to what other component and how do they all interact,
+so that I can make my model identify all the cats in the image?</p>
+<p>Of course, I did what any good hacker would do and tried to <em>RTFM</em> first.
+Unfortunately this one of those occasions where this will only get you so far.
+In reality any tech stack sufficiently deep will need some duct tape in form of
+<code>if x happens you can work around it by doing y</code>.
+That is arcane knowledge, which you can only obtain be messing around and finding out.
+Traditionally, this means one of two things for me: 
+Either obtaining a working setup and repeatedly breaking it and fixing it until I understand what makes it tick,
+or alternatively obtain the raw materials and build a working setup from scratch.</p>
+<p>I decided to attempt the latter one, at home in my free time, 
+because that meant I could mess around inefficiently and aimlessly until I find out, 
+and also I could explore any weird fun tangents that I came across.</p>
+<p>It's probably also worth pointing out, that is post is <strong>not</strong> a tutorial,
+it's just the written account of what I did and some of the issues I encountered along the way.
+You can try to follow along, but be prepared to do your own research and read through the prior art linked below.</p>
+<h2 id="hard-ware-choices">Hard(ware) Choices</h2>
+<p>So I've decided to build a GPU compute server for my home lab as a learning experience.
+It should at least be able to run some basic ML workloads,
+e.g. use <a rel="noopener" target="_blank" href="https://jaided.ai/easyocr/">easyocr</a> to sort <a rel="noopener" target="_blank" href="https://htt-phototeam.de/">some photos from a mountain bike race</a> by plate numbers,
+or use <a rel="noopener" target="_blank" href="https://www.sbert.net/index.html">SentenceTransformers</a> to build semantic search index over some documents
+(there is an ongoing side project, that you may or may not know about already, if you follow me on mastodon).
+Also, it would be interesting if it could run some decently sized LLMs locally,
+so that I can mess around with those without getting my API access revoked for trying weird stuff.
+(There is another blog post in the making, stay tuned.)
+If I'm going through the effort of building a dedicated system for ML stuff, I might as well go all the way.</p>
+<p>Running LLMs is probably the more challenging one of those use cases.
+In my experience there are two major limiting factors for doing inference with larger models:
+Firstly, you need enough VRAM to load the model.
+Some runtimes let you get away with running only some layers of the LLM on the GPU,
+and running the rest on your CPU, but the performance is usually not that great.
+Even a slower, older GPU will give you more tokens per second, if you can fit the model into its VRAM.
+Secondly, the other limiting factor is the number and speed of your compute cores.
+Those numbers will pretty much determine how many tokes per second you can get out of the LLM.
+I don't care as much about speed. If it spits out tokens a bit faster than I can read them,
+it's probably fine for my experiments.</p>
+<p>Armed with those constraints in mind I went looking for GPUs.
+Of course, I could have gone with some older consumer GPU.
+At the time of writing you can get a used GTX1080ti with 11GB with 11 TFLOP/s using FP32 for around 200€.</p>
+<p>The question is: Can we do better than that for our application, if we look at old datacentre GPUs.
+Well... you can get a used Tesla K80 with 24GB and about 8 TFLOP/s for less than 100€.
+It's slower, but it has a lot of VRAM and you could get two of them for the price of one GTX1080ti.
+Also, it is no longer supported by the latest NVIDIA drivers, so it will only get cheaper, 
+as you can't use them in any serious production setups any more.
+On top of that, making full use of the card can be a bit tricky, 
+because it's actually a dual GPU setup build into a single card: You have two GPUs with 12GB of VRAM each.
+So whatever workload you intend to run has to have multi GPU support, to make full use of the card.
+In practise this does not matter too much, most modern machine learning frameworks
+support multi GPU setups anyway.
+You could even consider it an advantage, as you can run two smaller workloads independently,
+even if the workloads require exclusive access to a GPU.
+Another factor why they are so cheap is that a data centre GPU does not come with cooling fans.
+The server is supposed to provide <strong>a LOT</strong> of airflow to it to keep it cool.
+There is <a rel="noopener" target="_blank" href="https://blog.thomasjungblut.com/random/running-tesla-k80/">a bit</a> 
+of <a rel="noopener" target="_blank" href="https://khalidmammadov.github.io/gpu/k80_installation.html">prior art</a> on how to do that.
+There are even better solutions out there using <a rel="noopener" target="_blank" href="https://www.printables.com/model/416747-nvidia-tesla-k20-fan-mount">3D printed parts</a>.
+You'll also need an adapter that takes the two more common 12V 8-pin connections for normal GPUs on your power supply 
+and adapts them to the EPS-12V 8-pin connection NVIDIA uses for its workstation and datacentre GPUs. 
+Remember what I said about messing around? Tangents are fun. Super janky setups are fun.
+There are also newer faster cards available that also have 24GB RAM e.g. the Tesla P40 or the Tesla M40. 
+However those tend to be a lot more pricey, selling over 300€, and that's not exactly within my budget. </p>
+<p>So after not enough thought I bought a K80 for 80€.</p>
+
+<a href="https://www.sebastians-site.de/software/we-have-ai-at-home/k80.jpg"
+    class="lightbox"
+    data-pswp-width="4000"
+    data-pswp-height="1884"
+    target="_blank">
+    <img src="https://www.sebastians-site.de/software/we-have-ai-at-home/k80.jpg" alt="NVIDIA Tesla K80" title="NVIDIA Tesla K80" />
+</a>
+<p>It's a reassuringly hefty piece of hardware.
+Also, it's a lot longer than it looks on photos.
+I didn't add a banana for scale, but just look at the PCIe connector.</p>
+<h2 id="minor-setbacks">Minor Setbacks</h2>
+<p>Before buying more e-waste to build a system around the card, 
+I wanted to quickly verify that it actually works.
+After all I just bought a piece of $5000 high-end hardware for less money, than my what I spent on my keyboard.
+Even if the hardware came out over 10 years ago and has lost software support,
+it still felt like getting scammed at that point.
+So I dug through my parts bin and found an old B85M-G motherboard with its i5-4440 still in the socket.
+I don't too much PC hardware tinkering any more, so that was the only board with PCIe that I had.</p>
+
+<a href="https://www.sebastians-site.de/software/we-have-ai-at-home/test-setup.jpg"
+    class="lightbox"
+    data-pswp-width="3000"
+    data-pswp-height="3347"
+    target="_blank">
+    <img src="https://www.sebastians-site.de/software/we-have-ai-at-home/test-setup.jpg" alt="Test setup for the card using left-overs on my bench" title="Test setup for the card using left-overs on my bench" />
+</a>
+<p>Excitedly I installed Debian 12.
+Then I installed Debian 11 over the Debian 12 for reasons, that I'll explain in a bit.
+(See I already learned something there.)
+After I got the legacy NVIDIA driver installed and rebooted the system.... nothing happened.
+Well ... not nothing.
+<code>nvtop</code> told me I didn't have any compatible GPUs.
+A quick check of <code>dmesg</code> revealed a whole bunch of issues:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>[    0.155860] pnp 00:00: disabling [mem 0xfed40000-0xfed44fff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.155864] pnp 00:00: disabling [mem 0xfed40000-0xfed44fff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156822] pnp 00:08: disabling [mem 0xfed1c000-0xfed1ffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156825] pnp 00:08: disabling [mem 0xfed10000-0xfed17fff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156826] pnp 00:08: disabling [mem 0xfed18000-0xfed18fff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156828] pnp 00:08: disabling [mem 0xfed19000-0xfed19fff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156829] pnp 00:08: disabling [mem 0xf8000000-0xfbffffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156831] pnp 00:08: disabling [mem 0xfed20000-0xfed3ffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156832] pnp 00:08: disabling [mem 0xfed90000-0xfed93fff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156834] pnp 00:08: disabling [mem 0xfed45000-0xfed8ffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156835] pnp 00:08: disabling [mem 0xff000000-0xffffffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156837] pnp 00:08: disabling [mem 0xfee00000-0xfeefffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156838] pnp 00:08: disabling [mem 0xf7fdf000-0xf7fdffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156840] pnp 00:08: disabling [mem 0xf7fe0000-0xf7feffff] because it overlaps 0000:03:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156842] pnp 00:08: disabling [mem 0xfed1c000-0xfed1ffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156843] pnp 00:08: disabling [mem 0xfed10000-0xfed17fff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156845] pnp 00:08: disabling [mem 0xfed18000-0xfed18fff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156846] pnp 00:08: disabling [mem 0xfed19000-0xfed19fff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156848] pnp 00:08: disabling [mem 0xf8000000-0xfbffffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156850] pnp 00:08: disabling [mem 0xfed20000-0xfed3ffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156851] pnp 00:08: disabling [mem 0xfed90000-0xfed93fff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156853] pnp 00:08: disabling [mem 0xfed45000-0xfed8ffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156854] pnp 00:08: disabling [mem 0xff000000-0xffffffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156856] pnp 00:08: disabling [mem 0xfee00000-0xfeefffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156857] pnp 00:08: disabling [mem 0xf7fdf000-0xf7fdffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>[    0.156859] pnp 00:08: disabling [mem 0xf7fe0000-0xf7feffff disabled] because it overlaps 0000:04:00.0 BAR 1 [mem 0x00000000-0x3ffffffff 64bit pref]
+</span><span>...
+</span><span>[    0.163732] pci 0000:00:01.0: BAR 15: no space for [mem size 0xc00000000 64bit pref]
+</span><span>[    0.163734] pci 0000:00:01.0: BAR 15: failed to assign [mem size 0xc00000000 64bit pref]
+</span><span>[    0.163737] pci 0000:00:01.0: BAR 14: assigned [mem 0xf1000000-0xf2ffffff]
+</span><span>[    0.163740] pci 0000:00:1c.0: BAR 14: assigned [mem 0xdf200000-0xdf3fffff]
+</span><span>[    0.163745] pci 0000:00:1c.0: BAR 15: assigned [mem 0xdf400000-0xdf5fffff 64bit pref]
+</span><span>[    0.163748] pci 0000:00:1c.0: BAR 13: assigned [io  0x2000-0x2fff]
+</span><span>[    0.163754] pci 0000:00:01.0: BAR 15: no space for [mem size 0xc00000000 64bit pref]
+</span><span>[    0.163755] pci 0000:00:01.0: BAR 15: failed to assign [mem size 0xc00000000 64bit pref]
+</span><span>[    0.163758] pci 0000:00:01.0: BAR 14: assigned [mem 0xf1000000-0xf2ffffff]
+</span><span>[    0.163761] pci 0000:00:1c.0: BAR 14: assigned [mem 0xdf200000-0xdf3fffff]
+</span><span>[    0.163766] pci 0000:00:1c.0: BAR 15: assigned [mem 0xdf400000-0xdf5fffff 64bit pref]
+</span><span>[    0.163768] pci 0000:01:00.0: BAR 15: no space for [mem size 0xc00000000 64bit pref]
+</span><span>[    0.163769] pci 0000:01:00.0: BAR 15: failed to assign [mem size 0xc00000000 64bit pref]
+</span><span>[    0.163771] pci 0000:01:00.0: BAR 14: assigned [mem 0xf1000000-0xf2ffffff]
+</span><span>[    0.163773] pci 0000:02:08.0: BAR 15: no space for [mem size 0x600000000 64bit pref]
+</span><span>[    0.163774] pci 0000:02:08.0: BAR 15: failed to assign [mem size 0x600000000 64bit pref]
+</span><span>[    0.163776] pci 0000:02:10.0: BAR 15: no space for [mem size 0x600000000 64bit pref]
+</span><span>[    0.163777] pci 0000:02:10.0: BAR 15: failed to assign [mem size 0x600000000 64bit pref]
+</span><span>[    0.163779] pci 0000:02:08.0: BAR 14: assigned [mem 0xf1000000-0xf1ffffff]
+</span><span>[    0.163780] pci 0000:02:10.0: BAR 14: assigned [mem 0xf2000000-0xf2ffffff]
+</span><span>[    0.163782] pci 0000:03:00.0: BAR 1: no space for [mem size 0x400000000 64bit pref]
+</span><span>[    0.163784] pci 0000:03:00.0: BAR 1: failed to assign [mem size 0x400000000 64bit pref]
+</span><span>[    0.163785] pci 0000:03:00.0: BAR 3: no space for [mem size 0x02000000 64bit pref]
+</span><span>[    0.163786] pci 0000:03:00.0: BAR 3: failed to assign [mem size 0x02000000 64bit pref]
+</span><span>[    0.163788] pci 0000:03:00.0: BAR 0: assigned [mem 0xf1000000-0xf1ffffff]
+</span><span>[    0.163800] pci 0000:04:00.0: BAR 1: no space for [mem size 0x400000000 64bit pref]
+</span><span>[    0.163802] pci 0000:04:00.0: BAR 1: failed to assign [mem size 0x400000000 64bit pref]
+</span><span>[    0.163803] pci 0000:04:00.0: BAR 3: no space for [mem size 0x02000000 64bit pref]
+</span><span>[    0.163804] pci 0000:04:00.0: BAR 3: failed to assign [mem size 0x02000000 64bit pref]
+</span><span>[    0.163806] pci 0000:04:00.0: BAR 0: assigned [mem 0xf2000000-0xf2ffffff]
+</span><span>
+</span><span>...
+</span><span>
+</span><span>[ 1089.302325] nvidia-nvlink: Nvlink Core is being initialized, major device number 244
+</span><span>[ 1089.302330] NVRM: loading NVIDIA UNIX x86_64 Kernel Module  470.256.02  Thu May  2 14:37:44 UTC 2024
+</span><span>[ 1089.537364] nvidia-modeset: Loading NVIDIA Kernel Mode Setting Driver for UNIX platforms  470.256.02  Thu May  2 14:50:40 UTC 2024
+</span><span>[ 1089.538951] [drm] [nvidia-drm] [GPU ID 0x00000300] Loading driver
+</span><span>[ 1089.538952] [drm] Initialized nvidia-drm 0.0.0 20160202 for 0000:03:00.0 on minor 1
+</span><span>[ 1089.539059] [drm] [nvidia-drm] [GPU ID 0x00000400] Loading driver
+</span><span>[ 1089.539060] [drm] Initialized nvidia-drm 0.0.0 20160202 for 0000:04:00.0 on minor 2
+</span><span>[ 1103.288634] NVRM: GPU 0000:03:00.0: RmInitAdapter failed! (0x22:0xffff:667)
+</span><span>[ 1103.288669] NVRM: GPU 0000:03:00.0: rm_init_adapter failed, device minor number 0
+</span><span>[ 1103.406608] NVRM: GPU 0000:03:00.0: RmInitAdapter failed! (0x22:0xffff:667)
+</span><span>[ 1103.406629] NVRM: GPU 0000:03:00.0: rm_init_adapter failed, device minor number 0
+</span><span>[ 1103.524304] NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0xffff:667)
+</span><span>[ 1103.524322] NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 1
+</span><span>[ 1103.641921] NVRM: GPU 0000:04:00.0: RmInitAdapter failed! (0x22:0xffff:667)
+</span><span>[ 1103.642002] NVRM: GPU 0000:04:00.0: rm_init_adapter failed, device minor number 1
+</span><span>...
+</span></code></pre>
+<p>Apparently my GPU decided to go for a drink and there wasn't enough space at the bar...
+I can relate to that.
+Joking aside: <code>RmInitAdapter failed! (0x22:0xffff:667)</code> is the most ungooglable error message
+I've encountered in a while.
+Sure you find a lot of folks asking for help in the usual places.
+And the diagnostics reach from <code>you need a bios update</code>, via <code>your kernel is b0rken</code> 
+to <code>you probably damaged the PCIe slot while installing the card</code>.
+Similarly, the solutions are wild mix of <code>reinstalled the OS</code>, <code>downgraded the driver</code>, <code>got a new card</code>, <code>got a new motherboard</code>
+and my all-time favourite: <code>disabled the integrated NIC on the motherboard</code>.
+Ironically, this also means you can't just ask ChatGPT, Claude, Gemini and friends.
+They'll just latch onto some of those wrong answers and keep repeating them back to you.
+Not that I had especially high hopes for that approach in the first place.
+So I had no choice, but to apply an ancient skill, passed down to me by previous generations of hackers: 
+Actually reading error messages and deducing what went wrong.</p>
+<p>First something called <code>pnp</code> complains about overlapping <code>BAR</code>s.
+<code>pnp</code> in this context means <strong>P</strong>lug a<strong>N</strong>d <strong>P</strong>lay.
+Back before we had PCIe, we had PCI. Before that we had ISA.
+If you've been touching computers long enough,
+you'll remember setting up interrupts and IO space addresses using jumpers on your cards.
+That wasn't fun at all and also quite easy to mess up.
+So Intel and Microsoft came up with what we now call <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Legacy_Plug_and_Play">Legacy Plug and Play</a>.
+The TL;DR is that it was a standard for the BIOS and the OS to automatically negotiate those resource allocations for you.
+Win95 was the first <em>&quot;Plug and Play OS&quot;</em> and Linux famously had problems with plug and play for quite while.
+To be fair to Linux: It's not like Windows did <a rel="noopener" target="_blank" href="https://archive.org/details/bill-gates-gets-the-bsod">such a great job</a>
+with autoconfiguring devices either.
+Today that original standard isn't used any more, but the name stuck around in various places.</p>
+<p>When PCI was standardised, somebody was smart enough to include the <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/PCI_configuration_space">PCI configuration space</a> such that the OS or the BIOS could just assign resources to the devices.
+Since most communication of those devices happens via memory mapped IO 
+(basically the device pretends to be a piece of memory at a certain location), 
+one of the most important bits of configuration is the base address and size of the memory region they can use.
+That can be configured through their <strong>B</strong>ase <strong>A</strong>ddress <strong>R</strong>egisters. 
+(I know that's a gross oversimplification. Read the Wikipedia article for all the details.)
+So when the kernel complains about overlapping BARs it basically says that there is not enough 
+address space to map all the memory regions needed to communicate with the device.</p>
+<p>Now you might be thinking: Wait a second! Shouldn't those addresses be 64bit?
+That card can't be using that much address space now, can it?
+The answer to that is surprisingly no and no again.
+To stay compatible with 32bit OSes each BAR can describe a region that is between 16 bytes and 2 gigabytes in size, 
+located below the 4 gigabyte address space limit.
+There are also 64bit BARs, but your BIOS has to support them explicitly. 
+Since that breaks support for any 32bit OSes, it's usually an option called <code>Above 4G</code> or <code>Above 4G decoding</code> that you have to enable.
+Unless your motherboard is so new, that it simply does not care about 32bit compatibility any more.
+On the other hand if you are very unlucky, your BIOS was written with the assumption that going above 4G is not necessary for consumer level hardware.
+Similar issues were not uncommon for some more exotic dual GPU setups.
+While I know that I now, I did not know that back then. (Learned something again... see it's working.)</p>
+<h2 id="reconsidering-my-hardware-choices">Reconsidering my Hardware Choices</h2>
+<p>After messing around some more a BIOS update and some changes to kernel command line, I decided to 
+<a rel="noopener" target="_blank" href="https://schottkydio.de/@sebastian/statuses/01JSF8GKGKMM1W26QFRDPC1FQ6">ask around on the fediverse</a> whether anyone 
+had any suggestions.
+<a rel="noopener" target="_blank" href="https://literatur.social/@datacop">Clemens</a> offered some pointers.</p>
+<p>While following those leads I discovered helpful a post in the 
+<a rel="noopener" target="_blank" href="https://forums.developer.nvidia.com/t/tesla-k80-code-12-error/199170/2">NVIDIA developers forum</a>:</p>
+<blockquote>
+<p>The K80 presents a large BAR to the system (for each device). Not all system BIOSes are capable of mapping (two of these) large BAR regions.</p>
+</blockquote>
+<p>So okay pretty much exactly what I've been suspecting at this point.
+I took another look at the <a rel="noopener" target="_blank" href="https://khalidmammadov.github.io/gpu/k80_installation.html">blog post by Khalid Mammadov</a>
+and <a rel="noopener" target="_blank" href="https://blog.thomasjungblut.com/random/running-tesla-k80/">the other one by Thomas Jungblut</a>
+who both got their cards working in the end.
+The first one used a <code>ASROCK B550</code> motherboard, while the latter was using a <code>MSI AX99A</code>.
+At that point I wrongly suspected that I'd need support for <em>resizable BAR</em> to make the card work.
+All things considered that didn't sound quite right to me, as resizable BAR as a BIOS feature,
+is much newer than the K80 itself.</p>
+<p>When I shared my thoughts on the fediverse <em>Clemens</em> pointed out,
+that he is running a modern GPU in an old <a rel="noopener" target="_blank" href="https://www.workstation4u.de/lenovo-thinkstation-s30-datasheet.pdf">ThinkStation S30</a> without any problem.
+Following my line of reasoning that should not just work.
+The S30 is of a similar vintage than the K80, and it was certified by NVIDIA
+to run a dual 12GB Quadro K6000 cards... a setup that should be really similar to a single K80.</p>
+<p>The S30 looked a good deal. 
+I need a case for the setup anyway and if I could buy a decent case that fits the card,
+and also came with power supply, a CPU (Xeon E5-1620), some RAM (16GB), a small SSD (128GB)
+and motherboard, that actually works with the card, that would be ideal.
+I bought the cheapest Thinkstation S30 for 80€ of eBay. 
+The chassis is scratched and dented, and it wouldn't boot right out of the package. 
+Nothing reseating the RAM and CPU wouldn't fix though.
+Slight downside: It came with a NV310 that needs one of those weird y-splitter cables for DVI.
+Nothing another eBay excursion can't fix, but while I waited for the adapter to arrive,
+I installed an ancient GeForce card from my parts bin to have some form of display output.</p>
+
+<a href="https://www.sebastians-site.de/software/we-have-ai-at-home/k80-s30.jpg"
+    class="lightbox"
+    data-pswp-width="3972"
+    data-pswp-height="2479"
+    target="_blank">
+    <img src="https://www.sebastians-site.de/software/we-have-ai-at-home/k80-s30.jpg" alt="The K80 inside its new home: The Thinkstation S30" title="The K80 inside its new home: The Thinkstation S30" />
+</a>
+<p>When I booted the system for the first time, I got all the angry beeping imaginable during post.
+This is what experts commonly refer to as &quot;not a good sign&quot;.
+However since the Thinkstation is a serious workstation for doing serious workstation-grade 
+workstation work, it also has a proper BIOS, that will actually tell you what's wrong.</p>
+
+<a href="https://www.sebastians-site.de/software/we-have-ai-at-home/bios-error-message.jpg"
+    class="lightbox"
+    data-pswp-width="3667"
+    data-pswp-height="2603"
+    target="_blank">
+    <img src="https://www.sebastians-site.de/software/we-have-ai-at-home/bios-error-message.jpg" alt="Error message complaining about: &#x27;Insufficient PCI Resources detected!!!&#x27;" title="Error message complaining about: &#x27;Insufficient PCI Resources detected!!!&#x27;" />
+</a>
+<p>That's pretty much the same problem I had with my old setup.
+However, the BIOS version installed on my S30 was from 2012.
+The latest version on 
+<a rel="noopener" target="_blank" href="https://pcsupport.lenovo.com/de/de/products/workstations/thinkstation-s-series-workstations/thinkstation-s30/0606/0606c26/downloads/driver-list/component?name=BIOS&amp;id=5AC6A815-321D-440E-8833-B07A93E0428C">Lenovo's website</a> 
+is from 2017.
+While there is a newer version from 2020 is for the type 435x, I've got a 0606.
+Make sure to check your exact model before attempting an update.
+According to the changelog in the zip file some intermediate version between the two had added <code>Above 4G decoding</code>.</p>
+<p>As is usually the case, the BIOS update process was less than smooth: 
+I couldn't use the Windows tool for obvious reasons.
+The update ISO provided for download wouldn't boot when <code>dd</code>ed on a USB-Stick.
+While I would have had a USB CD drive, I didn't have any CD-Rs to write the ISO to.
+So I ended up making a <a rel="noopener" target="_blank" href="https://www.freedos.org/">FreeDOS</a> USB drive and
+added the contents of the DOS BIOS updater zip file that Lenovo provides.
+After that I just had to boot into FreeDOS, run the batch file, decline to change the machine's serial,
+and wait for the progress bar to fill up.
+One reboot later I could just activate the <code>Above 4G decoding</code> option in the BIOS 
+and the angry beeping stopped.</p>
+<p>After that I duct-taped (it's an air duct, so using duct tape is fine) the radial fan back to the card.
+I also propped the fan up on some random workbench detritus that I hotglued into the chassis,
+so it's not like I used duct tape in a load-bearing situation.
+A conveniently placed spare fan connector for front chassis fans on the motherboard can be used to supply it with power.</p>
+<h2 id="it-s-just-software-from-here">It's just software from here</h2>
+<p>You might have already noticed, the word <strong>just</strong> is doing some very heavy lifting in this heading.</p>
+<p>I started out trying to install Debian 12, as my reasoning was that stuff included with Debian is old enough,
+that I could just install the <code>470.256.02</code> NVIDIA driver (last driver to still support the card). 
+Since the driver was not in the repos, I had to use the <code>NVIDIA-Linux-x86_64-470.256.02.run</code> installer,
+that you can download from <a rel="noopener" target="_blank" href="https://www.nvidia.com/en-us/drivers/details/226760/">here</a>.
+Similarly, to get a compatible CUDA runtime you need <code>CUDA 11.4.0 470.42.01</code>,
+which is just new enough to allow things like <code>__device__</code> variables to be <code>constexpr</code>.
+I don't know exactly what that means, but if you want to compile llama.cpp or ollama, you need it.<br />
+This version is also just old enough to work with the driver that still supports the K80.
+The CUDA installer file is called <code>cuda_11.4.0_470.42.01_linux.run</code> and you can download it from 
+<a rel="noopener" target="_blank" href="https://developer.nvidia.com/cuda-11-4-0-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=Ubuntu&amp;target_version=20.04&amp;target_type=runfile_local">here</a>.</p>
+<p>There's only one slight problem with that: This CUDA version does not like any GCC newer than GCC 10.
+You can convince the installer to do its thing it regardless if you use the <code>--override</code> parameter.
+Unfortunately the resulting installation won't work:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>$ cmake -B build -DCMAKE_CUDA_COMPILER:PATH=/usr/local/cuda/bin/nvcc
+</span><span>
+</span><span>[...]
+</span><span>
+</span><span>-- Using CUDA architectures: native
+</span><span>CMake Error at /usr/share/cmake-3.25/Modules/CMakeDetermineCompilerId.cmake:739 (message):
+</span><span>  Compiling the CUDA compiler identification source file
+</span><span>  &quot;CMakeCUDACompilerId.cu&quot; failed.
+</span><span>
+</span><span>  Compiler: /usr/local/cuda/bin/nvcc
+</span><span>
+</span><span>[...]
+</span><span>
+</span><span>  /usr/local/cuda/bin/../targets/x86_64-linux/include/crt/host_config.h:139:2:
+</span><span>  error: #error -- unsupported GNU version! gcc versions later than 10 are
+</span><span>  not supported! The nvcc flag &#39;-allow-unsupported-compiler&#39; can be used to
+</span><span>  override this version check; however, using an unsupported host compiler
+</span><span>  may cause compilation failure or incorrect run time execution.  Use at your
+</span><span>  own risk.
+</span><span>
+</span><span>    139 | #error -- unsupported GNU version! gcc versions later than 10 are not supported! 
+</span><span>            The nvcc flag &#39;-allow-unsupported-compiler&#39; can be used to override this version check; 
+</span><span>            however, using an unsupported host compiler may cause compilation failure or 
+</span><span>            incorrect run time execution. Use at your own risk.
+</span><span>        |  ^~~~~
+</span><span>
+</span><span>  # --error 0x1 --
+</span></code></pre>
+<p>Injecting the <code>-allow-unsupported-compiler</code> flag into all the <code>nvcc</code> calls through several layers
+of build systems is really messy and ultimately results in binaries that just crash
+as soon as they try to do anything with the GPU.
+Of course, I tried just building GCC 10 and using it in the build process.
+That resulted in an even bigger mess.</p>
+<h2 id="it-s-just-old-software-from-here">It's just old software from here</h2>
+<p>Since Debian 12 wouldn't work, I decided to try Debian 11.
+It actually comes with <a rel="noopener" target="_blank" href="https://packages.debian.org/bullseye/gcc">gcc 10.2.1</a>.
+Furthermore, Debian 11 comes with <a rel="noopener" target="_blank" href="https://packages.debian.org/bullseye/nvidia-tesla-470-driver">nvidia-tesla-470-driver</a>,
+which is exactly the <code>470.256.02</code> I need.
+This is not an entirely future-proof plan though:
+It's 2025 and Debian 11 won't be EOL until the end of August 2026.
+So while I can get a bit over a year of use out of it, I need to come up with a different solution long term.
+I have some ideas involving nix for that, but those will have to wait for now.</p>
+<p>The driver is in the <code>non-free</code> repos, so those need to be enabled.
+After that it should just install using <code>apt update &amp;&amp; apt install nvidia-tesla-470-driver nvtop</code>.
+If you look into dmesg, the driver will complain about the NV310 being unsupported.
+That's not a problem for me, as I don't intend to the system as a headless sever anyway.
+If you want to actually run a graphical user interface on the machine itself, 
+you'll have to figure out how to get the original NVIDIA driver and <code>nouveau</code> to coexist. 
+That's an entirely different can of worms, that I would like to avoid for now.</p>
+<p>The CUDA runtime in the Debian repos is <a rel="noopener" target="_blank" href="https://packages.debian.org/bullseye/nvidia-cuda-toolkit">11.2.2</a>, 
+which is a few minor versions too old to do anything useful with.
+As I've already explained 11.4 is the minimum version needed for most things these days.
+The good thing is that the <code>cuda_11.4.0_470.42.01_linux.run</code> installer,
+will just install without complaints on Debian 11.</p>
+<p>Once that is done you can use <code>nvtop</code> or <code>nvidia-smi</code> to marvel at your datacentre GPU setup.</p>
+
+<a href="https://www.sebastians-site.de/software/we-have-ai-at-home/k80-s30-working.jpg"
+    class="lightbox"
+    data-pswp-width="3000"
+    data-pswp-height="3797"
+    target="_blank">
+    <img src="https://www.sebastians-site.de/software/we-have-ai-at-home/k80-s30-working.jpg" alt="The K80 inside the S30. nvtop is running on the display in the background to prove the card works." title="The K80 inside the S30. nvtop is running on the display in the background to prove the card works." />
+</a>
+<p>Also pay no attention to the bench top power supply. 
+I took this photo before I found the front chassis fan connector.</p>
+<h2 id="torch-me-a-yolo">torch me a yolo</h2>
+<p>The heading is unfortunately not some new slang the kids use on TikTok.
+<a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/You_Only_Look_Once">Yolo</a> (<em>y</em>ou <em>o</em>nly <em>l</em>ook <em>o</em>nce) is a computer vision model 
+by a company called Ultralitics (they really shouldn't be allowed to name stuff).
+There are specialized models for various tasks, e.g. for <em>detection</em>, 
+which is computer-vision-speak for identifying objects of certain classes (e.g. dog or car)
+in an image as well as providing bounding box coordinates for each identified object.
+Yolo is interesting from an architectural point of view, as it was one of the first model for vision tasks,
+that functioned without any recurrent connections.
+This means it is purely feed forward from one layer to the next and will be done after a single forward pass,
+making it not only fast but also a lot easier to train.
+The model is open source and can be found in the <a rel="noopener" target="_blank" href="https://github.com/ultralytics/ultralytics">ultralytics GitHub repo</a>.
+In addition to the model itself, the repo also contains some high level tooling,
+to train it on different datasets.
+E.g. you could easily train it to spot trucks and planes in aerial imagery using the 
+<a rel="noopener" target="_blank" href="https://captain-whu.github.io/DOTA/dataset.html">DOTA</a> dataset.
+Since this is an unambiguously purely civilian application for counting vehicles,
+I'd rather stick to the <a rel="noopener" target="_blank" href="https://cocodataset.org/">COCO</a> dataset for this example.</p>
+<p>To start we need a python virtual environment with the correct version of <a rel="noopener" target="_blank" href="https://pytorch.org/">pytorch</a> and 
+the ultralitics tools installed:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>$ mkdir yolo
+</span><span>$ cd yolo/
+</span><span>$ python3 -m venv .venv
+</span><span>$ source .venv/bin/activate
+</span><span>$ pip install --upgrade pip
+</span><span>$ pip install install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+</span><span>$ pip install ultralytics
+</span></code></pre>
+<p>It's important to use the special URL <code>https://download.pytorch.org/whl/cu118</code>.
+The prebuild wheel pip will download if you just use the defaults,
+will be built for CUDA <em>12.something</em> and won't work with our more vintage environment.</p>
+<p>Once everything is installed (downloading will probably take a moment, go get some snacks),
+we can use the <code>yolo</code> tool to verify our installation:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>$ yolo checks
+</span><span>Ultralytics 8.3.146 🚀 Python-3.9.2 torch-2.6.0+cu118 CUDA:0 (Tesla K80, 11441MiB)
+</span><span>Setup complete ✅ (8 CPUs, 15.6 GB RAM, 128.9/232.7 GB disk)
+</span><span>
+</span><span>OS                  Linux-5.10.0-34-amd64-x86_64-with-glibc2.31
+</span><span>Environment         Linux
+</span><span>Python              3.9.2
+</span><span>Install             pip
+</span><span>Path                /home/sebastian/yolo/.venv/lib/python3.9/site-packages/ultralytics
+</span><span>RAM                 15.57 GB
+</span><span>Disk                128.9/232.7 GB
+</span><span>CPU                 Intel Xeon E5-1620 0 3.60GHz
+</span><span>CPU count           8
+</span><span>GPU                 Tesla K80, 11441MiB
+</span><span>GPU count           2
+</span><span>CUDA                11.8
+</span><span>
+</span><span>numpy               ✅ 2.0.2&gt;=1.23.0
+</span><span>matplotlib          ✅ 3.9.4&gt;=3.3.0
+</span><span>opencv-python       ✅ 4.11.0.86&gt;=4.6.0
+</span><span>pillow              ✅ 11.2.1&gt;=7.1.2
+</span><span>pyyaml              ✅ 6.0.2&gt;=5.3.1
+</span><span>requests            ✅ 2.32.3&gt;=2.23.0
+</span><span>scipy               ✅ 1.13.1&gt;=1.4.1
+</span><span>torch               ✅ 2.6.0+cu118&gt;=1.8.0
+</span><span>torch               ✅ 2.6.0+cu118!=2.4.0,&gt;=1.8.0; sys_platform == &quot;win32&quot;
+</span><span>torchvision         ✅ 0.21.0+cu118&gt;=0.9.0
+</span><span>tqdm                ✅ 4.67.1&gt;=4.64.0
+</span><span>psutil              ✅ 7.0.0
+</span><span>py-cpuinfo          ✅ 9.0.0
+</span><span>pandas              ✅ 2.2.3&gt;=1.1.4
+</span><span>ultralytics-thop    ✅ 2.0.14&gt;=2.0
+</span></code></pre>
+<p>It even found the GPUs first try.</p>
+<p>Now we can simply use the <code>yolo</code> tool to train a model from scratch:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>$ yolo train data=coco.yaml model=yolo11n.yaml
+</span><span>
+</span><span>[...]
+</span><span>  
+</span><span>  File &quot;/home/sebastian/yolo/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py&quot;, line 1750, in _call_impl
+</span><span>    return forward_call(*args, **kwargs)
+</span><span>  File &quot;/home/sebastian/yolo/.venv/lib/python3.9/site-packages/torch/nn/modules/conv.py&quot;, line 554, in forward
+</span><span>    return self._conv_forward(input, self.weight, self.bias)
+</span><span>  File &quot;/home/sebastian/yolo/.venv/lib/python3.9/site-packages/torch/nn/modules/conv.py&quot;, line 549, in _conv_forward
+</span><span>    return F.conv2d(
+</span><span>RuntimeError: cuDNN error: CUDNN_STATUS_NOT_SUPPORTED_ARCH_MISMATCH
+</span></code></pre>
+<p>Unless we can't. That's not-good™.
+<a rel="noopener" target="_blank" href="https://developer.nvidia.com/cudnn">cuDNN</a> is a library of primitives for deep neural networks,
+which is used by pytorch, which is used by the yolo tooling.
+The <a rel="noopener" target="_blank" href="https://docs.nvidia.com/deeplearning/cudnn/backend/latest/reference/support-matrix.html">support matrix</a>
+for cuDNN, does not list anything below the Maxwell GPU architecture with compute capability 5.0.
+Our card has a Kepler chip with compute capability 3.5 ... which is a bit older than 5.0.
+The good news is that this table inexplicitly only shows versions <em>9.something</em>.
+So after doing some digging, I found out that cuDNN version 8.7.0 still had support for Kepler cards.</p>
+<p>Let's try again:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>$ mkdir yolo
+</span><span>$ cd yolo/
+</span><span>$ python3 -m venv .venv
+</span><span>$ source .venv/bin/activate
+</span><span>$ pip install --upgrade pip
+</span><span>$ pip install install torch==2.3.1 torchvision torchaudio nvidia-cudnn-cu11==8.7.0.84 \
+</span><span>    --index-url https://download.pytorch.org/whl/cu118
+</span><span>$ pip install ultralytics
+</span></code></pre>
+<p>Let's see if it will run a <a rel="noopener" target="_blank" href="https://docs.pytorch.org/tutorials/intermediate/ddp_tutorial.html">DDP</a> 
+(<strong>d</strong>istributed <strong>d</strong>ata <strong>p</strong>arallel) training using both GPU devices with a slightly larger batch size:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>$ yolo train data=coco.yaml model=yolo11n.yaml device=0,1 batch=64
+</span><span>[W NNPACK.cpp:61] Could not initialize NNPACK! Reason: Unsupported hardware.
+</span><span>Ultralytics 8.3.148 🚀 Python-3.9.2 torch-2.3.1+cu118 CUDA:0 (Tesla K80, 11441MiB)
+</span><span>                                                      CUDA:1 (Tesla K80, 11441MiB)
+</span><span>engine/trainer: agnostic_nms=False, amp=True, augment=False, auto_augment=randaugment, batch=64, 
+</span><span>[...]
+</span><span>
+</span><span>                   from  n    params  module                                       arguments
+</span><span>  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]
+</span><span>  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]
+</span><span>  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]
+</span><span>  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]
+</span><span>  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]
+</span><span>  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]
+</span><span>  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]
+</span><span>  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]
+</span><span>  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]
+</span><span>  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]
+</span><span> 10                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]
+</span><span> 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, &#39;nearest&#39;]
+</span><span> 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+</span><span> 13                  -1  1    111296  ultralytics.nn.modules.block.C3k2            [384, 128, 1, False]
+</span><span> 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, &#39;nearest&#39;]
+</span><span> 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+</span><span> 16                  -1  1     32096  ultralytics.nn.modules.block.C3k2            [256, 64, 1, False]
+</span><span> 17                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]
+</span><span> 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+</span><span> 19                  -1  1     86720  ultralytics.nn.modules.block.C3k2            [192, 128, 1, False]
+</span><span> 20                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]
+</span><span> 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+</span><span> 22                  -1  1    378880  ultralytics.nn.modules.block.C3k2            [384, 256, 1, True]
+</span><span> 23        [16, 19, 22]  1    464912  ultralytics.nn.modules.head.Detect           [80, [64, 128, 256]]
+</span><span>YOLO11n summary: 181 layers, 2,624,080 parameters, 2,624,064 gradients, 6.6 GFLOPs
+</span><span>
+</span><span>DDP: debug command /home/sebastian/yolo/.venv-cudnn/bin/python3 -m torch.distributed.run --nproc_per_node 2 --master_port 49269 /home/sebastian/.config/Ultralytics/DDP/_temp_mlfldkse139723384360912.py
+</span><span>Ultralytics 8.3.148 🚀 Python-3.9.2 torch-2.3.1+cu118 CUDA:0 (Tesla K80, 11441MiB)
+</span><span>                                                      CUDA:1 (Tesla K80, 11441MiB)
+</span><span>Freezing layer &#39;model.23.dfl.conv.weight&#39;
+</span><span>AMP: running Automatic Mixed Precision (AMP) checks...
+</span><span>AMP: checks passed ✅
+</span><span>train: Fast image access ✅ (ping: 0.0±0.0 ms, read: 3248.7±450.6 MB/s, size: 148.8 KB)
+</span><span>train: Scanning /home/sebastian/yolo/datasets/coco/labels/train2017.cache... 117266 images, 1021 backgrounds, 0 corrupt: 100%|██████████| 118287/118287 [00:00&lt;?, ?it/s]
+</span><span>val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 3231.9±818.0 MB/s, size: 210.6 KB)
+</span><span>val: Scanning /home/sebastian/yolo/datasets/coco/labels/val2017.cache... 4952 images, 48 backgrounds, 0 corrupt: 100%|██████████| 5000/5000 [00:00&lt;?, ?it/s]
+</span><span>Plotting labels to runs/detect/train5/labels.jpg...
+</span><span>optimizer: &#39;optimizer=auto&#39; found, ignoring &#39;lr0=0.01&#39; and &#39;momentum=0.937&#39; and determining best &#39;optimizer&#39;, &#39;lr0&#39; and &#39;momentum&#39; automatically...
+</span><span>optimizer: SGD(lr=0.01, momentum=0.9) with parameter groups 81 weight(decay=0.0), 88 weight(decay=0.0005), 87 bias(decay=0.0)
+</span><span>Image sizes 640 train, 640 val
+</span><span>Using 8 dataloader workers
+</span><span>Logging results to runs/detect/train5
+</span><span>Starting training for 100 epochs...
+</span><span>
+</span><span>      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+</span><span>      1/100      5.54G      3.606      5.751      4.234        481        640:  
+</span><span>      27%|██▋       | 496/1849 [15:33&lt;42:12,  1.87s/it]
+</span></code></pre>
+<p>Success! ... The <code>yolo</code> tool has downloaded about 25GB of training data and started training on both GPU devices.
+It is even reasonably fast: <code>15:33&lt;42:12,  1.87s/it</code>.
+About one hour per epoch.
+Training for a little over 4 days on a single GPU is not actually that bad.</p>
+<p>Let's do some very rough ballpark comparison to renting a GPU in the cloud:
+Running on full blast, the K80 sips back about 300W. 
+Add another 100W for the rest of the system, and you end up with 0.4kW for about 100h.
+That's 40kwh. Assuming about 0.26€ per kW/h that's about 10€.
+That's equivalent to about 7h on a <code>NVIDIA RTX™ 6000</code> card with about 91.06 TFLOP/s for FP32 at.
+Assuming our initial 8 TFLOP/s figure, we can guestimate, that we will be 
+doing \(100 \cdot 60 \cdot 60s \cdot 8{{TFLOP}\over{s}} = 2,88 FLOP\) (or \(2.88 \cdot 10^{18}\) operations) during those 100h.
+The RTX6000 should be able to do that in about 9h.
+Of course this comparison is grossly oversimplified and glosses over a lot of details,
+still this is probably why those K80s end up on eBay for less than 100€.</p>
+<h3 id="sidebar-what-if-cudnn-didn-t-work">Sidebar: What if cuDNN didn't work?</h3>
+<p>On a rainy Saturday morning, I was trying to work around,
+before I had my coffee...
+At least that's my excuse why I took NVIDIA's table at face value and forgot that cuDNN versions earlier than 9 existed.
+The question then becomes: Can we run pytorch models on the GPU without cuDNN?
+Of course, we can. If we just set <code>torch.backends.cudnn.enabled = False</code>, 
+pytorch will fall back to its own CUDA kernels and stop looking for cuDNN.
+It will be slower, but it will work.
+This means we can't use the <code>yolo</code> utility any more, 
+since there is no way to set that value from outside the python interpreter.
+(Being able to control the backend from an environment variable would have been nice for this.)</p>
+<p>Writing the script is not that hard:</p>
+<pre data-lang="python" style="background-color:#21252d;color:#f8f8f8;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#fbde2d;">import </span><span>torch
+</span><span>torch.backends.cudnn.enabled </span><span style="color:#fbde2d;">= </span><span style="color:#d8fa3c;">False
+</span><span>
+</span><span style="color:#fbde2d;">from </span><span>ultralytics </span><span style="color:#fbde2d;">import </span><span>YOLO
+</span><span>
+</span><span>model </span><span style="color:#fbde2d;">= </span><span>YOLO(</span><span style="color:#61ce3c;">&quot;yolo11n.yaml&quot;</span><span>)
+</span><span>
+</span><span>results </span><span style="color:#fbde2d;">= </span><span>model.train(data</span><span style="color:#fbde2d;">=</span><span style="color:#61ce3c;">&quot;coco.yaml&quot;</span><span>, epochs</span><span style="color:#fbde2d;">=</span><span style="color:#d8fa3c;">10</span><span>)
+</span><span>
+</span><span>results </span><span style="color:#fbde2d;">= </span><span>model.val()
+</span><span style="color:#8da6ce;">print</span><span>(results)
+</span></code></pre>
+<p>However, this approach has one big downside.
+It works, but it can not just run on multiple GPUs any more.
+Since our K80 is two GPUs in a trench coat, half of the card will sit idle.
+While I can just call <code>train</code> like this: <code>model.train(data=&quot;coco.yaml&quot;, epochs=10, devices=[0,1])</code>,
+and start the script, but suddenly we are back at <code>CUDNN_STATUS_NOT_SUPPORTED_ARCH_MISMATCH</code>.
+This was very confusing to say the least, but ultimately it all comes down to janky software design,
+a common problem in machine learning.</p>
+<p>Looking closely at the <code>DDP</code> run log output you can spot this line:
+<code>python3 -m torch.distributed.run --nproc_per_node 2 --master_port 49269 ~/.config/Ultralytics/DDP/_temp_mlfldkse139723384360912.py</code>.
+So ultralytics creates a temporary script for DDP and uses that in place of my script.
+Then it starts one instance of that script for each GPU device.
+Sure enough looking at 
+<a rel="noopener" target="_blank" href="https://github.com/ultralytics/ultralytics/blob/b6824625659ba12c05b349d3ca8a1d5c707e38c9/ultralytics/utils/dist.py#L29">ultralytics/utils/dist.py#L29</a>
+there is a python file generator.
+It only captures some parameters and the trainer class from my original script. 
+So for the new python interpreters spawned as part of the DDP process <code>torch.backends.cudnn.enabled</code> is never set to <code>False</code>.</p>
+<p>There is a workaround though.
+We can add our own trainer class in its own <code>trainer.py</code> that sets up torch for us:</p>
+<pre data-lang="python" style="background-color:#21252d;color:#f8f8f8;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#fbde2d;">import </span><span>torch
+</span><span>
+</span><span style="color:#fbde2d;">from </span><span>ultralytics.models.yolo.detect </span><span style="color:#fbde2d;">import </span><span>DetectionTrainer
+</span><span style="color:#fbde2d;">from </span><span>ultralytics.utils </span><span style="color:#fbde2d;">import </span><span>DEFAULT_CFG
+</span><span>
+</span><span style="color:#fbde2d;">class </span><span style="color:#ff6400;">CustomTrainer</span><span>(</span><span style="font-style:italic;color:#ff6400;">DetectionTrainer</span><span>):
+</span><span>    </span><span style="color:#fbde2d;">def </span><span style="color:#8da6ce;">__init__</span><span>(self, cfg</span><span style="color:#fbde2d;">=</span><span>DEFAULT_CFG, overrides</span><span style="color:#fbde2d;">=</span><span style="color:#d8fa3c;">None</span><span>, _callbacks</span><span style="color:#fbde2d;">=</span><span style="color:#d8fa3c;">None</span><span>):
+</span><span>        torch.backends.cudnn.enabled </span><span style="color:#fbde2d;">= </span><span style="color:#d8fa3c;">False
+</span><span>        </span><span style="color:#8da6ce;">super</span><span>().</span><span style="color:#8da6ce;">__init__</span><span>(cfg</span><span style="color:#fbde2d;">=</span><span>cfg, overrides</span><span style="color:#fbde2d;">=</span><span>overrides, _callbacks</span><span style="color:#fbde2d;">=</span><span>_callbacks)
+</span></code></pre>
+<p>Then we can just use that trainer and add some more glue code in the main script:</p>
+<pre data-lang="python" style="background-color:#21252d;color:#f8f8f8;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#fbde2d;">import </span><span>os
+</span><span style="color:#fbde2d;">from </span><span>pathlib </span><span style="color:#fbde2d;">import </span><span>Path
+</span><span>
+</span><span style="color:#aeaeae;"># Add the current directory to sys.path
+</span><span>current_dir </span><span style="color:#fbde2d;">= </span><span>Path(</span><span style="color:#8da6ce;">__file__</span><span>).resolve().parent
+</span><span>os.eviron[</span><span style="color:#61ce3c;">&quot;PYTHONPATH&quot;</span><span>] </span><span style="color:#fbde2d;">+= </span><span style="color:#61ce3c;">&quot;:&quot; </span><span style="color:#fbde2d;">+ </span><span>current_dir
+</span><span>
+</span><span style="color:#fbde2d;">from </span><span>trainer </span><span style="color:#fbde2d;">import </span><span>CustomTrainer
+</span><span>
+</span><span style="color:#fbde2d;">def </span><span style="color:#ff6400;">main</span><span>():
+</span><span>    trainer </span><span style="color:#fbde2d;">= </span><span>CustomTrainer(overrides</span><span style="color:#fbde2d;">=</span><span>{
+</span><span>        </span><span style="color:#61ce3c;">&#39;data&#39;</span><span>:</span><span style="color:#61ce3c;">&#39;coco.yaml&#39;</span><span>, 
+</span><span>        </span><span style="color:#61ce3c;">&#39;model&#39;</span><span>: </span><span style="color:#61ce3c;">&#39;yolo11n.yaml&#39;</span><span>, 
+</span><span>        </span><span style="color:#61ce3c;">&#39;batch&#39;</span><span>: </span><span style="color:#d8fa3c;">128</span><span>, 
+</span><span>        </span><span style="color:#61ce3c;">&#39;epochs&#39;</span><span>: </span><span style="color:#d8fa3c;">10</span><span>, 
+</span><span>        </span><span style="color:#61ce3c;">&#39;device&#39;</span><span>:[</span><span style="color:#d8fa3c;">0</span><span>,</span><span style="color:#d8fa3c;">1</span><span>]
+</span><span>    })
+</span><span>    trainer.train()
+</span><span>
+</span><span style="color:#fbde2d;">if </span><span style="color:#8da6ce;">__name__ </span><span style="color:#fbde2d;">== </span><span style="color:#61ce3c;">&quot;__main__&quot;</span><span>:
+</span><span>    main()
+</span></code></pre>
+<p>The separate <code>trainer.py</code> and messing with <code>os.eviron[&quot;PYTHONPATH&quot;]</code> are necessary,
+because that code generator has some unfortunate assumptions built in.
+It tries to generate the import for the trainer class using:
+<code>module, name = f&quot;{trainer.__class__.__module__}.{trainer.__class__.__name__}&quot;.rsplit(&quot;.&quot;, 1)</code>
+If <code>CustomTrainer</code> is defined in your main script, <code>module</code> will just become <code>__main__</code>.
+So <code>from {module} import {name}</code> turns into <code>from __main__ import CustomTrainer</code>, 
+which obviously won't work.
+Also, if <code>module</code> contains the correct module name or module path, 
+it still assumes that newly spawned python interpreter can find the module.
+That's also not trivially true, hence the messing around with <code>os.eviron[&quot;PYTHONPATH&quot;]</code>.
+Not the best helper around pytorchs DDP feature I've run into, but also not the worst.</p>
+<p>In the end, if you can ignore all that jank, you can train your yolo model without using cuDNN like this.</p>
+<h2 id="can-we-have-llms-at-home-now-please">Can we have LLMs at home now? Please?</h2>
+<p>Since I teased it initially, we finally have to talk about running LLMs locally.
+I'm rather opposed to using anything GenAI for obvious reasons
+(the ethics and consent issues with training data, the click-workers slaving away cleaning up the training data,
+the energy consumption, the fact that most usecases revolve around lowering the wages for artists, 
+writers, translators and software developers, while CEOs get bonuses for deploying AI).
+However, the technology exists and has real implication for our daily lives.
+Therefore, it can be worthwhile investing the time to understand it and learning its failure modes.</p>
+<p>There is also the security research aspect: Since everyone seems to be using 
+<a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Retrieval-augmented_generation"><strong>r</strong>etrival <strong>a</strong>ugmented <strong>g</strong>eneration</a>
+on all their files 
+and a <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Model_Context_Protocol"><strong>m</strong>odel <strong>c</strong>context <strong>p</strong>rotocol</a> sever for all their software,
+there is quite a bit of new attack surface on a typical developer's machine.
+To make matters worse that attack surface can potentially be accessed by a clever prompt injection.
+Lots of room for fun activities, lots of fun new ways to accidentally leak your private keys.</p>
+<p>In any case it's a good idea to experiment locally. 
+Not only can you control the entire stack and inspect the internal state of all components,
+there is also no one who can kick you out for poking around.
+I've already had my API access revoked from one model provider for trying interesting stuff.</p>
+<p>While you could just run LLMs from a python script using TensorFlow or pytorch,
+that would be a lot of fiddly work which ultimately would not get you very far.
+To do anything useful with the model, e.g. hooking it up to something like 
+<a rel="noopener" target="_blank" href="https://continue.dev/">continue</a> or <a rel="noopener" target="_blank" href="https://tmuxai.dev/">tmuxai</a> you want 
+an <a rel="noopener" target="_blank" href="https://platform.openai.com/docs/api-reference">OpenAI-compatible</a> 
+or <a rel="noopener" target="_blank" href="https://github.com/ollama/ollama/blob/main/docs/api.md">ollama-compatible</a> API.
+Even those APIs are not too hard to implement, 
+it's much more convenient to just use one of the common LLM runtimes.</p>
+<p>The most common choice is ollama.
+It's basically a wrapper around llama.cpp written in go.
+The reason it became much more popular than the original llama.cpp is,
+that it comes with a docker like interface. 
+You can simply type <code>ollama run deepseek-r1:70b</code> and it will download the model for you,
+figure out if it can use your GPU and finally start a chat session with the model in your terminal.</p>
+<p>Unfortunately ollama does not support older GPUs.
+There is a <a rel="noopener" target="_blank" href="https://github.com/austinksmith/ollama37">fork</a>, but it is very outdated by now.
+It will not run some of the newer models, especially those based on the <code>qwen</code> architecture.
+Since many of the smaller distilled model use <code>qwen</code> as their base, your choice is limited to mostly older models.</p>
+<p>Fortunately for us, the development of llama.cpp didn't stop in the meantime.
+It now can download models from the same repository used by ollama, and it can still run on a Tesla K80 as pointed out by this
+<a rel="noopener" target="_blank" href="https://github.com/ggml-org/llama.cpp/issues/12140">really helpful GitHub issue</a>.</p>
+<p>Using the magic incantations provided by <em>ChunkyPanda03</em> we can build working version of llama.cpp:</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>git clone https://github.com/ggml-org/llama.cpp.git
+</span><span>cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_COMPILER=/usr/local/cuda-11.4/bin/nvcc \
+</span><span>    -DCMAKE_CUDA_ARCHITECTURES=&#39;37&#39;
+</span><span>cd build/
+</span><span>make -j 16
+</span></code></pre>
+<p>To verify it works we can just download and run <code>deepseek-r1</code>.</p>
+<pre style="background-color:#21252d;color:#f8f8f8;"><code><span>./bin/llama-run -ngl 80 deepseek-r1:32b
+</span></code></pre>
+
+<a href="https://www.sebastians-site.de/software/we-have-ai-at-home/ai-at-home.png"
+    class="lightbox"
+    data-pswp-width="1640"
+    data-pswp-height="604"
+    target="_blank">
+    <img src="https://www.sebastians-site.de/software/we-have-ai-at-home/ai-at-home.png" alt="Two terminals. One showing deepseeks output and one showing nvtop" title="Two terminals. One showing deepseeks output and one showing nvtop" />
+</a>
+<p>The <code>-ngl</code> part specifies the number of layers to run on the GPU.
+You'll want to tune that for each model you run. 
+Basically you can increase until your model just about fills the memory on your GPU.
+The remainder of the model is then run on the CPU,
+which fortunately is just about fast enough in my machine, that it does not become too much of a bottleneck.</p>
+<p>To start an OpenAI compatible API server you can simply use <a rel="noopener" target="_blank" href="https://github.com/ggml-org/llama.cpp/tree/2bf9d539dd158345e3a3b096e16474af535265b4/tools/server">llama-server</a> which takes similar arguments to <code>llama-run</code>.</p>
+<p>There you have it: <strong>AI at home</strong>.</p>
+<br/><br/>
+For comments you can use your fediverse account to reply to this 
+<a href="https://mastodon.social/@@sebastian@schottkydio.de/114767461217604927">toot</a>.<br/>
+<div id="mastodon-comments-list">
+    <button id="load-comment">Load comments</button><br/>
+</div>
+<noscript>You need JavaScript to view the comments.</noscript>
+<script src="/js/purify.min.js"></script>
+<script type="text/javascript">
+function escapeHtml(unsafe) {
+  return unsafe
+       .replace(/&/g, "&amp;")
+       .replace(/</g, "&lt;")
+       .replace(/>/g, "&gt;")
+       .replace(/"/g, "&quot;")
+       .replace(/'/g, "&#039;");
+}
+
+document.getElementById("load-comment").addEventListener("click", function() {
+  document.getElementById("load-comment").innerHTML = "Loading";
+  fetch('https://mastodon.social/api/v1/statuses/114767461217604927/context')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      if(data['descendants'] &&
+         Array.isArray(data['descendants']) &&
+        data['descendants'].length > 0) {
+          document.getElementById('mastodon-comments-list').innerHTML = "";
+          data['descendants'].forEach(function(reply) {
+            reply.account.display_name = escapeHtml(reply.account.display_name);
+            reply.account.emojis.forEach(emoji => {
+              reply.account.display_name = reply.account.display_name.replace(`:${emoji.shortcode}:`,
+                `<img src="${escapeHtml(emoji.static_url)}" alt="Emoji ${emoji.shortcode}" height="20" width="20" />`);
+            });
+            mastodonComment =
+              `<div class="mastodon-comment">
+                 <div class="avatar">
+                   <img src="${escapeHtml(reply.account.avatar_static)}" height=60 width=60 alt="">
+                 </div>
+                 <div class="content">
+                   <div class="author">
+                     <a href="${reply.account.url}" rel="nofollow">
+                       <span>${reply.account.display_name}</span>
+                     </a>
+                     <a class="date" href="${reply.uri}" rel="nofollow">
+                       ${reply.created_at.substr(0, 10)}
+                     </a>
+                   </div>
+                   <div class="mastodon-comment-content">${reply.content}</div>
+                 </div>
+               </div>`;
+            document.getElementById('mastodon-comments-list').appendChild(DOMPurify.sanitize(mastodonComment, {'RETURN_DOM_FRAGMENT': true}));
+          });
+      } else {
+        document.getElementById('mastodon-comments-list').innerHTML = "<p>No comments found</p>";
+      }
+    });
+  });
+</script>
+<hr></hr>
+        <small>
+            Published: 29.06.2025 17:25
+            
+            Updated: 29.06.2025 17:25
+            
+        </small>
+        <br/>
+        <br/>
+    </main>
+    
+
+    <script>
+        function expandHamburger() {
+          var x = document.getElementsByTagName("nav")[0];
+          if (x.className === "") {
+            x.className += "responsive";
+          } else {
+            x.className = "";
+          }
+        }
+    </script>
+
+    <script type="module">
+        import PhotoSwipeLightbox from '/js/photoswipe/photoswipe-lightbox.esm.min.js';
+        const options = {
+          gallery: 'main .lightbox',
+          pswpModule: () => import('/js/photoswipe/photoswipe.esm.min.js')
+        };
+        const lightbox = new PhotoSwipeLightbox(options);
+        lightbox.init();
+    </script>
+</body>
+</html>
